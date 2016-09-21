@@ -14,7 +14,7 @@ url: '' # the base hostname & protocol for your site http://www.example.com
 email: 'pyk@meitu.com'
 
 # Build settings
-markdown: kramdown
+markdown: redcarpet
 
 permalink: '/:title/'
 
