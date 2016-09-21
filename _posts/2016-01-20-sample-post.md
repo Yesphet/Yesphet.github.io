@@ -4,7 +4,7 @@ title: 上线说明
 ---
 
 
-tlas-admin和back-admin的部署参照“后台上线说明” https://gitlab.meitu.com/pl_storage/atlas/wikis/%E5%90%8E%E5%8F%B0%E4%B8%8A%E7%BA%BF%E8%AF%B4%E6%98%8E
+tlas-admin和back-admin的部署参照“后台上线说明” 
 
 ## 一、更新atlas-admin
 ### 1. 更新程序包
@@ -22,7 +22,7 @@ tlas-admin和back-admin的部署参照“后台上线说明” https://gitlab.me
 
 1. 在实际环境的atlas_meta数据库中建立bucketrecord数据表，创建语句如下
 
-    ```
+```mysql
 CREATE TABLE `bucket_size` (
   `id` bigint(22) NOT NULL,
   `bucket_id` bigint(22) NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE `bucket_size` (
 ### 2. 调整配置文件
 - 进入 /www/atlas-bucket-counter/conf 文件夹，根据需求修改配置文件setting-countsize.cfg。（之后会提供修改配置的脚本，直接执行即可）
 - 其中主要修改
-    ```
+```
 [LOOP]
 Connection= root:123456@tcp(192.168.41.219:3306)/atlas_meta_0_{dbIndex}
 ```
