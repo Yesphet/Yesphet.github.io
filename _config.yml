@@ -22,4 +22,3 @@ gems: [jekyll-paginate]
 
 paginate: 10
 
-truncate_size: 3
