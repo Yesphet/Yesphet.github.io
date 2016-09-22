@@ -297,9 +297,9 @@ a:hover {
   text-decoration: none;
 }
 
-.post-content {
-    max-height: 200px;
-    text-overflow: ellipsis;
+.post-content-preview {
+    font-size: 1rem;
+    font-style: italic;
 }
 
 .sharing-buttons {
