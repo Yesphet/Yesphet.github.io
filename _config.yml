@@ -14,10 +14,12 @@ url: '' # the base hostname & protocol for your site http://www.example.com
 email: 'pyk@meitu.com'
 
 # Build settings
-markdown: redcarpet
+markdown: kramdown
 
 permalink: '/:title/'
 
 gems: [jekyll-paginate]
 
 paginate: 10
+
+truncate_size: 3
