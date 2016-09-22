@@ -297,6 +297,11 @@ a:hover {
   text-decoration: none;
 }
 
+.post-content {
+    max-height: 200px;
+    text-overflow: ellipsis;
+}
+
 .sharing-buttons {
   padding-top: 25px;
 }
