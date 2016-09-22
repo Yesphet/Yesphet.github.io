@@ -1,6 +1,8 @@
 ---
 layout: post
 title: 上线说明
+tags:
+  - tag1
 ---
 
 
