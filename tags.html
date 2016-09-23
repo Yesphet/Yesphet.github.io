@@ -3,7 +3,6 @@ title: Tags
 layout: default
 ---
 
-<p>TagTag</p>
 <div>
 	{% for tag in site.tags %}
 		<a href="#{{ tag[0] }}"> {{ tag[0] }} </a>
@@ -13,9 +12,16 @@ layout: default
 
 <div>
 	{% for tag in site.tags %}
-		<span id="{{ tag[0] }}">{{ tag[0] }}</span>
+		<span id="{{ tag[0] }}" class="icon-tag"></span>
+		<span class="tag-text tag-title">{{ tag[0] }}</span>
 		{% for post in tag[1]  %}
-			<h4><a href="post.url | prepend: site.baseurl">{{ post.title }}</a></h4>
+			<p class="tag-text">
+				<a class="tag-content-a" href="post.url | prepend: site.baseurl">
+					「{{ tag[0] }}」{{ post.title }}
+				</a>
+			</p>
+
+			<hr class="tag-border"></hr>
 		{% endfor %}
 
 	{% endfor %}

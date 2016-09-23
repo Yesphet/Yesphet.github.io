@@ -1,3 +1,5 @@
+
+
 * {
   box-sizing: border-box; }
 
@@ -16,7 +18,7 @@ a {
 a:hover {
   text-decoration: underline; }
 
-  .btn {
+.btn {
       display: inline-block;
       margin-bottom: 1rem;
       color: rgba(255, 255, 255, 0.7);
@@ -290,11 +292,11 @@ a:hover {
 }
 
 .post-title {
-  font-size: 1.85rem;
+    font-size: 1.85rem;
 }
 
 .post-header .post-link {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .post-content-preview {
@@ -303,7 +305,7 @@ a:hover {
 }
 
 .sharing-buttons {
-  padding-top: 25px;
+    padding-top: 25px;
 }
 
 @media screen and (min-width: 42em) {
