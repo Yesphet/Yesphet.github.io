@@ -9,6 +9,34 @@
   font-style: normal;
 }
 
+.tags-cloud {
+	margin: 30px 0;
+	padding: 0 6rem;
+	padding-top: 1rem;
+}
+
+.tags-list {
+	padding: 0 6rem;
+}
+
+.tags-cloud a{
+	display: inline-block;
+	background-color: #0085a1;
+	border-radius: 999em;
+	font-size: 14px;
+	line-height: 28px;
+	font-weight: 500;
+	padding: 0px 10px;
+	margin:0px 3px;
+	margin-bottom: 8px;
+	color: #ffffff; 
+}
+
+.tags-cloud a:hover{
+	background-color: #337ab7;
+	text-decoration: none;
+}
+
 .tag-text {
 	font-family:-apple-system,"Helvetica Neue",Arial,"PingFang SC","Hiragino Sans GB",STHeiti,"Microsoft YaHei","Microsoft JhengHei","Source Han Sans SC","Noto Sans CJK SC","Source Han Sans CN","Noto Sans SC","Source Han Sans TC","Noto Sans CJK TC","WenQuanYi Micro Hei",SimSun,sans-serif;
 	font-weight: 200;

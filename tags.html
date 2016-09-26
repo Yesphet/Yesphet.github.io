@@ -3,14 +3,14 @@ title: Tags
 layout: default
 ---
 
-<div>
+<div class="tags-cloud">
 	{% for tag in site.tags %}
-		<a href="#{{ tag[0] }}"> {{ tag[0] }} </a>
+	<a  href="#{{ tag[0] }}"> {{ tag[0] }} </a>
 	{% endfor %}
 </div>
 
 
-<div>
+<div class="tags-list">
 	{% for tag in site.tags %}
 		<span id="{{ tag[0] }}" class="icon-tag"></span>
 		<span class="tag-text tag-title">{{ tag[0] }}</span>

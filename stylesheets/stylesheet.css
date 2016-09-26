@@ -18,6 +18,10 @@ a {
 a:hover {
   text-decoration: underline; }
 
+.clear-div {
+    clear: both;
+}
+
 .btn {
       display: inline-block;
       margin-bottom: 1rem;
@@ -84,17 +88,39 @@ a:hover {
   background-size: cover;
 }
 
+.header-top {
+    display: block;
+}
+
+.up-right-conner {
+    float: right;
+    display: block;
+    padding: 1rem 1rem;
+
+}
+
+.up-right-conner a {
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 1.2rem;
+    margin: 0 1rem;
+}
+
+
 @media screen and (min-width: 64em) {
   .page-header {
-    padding: 5rem 6rem; } }
+    padding-bottom: 5rem;
+    } }
 
 @media screen and (min-width: 42em) and (max-width: 64em) {
   .page-header {
-    padding: 3rem 4rem; } }
+    padding-bottom: : 3rem; } }
 
 @media screen and (max-width: 42em) {
   .page-header {
-    padding: 2rem 1rem; } }
+    padding-bottom: 1rem;
+  } 
+}
 
 .project-name {
   margin-top: 0;
@@ -114,7 +140,10 @@ a:hover {
 
 @media screen and (min-width: 64em) {
   .project-name {
-    font-size: 3.25rem; } }
+    font-size: 3.25rem;
+    padding:0 0;  
+  } 
+}
 
 @media screen and (min-width: 42em) and (max-width: 64em) {
   .project-name {
