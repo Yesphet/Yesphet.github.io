@@ -6,7 +6,7 @@
 body {
   padding: 0;
   margin: 0;
-  font-family: "Open Sans", "Helvetica Neue", "YouYuan", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", "Helvetica Neue", "Hiragino Sans GB", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.6;
   color: #32383B; }
@@ -90,6 +90,27 @@ a:hover {
 
 .header-top {
     display: block;
+}
+
+.header-platform-link a{
+    font-size: 33px;
+    margin: 10px 10px;
+    color: #337ab7;
+}
+
+.header-platform-link a{
+    font-size: 33px;
+    margin: 10px 10px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.icon-header-github:before {
+    content: "\eab0";
+}
+
+.icon-header-sina:before {
+    content: "\ea9a";
 }
 
 .up-right-conner {
@@ -320,13 +341,23 @@ a:hover {
     opacity: 0.8;
 }
 
-.post-title {
+.post-title{
     font-size: 1.85rem;
+}
+
+h3.post-title {
+    font-weight: 600;
+    color: #2c232e
+}
+
+h3.post-title:hover {
+    color: #337ab7;
 }
 
 .post-header .post-link {
     text-decoration: none;
 }
+
 
 .post-content-preview {
     font-size: 1rem;
