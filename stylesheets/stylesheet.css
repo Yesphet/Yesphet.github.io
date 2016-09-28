@@ -139,7 +139,7 @@ a:hover {
 
 @media screen and (min-width: 42em) and (max-width: 64em) {
   .page-header {
-    padding-bottom: : 3rem; } }
+    padding-bottom: 3rem; } }
 
 @media screen and (max-width: 42em) {
   .page-header {
