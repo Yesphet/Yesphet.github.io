@@ -113,6 +113,10 @@ a:hover {
     content: "\ea9a";
 }
 
+.icon-header-mail:before {
+    content: "\ea86";
+}
+
 .up-right-conner {
     float: right;
     display: block;
@@ -346,6 +350,11 @@ a:hover {
 }
 
 h3.post-title {
+    font-weight: 600;
+    color: #2c232e
+}
+
+h1.post-title {
     font-weight: 600;
     color: #2c232e
 }
