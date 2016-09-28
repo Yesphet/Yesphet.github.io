@@ -16,7 +16,7 @@ layout: default
 		<span class="tag-text tag-title">{{ tag[0] }}</span>
 		{% for post in tag[1]  %}
 			<p class="tag-text">
-				<a class="tag-content-a" href="post.url | prepend: site.baseurl">
+				<a class="tag-content-a" href="{{ post.url }}">
 					「{{ tag[0] }}」{{ post.title }}
 				</a>
 			</p>
