@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  {% include head.html %}
+    {% include head.html %}
 
-  <body>
+    <body>
 
-    {% include header.html %}
+        {% include header.html %}
 
-    <section class="main-content">
-      <div class="wrapper">
-        {{ content }}
-      </div>
-    </div>
+        <div class="main-content-container">
+            <section class="main-content">
+                <div class="wrapper">
+                    {{ content }}
+                </div>
+            </section>
+            <!-- post中的侧边导航 -->
+            <div class="side-catalog">
+                <ul class="catalog-body">
+                </ul>
+            </div>
+        </div>
 
-    {% include footer.html %}
+        {% include footer.html %}
 
-
-  </body>
+    </body>
 
     {% include scripts.html %}
 
