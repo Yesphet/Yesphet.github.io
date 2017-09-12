@@ -68,3 +68,19 @@ li.active a{
     font-size: 13px;
     font-weight: 700;
 }
+
+.h2_nav {
+    margin-left: 1rem;
+}
+.h3_nav {
+    margin-left: 2rem;
+}
+.h4_nav {
+    margin-left: 3rem;
+}
+.h5_nav {
+    margin-left: 4rem;
+}
+.h6_nav {
+    margin-left: 5rem;
+}
