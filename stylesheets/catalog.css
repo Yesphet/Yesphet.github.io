@@ -64,23 +64,22 @@ li.active a{
 }
 
 .h1_nav, .h2_nav, .h3_nav, .h4_nav, .h5_nav, .h6_nav{
-	margin-left: 0;
     font-size: 13px;
     font-weight: 700;
 }
 
 .h2_nav {
-    margin-left: 20px;
+    margin-left: 1rem;
 }
 .h3_nav {
-    margin-left: 30px;
+    margin-left: 2rem;
 }
 .h4_nav {
-    margin-left: 40px;
+    margin-left: 3rem;
 }
 .h5_nav {
-    margin-left: 50px;
+    margin-left: 4rem;
 }
 .h6_nav {
-    margin-left: 60px;
+    margin-left: 5rem;
 }
