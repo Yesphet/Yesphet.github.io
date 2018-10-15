@@ -13,12 +13,18 @@ tag:
 #### 1、直接安装
 
 ```
-yum install ImageMagick
+yum install imageMagick
 ```
 
 很粗暴，但是由于yum源更新较慢，版本一般较低。所以不建议这种方式。
 
 #### 2、源码安装
+
+##### 安装delegates
+
+```
+yum install libjpg libjpg-devel libpng libpng libwebp libwebp-devel libxml2 libxml2-devel fontconfig fontconfig-devel libtiff libtiff-devel freetype freetype-devel zlib zlib-devel jasper jasper-devel
+```
 
 > 参考 [官网文档](https://www.imagemagick.org/script/install-source.php)
 
