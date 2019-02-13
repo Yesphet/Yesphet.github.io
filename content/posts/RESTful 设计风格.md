@@ -1,0 +1,22 @@
+---
+title: "RESTful 设计风格"
+date: 2016-07-12T00:00:00+08:00
+description: ""
+categories: []
+cover: ""
+coverDescription: ""
+draft: true
+---
+
+- REST(Representational State Transfer)
+REST 指的是一组架构约束条件和原则。满足这些约束条件和原则的应用程序或设计就是 RESTful。
+- 网络上的实体，都可以称为“资源”，比如网上的一张图片，一段视频。而每个“资源”，都应该有一个URI（统一资源定位符）与其对应，这个URI即该资源在网络上的唯一标识符。
+- “资源”是实体，可以有多种表现形式，就像一段文本可以是txt、html、json等形式表现出来，这些形式称之为表现层。
+- 客户端如果想要操作服务器，即通过某种手段让服务器上的“资源”发生“状态转换（State Transfer）”，而这种转化是建立在“资源”的表现层上的，因此称之为 REST(Representational State Transfer)。
+- 客户端的手段就是HTTP协议。通过HTTP的四个动词：get,post,put,delete让服务器上的资源发生状态转化。
+
+
+- 综合上面的解释，我们总结一下什么是RESTful架构
+	* 每一个URI代表一种资源;
+	* 客户端和服务器之间，传递这种资源的某种表现层;
+	* 客户端通过四个HTTP动词，对服务器端资源进行操作，实现"表现层状态转化"。
