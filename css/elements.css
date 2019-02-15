@@ -1,0 +1,19 @@
+
+.post-body *{
+	width: 100%;
+	line-height: 1.5em;
+}
+
+.back-button {
+	width: auto;
+	font-size: 14px;
+	background-color: #fafafa;
+}
+
+.list-item {
+	font-size: 18px;
+	line-height: 2em;
+}
+
+.list-item-title {
+}
