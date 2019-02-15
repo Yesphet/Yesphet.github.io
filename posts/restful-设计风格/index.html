@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!-- _default/single.html -->
+<html lang="en-us">
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Yesphet">
+<meta name="description" content="No seek, no find">
+<meta name="generator" content="Hugo 0.54.0" />
+
+<title>RESTful 设计风格</title>
+
+<!-- Favicon -->
+<link rel="shortcut icon" href="https://yesphet.github.io/favicon.ico">
+<!-- Bootstrap Core CSS -->
+<link rel="stylesheet" href="https://yesphet.github.io/css/bootstrap.min.css" type="text/css">
+<!-- Custom Fonts -->
+<link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://yesphet.github.io/font-awesome-5/css/all.min.css" type="text/css">
+
+<!-- Plugin CSS -->
+<link rel="stylesheet" href="https://yesphet.github.io/css/animate.min.css" type="text/css">
+<!-- Custom CSS -->
+<link rel="stylesheet" href="https://yesphet.github.io/css/creative.css" type="text/css">
+<link rel="stylesheet" href="https://yesphet.github.io/css/modals.css" type="text/css">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+
+        <link rel="stylesheet" href="https://yesphet.github.io/css/post.css" type="text/css">
+    </head>
+
+    <body>
+
+        <!-- NAVIGATION -->
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+                <a class="navbar-brand page-scroll" href="https://yesphet.github.io/#page-top">Yesphet</a>
+            
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+
+        <!-- HEADER -->
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/7.webp)">
+    <div class="header-content">
+        <div class="header-content-inner">
+            
+                <h1>RESTful 设计风格</h1>
+            
+            <hr>
+
+            
+
+            <div class="text-center">
+                <ul class="list-inline item-details">
+                
+                    <li>
+                        <strong>Tuesday,  Jul 12,  2016</strong>
+                    </li>
+                
+                
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+        <section class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <article class="post-body">
+
+                        
+                            <ul>
+<li>REST(Representational State Transfer)
+REST 指的是一组架构约束条件和原则。满足这些约束条件和原则的应用程序或设计就是 RESTful。</li>
+<li>网络上的实体，都可以称为“资源”，比如网上的一张图片，一段视频。而每个“资源”，都应该有一个URI（统一资源定位符）与其对应，这个URI即该资源在网络上的唯一标识符。</li>
+<li>“资源”是实体，可以有多种表现形式，就像一段文本可以是txt、html、json等形式表现出来，这些形式称之为表现层。</li>
+<li>客户端如果想要操作服务器，即通过某种手段让服务器上的“资源”发生“状态转换（State Transfer）”，而这种转化是建立在“资源”的表现层上的，因此称之为 REST(Representational State Transfer)。</li>
+
+<li><p>客户端的手段就是HTTP协议。通过HTTP的四个动词：get,post,put,delete让服务器上的资源发生状态转化。</p></li>
+
+<li><p>综合上面的解释，我们总结一下什么是RESTful架构</p>
+
+<ul>
+<li>每一个URI代表一种资源;</li>
+<li>客户端和服务器之间，传递这种资源的某种表现层;</li>
+<li>客户端通过四个HTTP动词，对服务器端资源进行操作，实现&rdquo;表现层状态转化&rdquo;。</li>
+</ul></li>
+</ul>
+
+                        
+
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <div class="text-center">
+            <button class="back-button btn btn-default" role="button" onclick="window.history.go(-1)">back</button>
+        </div>
+
+        <footer class="footerbox">
+    <div class="row">
+        <div class="copyright col-lg-8 col-lg-offset-2 text-right">
+            <span>© 2019 Powered by <a href="http://gohugo.io">Hugo</a></span>
+            |
+            <span>By <a href="#">Yesphet</a></span>
+        </div>
+    </div>
+</footer>
+
+
+        <!-- jQuery -->
+<script src="https://yesphet.github.io/js/jquery.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="https://yesphet.github.io/js/bootstrap.min.js"></script>
+<!-- Plugin JavaScript -->
+<script src="https://yesphet.github.io/js/jquery.easing.min.js"></script>
+<script src="https://yesphet.github.io/js/jquery.fittext.js"></script>
+<script src="https://yesphet.github.io/js/wow.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="https://yesphet.github.io/js/creative.js"></script>
+
+        
+        
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-134542736-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+    </body>
+
+</html>

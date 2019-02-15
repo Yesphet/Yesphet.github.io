@@ -6,9 +6,109 @@
     <description>Recent content in Tags on Yesphet</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Thu, 22 Sep 2016 00:00:00 +0800</lastBuildDate>
     
 	<atom:link href="https://yesphet.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Code</title>
+      <link>https://yesphet.github.io/tags/code/</link>
+      <pubDate>Thu, 22 Sep 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/tags/code/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ffmpeg</title>
+      <link>https://yesphet.github.io/tags/ffmpeg/</link>
+      <pubDate>Wed, 11 Apr 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/tags/ffmpeg/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Http</title>
+      <link>https://yesphet.github.io/tags/http/</link>
+      <pubDate>Mon, 18 Jul 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/tags/http/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Imagemagick</title>
+      <link>https://yesphet.github.io/tags/imagemagick/</link>
+      <pubDate>Wed, 11 Apr 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/tags/imagemagick/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java</title>
+      <link>https://yesphet.github.io/tags/java/</link>
+      <pubDate>Fri, 06 Jan 2017 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Mysql</title>
+      <link>https://yesphet.github.io/tags/mysql/</link>
+      <pubDate>Wed, 24 Aug 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/tags/mysql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Os</title>
+      <link>https://yesphet.github.io/tags/os/</link>
+      <pubDate>Fri, 04 Nov 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/tags/os/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rfc</title>
+      <link>https://yesphet.github.io/tags/rfc/</link>
+      <pubDate>Tue, 15 Nov 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/tags/rfc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tomcat</title>
+      <link>https://yesphet.github.io/tags/tomcat/</link>
+      <pubDate>Tue, 14 Feb 2017 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/tags/tomcat/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Unix</title>
+      <link>https://yesphet.github.io/tags/unix/</link>
+      <pubDate>Sun, 25 Sep 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/tags/unix/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>架构</title>
+      <link>https://yesphet.github.io/tags/%E6%9E%B6%E6%9E%84/</link>
+      <pubDate>Mon, 05 Nov 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/tags/%E6%9E%B6%E6%9E%84/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

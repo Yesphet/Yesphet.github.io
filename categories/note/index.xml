@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Note on Yesphet</title>
+    <link>https://yesphet.github.io/categories/note/</link>
+    <description>Recent content in Note on Yesphet</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 13 Nov 2018 00:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://yesphet.github.io/categories/note/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>计算密集型服务部署于k8s压力测试总结</title>
+      <link>https://yesphet.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AF%86%E9%9B%86%E5%9E%8B%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2%E4%BA%8Ek8s%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Tue, 13 Nov 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AF%86%E9%9B%86%E5%9E%8B%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2%E4%BA%8Ek8s%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</guid>
+      <description>一、背景 二、知识点 2.1 k8s中容器资源的分配与管理  request 与 limit  2.2 docker中，使用cgroup进行资源隔离  cpuset  三、参考 NUMA架构的CPU &amp;ndash; 你真的用好了么？
+Control CPU Management Policies on the Node - Kubernetes</description>
+    </item>
+    
+    <item>
+      <title>FFmpeg学习笔记</title>
+      <link>https://yesphet.github.io/posts/ffmpeg%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 12 Sep 2017 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/ffmpeg%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>查看视频信息 使用ffprobe
+ 文档： https://ffmpeg.org/ffprobe.html
+ 插入关键帧 -force_key_frames
+一般使用expr:expr方式来指定: &amp;gt; If the argument is prefixed with expr:, the string expr is interpreted like an expression and is evaluated for each frame. A key frame is forced in case the evaluation is non-zero.
+ 文档： https://ffmpeg.org/ffmpeg.html
+expr函数可以参考： https://ffmpeg.org/ffmpeg-all.html#Expression-Evaluation
+ 视频分割 ffmpeg -i 4M.mp4 -codec:v h264 -codec:a copy \ -force_key_frames &#39;expr:if(isnan(prev_forced_t),gte(t,0),gte(t,prev_forced_t+5))&#39; \ -f segment -segment_list test.ffcat -segment_times 5,10 -segment_time_delta 1 out%03d.ts   文档： https://ffmpeg.</description>
+    </item>
+    
+    <item>
+      <title>Java·多线程·并发学习笔记</title>
+      <link>https://yesphet.github.io/posts/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Fri, 06 Jan 2017 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description> 进程和线程  进程(Process)是指一次程序的运行。对于单核CPU来说，同一时间只能执行一个进程。单核CPU实现多任务的方式一般是每个进程轮流执行，任务1执行0.01秒，然后切换到任务2。。。多核CPU则可以真正意义上实现多个任务并发执行，但当任务数大于CPU核数时，也是采取轮流执行的方法。进程之间是相互独立的。 线程(Thread)则是存在于进程之内，一个进程内可以拥有多个线程，多个线程共享该进程的一切资源。 协程(Coroutine)，埋个坑。在较新的语言中，比如go，对协程应用较广。  非线程安全和线程安全  非线程安全指多个线程对同一个资源进行操作时，可能导致值不同步的情况。 线程安全指不会出现非线程安全问题。。。 - . -  Java中的Thread 一、 多线程的实现方法  继承Thread，重写run方法。  public class MyThread extends Thread{ @Override public void run() { } } 执行线程： new MyThread().start();   实现Runnable，传给Thread构造  public class MyRunnable implements Runnable{ public void run() { //执行内容 } } 调用方法： new Thread(new MyRunnable()).start(); 或者使用jdk1.8的lambda表达式: new Thread(()-&amp;gt;{ //执行内容 }).start();  二、线程的停止  线程停止的方法
+   </description>
+    </item>
+    
+    <item>
+      <title>Windows下的shell脚本传到Linux下无法执行</title>
+      <link>https://yesphet.github.io/posts/windows%E4%B8%8B%E7%9A%84shell%E8%84%9A%E6%9C%AC%E4%BC%A0%E5%88%B0linux%E4%B8%8B%E6%97%A0%E6%B3%95%E6%89%A7%E8%A1%8C/</link>
+      <pubDate>Wed, 24 Aug 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/windows%E4%B8%8B%E7%9A%84shell%E8%84%9A%E6%9C%AC%E4%BC%A0%E5%88%B0linux%E4%B8%8B%E6%97%A0%E6%B3%95%E6%89%A7%E8%A1%8C/</guid>
+      <description>原因：windos下的.sh文件格式为dos格式。而linux只能执行格式为unix格式的脚本 解决办法：
+ 用vi或vim打开文件 执行set ff指令查看文件的格式，应该为fileformat=dos 修改format为unix。执行set ff=unix或 set fileformat=unix wq保存退出  </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ffmpeg on Yesphet</title>
+    <link>https://yesphet.github.io/tags/ffmpeg/</link>
+    <description>Recent content in Ffmpeg on Yesphet</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 11 Apr 2018 00:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://yesphet.github.io/tags/ffmpeg/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>FFmpeg安装</title>
+      <link>https://yesphet.github.io/posts/ffmpeg%E5%AE%89%E8%A3%85/</link>
+      <pubDate>Wed, 11 Apr 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/ffmpeg%E5%AE%89%E8%A3%85/</guid>
+      <description>编译参数 export FF_BUILD=$HOME/ffmpeg3.4.1_build export FF_INCLUDE=$FF_BUILD/include export FF_LIB=$FF_BUILD/lib export FF_BIN=$FF_BUILD/bin export PATH=$FF_BIN:$PATH  fdk_aac cd /tmp/ffmpeg_source git clone --depth 1 git://git.code.sf.net/p/opencore-amr/fdk-aac cd fdk-aac autoreconf -fiv ./configure --prefix=&amp;quot;$FF_BUILD&amp;quot; --disable-shared make &amp;amp;&amp;amp; make install &amp;amp;&amp;amp; make distclean  libmp3lame cd /tmp/ffmpeg_source wget http://iweb.dl.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz tar zxf lame-3.99.5.tar.gz cd lame-3.99.5 ./configure --prefix=&amp;quot;$FF_BUILD&amp;quot; --bindir=&amp;quot;$FF_BIN&amp;quot; --enable-shared --enable-nasm make &amp;amp;&amp;amp; make install &amp;amp;&amp;amp; make distclean  yasm cd /tmp/ffmpeg_source git clone --depth 1 git://github.com/yasm/yasm.git cd yasm autoreconf -fiv .</description>
+    </item>
+    
+    <item>
+      <title>FFmpeg学习笔记</title>
+      <link>https://yesphet.github.io/posts/ffmpeg%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 12 Sep 2017 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/ffmpeg%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>查看视频信息 使用ffprobe
+ 文档： https://ffmpeg.org/ffprobe.html
+ 插入关键帧 -force_key_frames
+一般使用expr:expr方式来指定: &amp;gt; If the argument is prefixed with expr:, the string expr is interpreted like an expression and is evaluated for each frame. A key frame is forced in case the evaluation is non-zero.
+ 文档： https://ffmpeg.org/ffmpeg.html
+expr函数可以参考： https://ffmpeg.org/ffmpeg-all.html#Expression-Evaluation
+ 视频分割 ffmpeg -i 4M.mp4 -codec:v h264 -codec:a copy \ -force_key_frames &#39;expr:if(isnan(prev_forced_t),gte(t,0),gte(t,prev_forced_t+5))&#39; \ -f segment -segment_list test.ffcat -segment_times 5,10 -segment_time_delta 1 out%03d.ts   文档： https://ffmpeg.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<!-- _default/single.html -->
+<html lang="en-us">
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Yesphet">
+<meta name="description" content="No seek, no find">
+<meta name="generator" content="Hugo 0.54.0" />
+
+<title>Unix目录结构</title>
+
+<!-- Favicon -->
+<link rel="shortcut icon" href="https://yesphet.github.io/favicon.ico">
+<!-- Bootstrap Core CSS -->
+<link rel="stylesheet" href="https://yesphet.github.io/css/bootstrap.min.css" type="text/css">
+<!-- Custom Fonts -->
+<link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://yesphet.github.io/font-awesome-5/css/all.min.css" type="text/css">
+
+<!-- Plugin CSS -->
+<link rel="stylesheet" href="https://yesphet.github.io/css/animate.min.css" type="text/css">
+<!-- Custom CSS -->
+<link rel="stylesheet" href="https://yesphet.github.io/css/creative.css" type="text/css">
+<link rel="stylesheet" href="https://yesphet.github.io/css/modals.css" type="text/css">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+
+        <link rel="stylesheet" href="https://yesphet.github.io/css/post.css" type="text/css">
+    </head>
+
+    <body>
+
+        <!-- NAVIGATION -->
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+                <a class="navbar-brand page-scroll" href="https://yesphet.github.io/#page-top">Yesphet</a>
+            
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+
+        <!-- HEADER -->
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/1.webp)">
+    <div class="header-content">
+        <div class="header-content-inner">
+            
+                <h1>Unix目录结构</h1>
+            
+            <hr>
+
+            
+
+            <div class="text-center">
+                <ul class="list-inline item-details">
+                
+                    <li>
+                        <strong>Sunday,  Sep 25,  2016</strong>
+                    </li>
+                
+                
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+        <section class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <article class="post-body">
+
+                        
+                            <blockquote>
+<p>参考：<a href="http://blog.csdn.net/win_turn/article/details/50386619">linux目录结构详解</a></p>
+</blockquote>
+
+<p><em>在大多数linux系统中使用命令 <code>man hier</code>就可以查看系统自带的目录结构介绍。</em></p>
+
+<ul>
+<li><p>/ :根目录</p>
+
+<ul>
+<li><p>/boot ：引导程序，内核等存放的目录。</p>
+
+<blockquote>
+<p>这个目录，包括了在引导过程中所必需的文件，引导程序的相关文件（例如grub，lilo以及相应的配置文件）以及Linux操作系统内核相关文件（例如vmlinuz）等一般都存放在这里。在最开始的启动阶段，通过引导程序将内核加载到内存，完成内核的启动，这个时候，虚拟文件系统还不存在，加载的内核虽然是从硬盘读取的，但是没经过Linux的虚拟文件系统，这是比较底层的东西来实现的。然后内核自己创建好虚拟文件系统，并且从虚拟文件系统的其他子目录中（例如/sbin 和 /etc）加载需要在开机启动的其他程序或者服务或者特定的动作。如果我们的机器中包含多个操作系统，那么可以通过修改这个目录中的某个配置文件（例如grub.conf）来调整启动的默认操作系统，系统启动的选择菜单，以及启动延迟等参数。</p>
+</blockquote></li>
+
+<li><p>/bin  ：普通用户可以使用的命令的存放目录</p>
+
+<blockquote>
+<p>系统所需要的那些命令位于此目录，比如ls、cp、mkdir等命令；类似的目录还/usr/bin，/usr/local/bin等等。这个目录中的文件都是可执行的、普通用户都可以使用的命令。作为基础系统所需要的最基础的命令就是放在这里。</p>
+</blockquote></li>
+
+<li><p>/sbin ：超级用户可以使用的命令的存放目录</p>
+
+<blockquote>
+<p>存放大多涉及系统管理的命令（例如引导系统的init程序），是超级权限用户root的可执行命令存放地，普通用户无权限执行这个目录下的命令（但是时普通用户也可能会用到）。这个目录和/usr/sbin; /usr/X11R6/sbin或/usr/local/sbin等目录是相似的，我们要记住，凡是目录sbin中包含的都是root权限才能执行的，这样就行了。</p>
+</blockquote></li>
+
+<li><p>/lib ：/bin/和/sbin/中二进制文件必要的库文件。</p>
+
+<blockquote>
+<p>此目录下包含系统引导和在根用户执行命令时候所必需用到的共享库。类似的目录还有/usr/lib，/usr/local/lib等等。</p>
+</blockquote></li>
+
+<li><p>/dev  ：设备文件目录。</p>
+
+<blockquote>
+<p>在Linux中设备都是以文件形式出现，这里的设备可以是硬盘，键盘，鼠标，网卡，终端，等设备，通过访问这些文件可以访问到相应的设备。设备文件可以使用mknod命令来创建，具体参见相应的命令；而为了将对这些设备文件的访问转化为对设备的访问，需要向相应的设备提供设备驱动模块（一般将设备驱动编译之后，生成的结果是一个*.ko类型的二进制文件，在内核启动之后，再通过insmod等命令加载相应的设备驱动之后，我们就可以通过设备文件来访问设备了）。一般来说，想要Linux系统支持某个设备，只要个东西：相应的硬件设备，支持硬件的驱动模块，以及相应的设备文件。</p>
+</blockquote></li>
+
+<li><p>/etc ：全局的配置文件存放目录。</p>
+
+<blockquote>
+<p>系统和程序一般都可以通过修改相应的配置文件，来进行配置。例如，要配置系统开机的时候启动那些程序，配置某个程序启动的时候显示什么样的风格等等。通常这些配置文件都集中存放在/etc目录中，所以想要配置什么东西的话，可以在/etc下面寻找我们可能需要修改的文件。一些大型套件，如X11，在 /etc 下它们自己的子目录。系统配置文件可以放在这里或在 /usr/etc。 不过所有程序总是在 /etc 目录下查找所需的配置文件，你也可以将这些文件链接到目录 /usr/etc。另外，还有一个需要注意的常见现象就是，当某个程序在某个用户下运行的时候，可能会在该用户的家目录中生成一个配置文件（一般这个文件最开始就是/etc下相应配置文件的拷贝，存放相应于“当前用户”的配置，这样当前用户可以通过配置这个家目录的配置文件，来改变程序的行为，并且这个行为只是该用户特有的。原因就是：一般来说一个程序启动，如果需要读取一些配置文件的话，它会首先读取当前用户家目录的配置文件，如果存在就使用；如果不存在它就到/etc下读取全局的配置文件进而启动程序。就是这个配置文件不自动生成，我们手动在自己的家目录中创建一个文件的话，也有许多程序会首先读取到这个家目录的文件并且以它的配置作为启动的选项（例如我们可以在家目录中创建vim程序的配置文件.vimrc，来配置自己的vim程序）。</p>
+</blockquote></li>
+
+<li><p>/home ：普通用户的家目录</p>
+
+<blockquote>
+<p>在Linux机器上，用户主目录通常直接或间接地置在此目录下。其结构通常由本地机的管理员来决定。</p>
+</blockquote></li>
+
+<li><p>/root ：用户root的$HOME目录</p>
+
+<blockquote>
+<p>系统管理员(就是root用户或超级用户)的主目录比较特殊，不存放在/home中，而是直接放在/root目录下了。</p>
+</blockquote></li>
+
+<li><p>/usr ：默认软件都会存于该目录下。包含绝大多数的(多)用户工具和应用程序。</p>
+
+<blockquote>
+<p>其地位类似Windows上面的”Program Files”目录。</p>
+</blockquote></li>
+
+<li><p>/var ：变量文件——在正常运行的系统中其内容不断变化的文件，如日志，脱机文件和临时电子邮件文件。</p></li>
+</ul></li>
+</ul>
+
+                        
+
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <div class="text-center">
+            <button class="back-button btn btn-default" role="button" onclick="window.history.go(-1)">back</button>
+        </div>
+
+        <footer class="footerbox">
+    <div class="row">
+        <div class="copyright col-lg-8 col-lg-offset-2 text-right">
+            <span>© 2019 Powered by <a href="http://gohugo.io">Hugo</a></span>
+            |
+            <span>By <a href="#">Yesphet</a></span>
+        </div>
+    </div>
+</footer>
+
+
+        <!-- jQuery -->
+<script src="https://yesphet.github.io/js/jquery.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="https://yesphet.github.io/js/bootstrap.min.js"></script>
+<!-- Plugin JavaScript -->
+<script src="https://yesphet.github.io/js/jquery.easing.min.js"></script>
+<script src="https://yesphet.github.io/js/jquery.fittext.js"></script>
+<script src="https://yesphet.github.io/js/wow.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="https://yesphet.github.io/js/creative.js"></script>
+
+        
+        
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-134542736-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+    </body>
+
+</html>

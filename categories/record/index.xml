@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Record on Yesphet</title>
+    <link>https://yesphet.github.io/categories/record/</link>
+    <description>Recent content in Record on Yesphet</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 15 Nov 2016 00:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://yesphet.github.io/categories/record/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>RFC3986</title>
+      <link>https://yesphet.github.io/posts/rfc3986/</link>
+      <pubDate>Tue, 15 Nov 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/rfc3986/</guid>
+      <description>预备知识  统一资源标识符（URI）
+RFC3986中文文档
+RFC3986英文文档
+ RFC3986编码与解码  保留字符
+Url可以划分成若干个组件，协议、主机、路径等。有一些字符（:/?#[]@）是用作分隔不同组件的。例如:冒号用于分隔协议和主机，/用于分隔主机和路径，?用于分隔路径和查询参数，等等。还有一些字符（!$&amp;amp;&amp;lsquo;()*+,;=）用于在每个组件中起到分隔作用的，如=用于表示查询参数中的键值对，&amp;amp;符号用于分隔查询多个键值对。当组件中的普通数据包含这些特殊字符时，需要对其进行编码。
+RFC3986中指定了以下字符为保留字符：
+! * &#39; ( ) ; : @ &amp;amp; = + $ , / ? # [ ]  不安全字符
+还有一些字符，当他们直接放在Url中的时候，可能会引起解析程序的歧义。这些字符被视为不安全字符，原因有很多。
+   符号 描述     空格 Url在传输的过程，或者用户在排版的过程，或者文本处理程序在处理Url的过程，都有可能引入无关紧要的空格，或者将那些有意义的空格给去掉   引号以及&amp;lt;&amp;gt; 引号和尖括号通常用于在普通文本中起到分隔Url的作用   # 通常用于表示书签或者锚点   % 百分号本身用作对不安全字符进行编码时使用的特殊字符，因此本身需要编码   {} \1`~ 某一些网关或者传输代理会篡改这些字符    对保留字符及不安全字符进行编码
+Url编码通常也被称为百分号编码（Url Encoding，also known as percent-encoding），是因为它的编码方式非常简单，使用%百分号加上两位的字符——0123456789ABCDEF——代表一个字节的十六进制形式。Url编码默认使用的字符集是US-ASCII。例如a在US-ASCII码中对应的字节是0x61，那么Url编码之后得到的就是%61，我们在地址栏上输入http://g.cn/search?q=%61%62%63，实际上就等同于在google上搜索abc了。又如@符号在ASCII字符集中对应的字节为0x40，经过Url编码之后得到的是%40。</description>
+    </item>
+    
+    <item>
+      <title>CPU：物理核与逻辑核</title>
+      <link>https://yesphet.github.io/posts/cpu%E7%89%A9%E7%90%86%E6%A0%B8%E4%B8%8E%E9%80%BB%E8%BE%91%E6%A0%B8/</link>
+      <pubDate>Fri, 04 Nov 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/cpu%E7%89%A9%E7%90%86%E6%A0%B8%E4%B8%8E%E9%80%BB%E8%BE%91%E6%A0%B8/</guid>
+      <description>一、物理CPU  物理CPU数是指实际Server中插槽上的CPU个数 物理核数是指一个CPU上的物理核心数。 每个CPU上有一到多个物理核 物理总核数=物理CPU个数 X 每个物理CPU的核数  二、逻辑CPU  逻辑CPU是指处理器单元，它可以在与其它逻辑CPU并行执行。 一般所说的CPU核数是指逻辑CPU数。 总逻辑CPU数 = 物理CPU个数 X 每颗物理CPU的核数 X 超线程数 如果采用了Intel的超线程技术（HT)，则上面公式的超线程数=2。即总逻辑CPU数为物理总核数的两倍  三、如何查看CPU信息 #Linux #查看CPU信息 cat /proc/cpuinfo #OUTPUT: #processor : 0 逻辑核ID #vendor_id : GenuineIntel #cpu family : 6 #model : 45 #model name : Intel(R) Xeon(R) CPU E5-2660 0 @ 2.20GHz #stepping : #cpu MHz : 2200.000 #cache size : 20480 KB #physical id : 0 物理CPU的编号 #siblings : 2 所在物理CPU有几个逻辑核 #core id : 0 物理核编号 #cpu cores : 2 所在物理CPU有几个物理核 #apicid : 0 #initial apicid : 0 #fpu : yes #fpu_exception : yes #cpuid level : 13 #wp : yes #flags : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts xtopology tsc_reliable nonstop_tsc aperfmperf unfair_spinlock pni pclmulqdq ssse3 cx16 sse4_1 sse4_2 popcnt aes xsave avx hypervisor lahf_lm ida arat xsaveopt pln pts dts #bogomips : 4400.</description>
+    </item>
+    
+    <item>
+      <title>Unix目录结构</title>
+      <link>https://yesphet.github.io/posts/unix%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/</link>
+      <pubDate>Sun, 25 Sep 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/unix%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/</guid>
+      <description> 参考：linux目录结构详解
+ 在大多数linux系统中使用命令 man hier就可以查看系统自带的目录结构介绍。
+ / :根目录
+ /boot ：引导程序，内核等存放的目录。
+ 这个目录，包括了在引导过程中所必需的文件，引导程序的相关文件（例如grub，lilo以及相应的配置文件）以及Linux操作系统内核相关文件（例如vmlinuz）等一般都存放在这里。在最开始的启动阶段，通过引导程序将内核加载到内存，完成内核的启动，这个时候，虚拟文件系统还不存在，加载的内核虽然是从硬盘读取的，但是没经过Linux的虚拟文件系统，这是比较底层的东西来实现的。然后内核自己创建好虚拟文件系统，并且从虚拟文件系统的其他子目录中（例如/sbin 和 /etc）加载需要在开机启动的其他程序或者服务或者特定的动作。如果我们的机器中包含多个操作系统，那么可以通过修改这个目录中的某个配置文件（例如grub.conf）来调整启动的默认操作系统，系统启动的选择菜单，以及启动延迟等参数。
+ /bin ：普通用户可以使用的命令的存放目录
+ 系统所需要的那些命令位于此目录，比如ls、cp、mkdir等命令；类似的目录还/usr/bin，/usr/local/bin等等。这个目录中的文件都是可执行的、普通用户都可以使用的命令。作为基础系统所需要的最基础的命令就是放在这里。
+ /sbin ：超级用户可以使用的命令的存放目录
+ 存放大多涉及系统管理的命令（例如引导系统的init程序），是超级权限用户root的可执行命令存放地，普通用户无权限执行这个目录下的命令（但是时普通用户也可能会用到）。这个目录和/usr/sbin; /usr/X11R6/sbin或/usr/local/sbin等目录是相似的，我们要记住，凡是目录sbin中包含的都是root权限才能执行的，这样就行了。
+ /lib ：/bin/和/sbin/中二进制文件必要的库文件。
+ 此目录下包含系统引导和在根用户执行命令时候所必需用到的共享库。类似的目录还有/usr/lib，/usr/local/lib等等。
+ /dev ：设备文件目录。
+ 在Linux中设备都是以文件形式出现，这里的设备可以是硬盘，键盘，鼠标，网卡，终端，等设备，通过访问这些文件可以访问到相应的设备。设备文件可以使用mknod命令来创建，具体参见相应的命令；而为了将对这些设备文件的访问转化为对设备的访问，需要向相应的设备提供设备驱动模块（一般将设备驱动编译之后，生成的结果是一个*.ko类型的二进制文件，在内核启动之后，再通过insmod等命令加载相应的设备驱动之后，我们就可以通过设备文件来访问设备了）。一般来说，想要Linux系统支持某个设备，只要个东西：相应的硬件设备，支持硬件的驱动模块，以及相应的设备文件。
+ /etc ：全局的配置文件存放目录。
+ 系统和程序一般都可以通过修改相应的配置文件，来进行配置。例如，要配置系统开机的时候启动那些程序，配置某个程序启动的时候显示什么样的风格等等。通常这些配置文件都集中存放在/etc目录中，所以想要配置什么东西的话，可以在/etc下面寻找我们可能需要修改的文件。一些大型套件，如X11，在 /etc 下它们自己的子目录。系统配置文件可以放在这里或在 /usr/etc。 不过所有程序总是在 /etc 目录下查找所需的配置文件，你也可以将这些文件链接到目录 /usr/etc。另外，还有一个需要注意的常见现象就是，当某个程序在某个用户下运行的时候，可能会在该用户的家目录中生成一个配置文件（一般这个文件最开始就是/etc下相应配置文件的拷贝，存放相应于“当前用户”的配置，这样当前用户可以通过配置这个家目录的配置文件，来改变程序的行为，并且这个行为只是该用户特有的。原因就是：一般来说一个程序启动，如果需要读取一些配置文件的话，它会首先读取当前用户家目录的配置文件，如果存在就使用；如果不存在它就到/etc下读取全局的配置文件进而启动程序。就是这个配置文件不自动生成，我们手动在自己的家目录中创建一个文件的话，也有许多程序会首先读取到这个家目录的文件并且以它的配置作为启动的选项（例如我们可以在家目录中创建vim程序的配置文件.vimrc，来配置自己的vim程序）。
+ /home ：普通用户的家目录
+ 在Linux机器上，用户主目录通常直接或间接地置在此目录下。其结构通常由本地机的管理员来决定。
+ /root ：用户root的$HOME目录
+ 系统管理员(就是root用户或超级用户)的主目录比较特殊，不存放在/home中，而是直接放在/root目录下了。
+ /usr ：默认软件都会存于该目录下。包含绝大多数的(多)用户工具和应用程序。
+ 其地位类似Windows上面的”Program Files”目录。
+ /var ：变量文件——在正常运行的系统中其内容不断变化的文件，如日志，脱机文件和临时电子邮件文件。
+   </description>
+    </item>
+    
+    <item>
+      <title>Cookie和Session的区别</title>
+      <link>https://yesphet.github.io/posts/cookie%E5%92%8Csession%E7%9A%84%E5%8C%BA%E5%88%AB/</link>
+      <pubDate>Mon, 18 Jul 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/cookie%E5%92%8Csession%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
+      <description>cookie保存在客户端本地，session保存在服务器 cookie的不安全性，可以通过修改本地的cookie进行cookie欺骗 当服务器的访问量很大的时候，session会占用较多的服务器性能 单个cookie保存的数据大小上限是4K  SessionID，用于服务器标识Session，服务器通过客户端发来的SessionID检索客户端对应的Session。SessionID一般放在Cookie中进行传递和保存。当Cookie被禁止时，还可以通过URL重写（将SessionID直接附加在URL地址后面），或者表单隐藏字段（服务器自动修改表单，添加一个隐藏字段，在表单提交时就能够把SessionID传递回服务器）来传递SessionID。</description>
+    </item>
+    
+    <item>
+      <title>Put和Post的区别</title>
+      <link>https://yesphet.github.io/posts/put%E5%92%8Cpost%E7%9A%84%E5%8C%BA%E5%88%AB/</link>
+      <pubDate>Fri, 15 Jul 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/put%E5%92%8Cpost%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
+      <description> 首先，两者都能实现更新资源的功能。
+ 区别：
+ Post不是幂等（idempotent）的
+对于一个接口，每次提交相同的动作，其产生的结果是不一致的，则使用post。比如一个减少100余额的接口，调用一次减少100，调用两次减少200，则使用Post。
+ Put是幂等的
+对于一个接口，每次提交相同的动作，其产生的结果一致，则使用put。比如一个修改文件名的接口，只要提交的文件名相同，调用多少次都产生相同的结果，则使用put。 Html4.0只支持post和get，所以使用post去完成put和delete的操作。因此针对PC端一般考虑post和get请求。 但在支持html5的客户端则需要考虑post,get,put和delete
+   </description>
+    </item>
+    
+    <item>
+      <title>RESTful 设计风格</title>
+      <link>https://yesphet.github.io/posts/restful-%E8%AE%BE%E8%AE%A1%E9%A3%8E%E6%A0%BC/</link>
+      <pubDate>Tue, 12 Jul 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/restful-%E8%AE%BE%E8%AE%A1%E9%A3%8E%E6%A0%BC/</guid>
+      <description> REST(Representational State Transfer) REST 指的是一组架构约束条件和原则。满足这些约束条件和原则的应用程序或设计就是 RESTful。 网络上的实体，都可以称为“资源”，比如网上的一张图片，一段视频。而每个“资源”，都应该有一个URI（统一资源定位符）与其对应，这个URI即该资源在网络上的唯一标识符。 “资源”是实体，可以有多种表现形式，就像一段文本可以是txt、html、json等形式表现出来，这些形式称之为表现层。 客户端如果想要操作服务器，即通过某种手段让服务器上的“资源”发生“状态转换（State Transfer）”，而这种转化是建立在“资源”的表现层上的，因此称之为 REST(Representational State Transfer)。 客户端的手段就是HTTP协议。通过HTTP的四个动词：get,post,put,delete让服务器上的资源发生状态转化。
+ 综合上面的解释，我们总结一下什么是RESTful架构
+ 每一个URI代表一种资源; 客户端和服务器之间，传递这种资源的某种表现层; 客户端通过四个HTTP动词，对服务器端资源进行操作，实现&amp;rdquo;表现层状态转化&amp;rdquo;。   </description>
+    </item>
+    
+  </channel>
+</rss>

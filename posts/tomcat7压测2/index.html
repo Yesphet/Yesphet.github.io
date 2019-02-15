@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<!-- _default/single.html -->
+<html lang="en-us">
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Yesphet">
+<meta name="description" content="No seek, no find">
+<meta name="generator" content="Hugo 0.54.0" />
+
+<title>Tomcat7压测(2)</title>
+
+<!-- Favicon -->
+<link rel="shortcut icon" href="https://yesphet.github.io/favicon.ico">
+<!-- Bootstrap Core CSS -->
+<link rel="stylesheet" href="https://yesphet.github.io/css/bootstrap.min.css" type="text/css">
+<!-- Custom Fonts -->
+<link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://yesphet.github.io/font-awesome-5/css/all.min.css" type="text/css">
+
+<!-- Plugin CSS -->
+<link rel="stylesheet" href="https://yesphet.github.io/css/animate.min.css" type="text/css">
+<!-- Custom CSS -->
+<link rel="stylesheet" href="https://yesphet.github.io/css/creative.css" type="text/css">
+<link rel="stylesheet" href="https://yesphet.github.io/css/modals.css" type="text/css">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+
+        <link rel="stylesheet" href="https://yesphet.github.io/css/post.css" type="text/css">
+    </head>
+
+    <body>
+
+        <!-- NAVIGATION -->
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+                <a class="navbar-brand page-scroll" href="https://yesphet.github.io/#page-top">Yesphet</a>
+            
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+
+        <!-- HEADER -->
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/9.webp)">
+    <div class="header-content">
+        <div class="header-content-inner">
+            
+                <h1>Tomcat7压测(2)</h1>
+            
+            <hr>
+
+            
+
+            <div class="text-center">
+                <ul class="list-inline item-details">
+                
+                    <li>
+                        <strong>Tuesday,  Feb 14,  2017</strong>
+                    </li>
+                
+                
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+        <section class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <article class="post-body">
+
+                        
+                            <h2 id="目的">目的</h2>
+
+<ul>
+<li>本篇将请求的耗时调大，主要为了观察线程池及等待队列都满了的情况下，Tomcat的表现及反应。</li>
+</ul>
+
+<h2 id="初步压测描述">初步压测描述</h2>
+
+<p>先描述下一开始进行这部分压测遇到的问题。首先根据Tomcat7官方文档描述：</p>
+
+<blockquote>
+<p>Each incoming request requires a thread for the duration of that request. If more simultaneous requests are received than can be handled by the currently available request processing threads, additional threads will be created up to the configured maximum (the value of the maxThreads attribute). If still more simultaneous requests are received, they are stacked up inside the server socket created by the Connector, up to the configured maximum (the value of the acceptCount attribute). Any further simultaneous requests will receive &ldquo;connection refused&rdquo; errors, until resources are available to process them.</p>
+</blockquote>
+
+<p>预期服务端同一时刻可以接受的请求数量应该是maxThread+accptCount。但当将Tomcat参数调整为maxThread=1和acceptCount=2时，通过<code>netstat -nat</code>查看客户端与服务端建立的TCP连接数量，状态为ESTABLISHED的有4条（预期应该是2+1=3条），再仔细查看发现其中只有一条的<code>Recv-Q</code>为0，说明只有这条正在处理，其他3条请求都堆积了。</p>
+
+<p>通过修改maxThread和acceptCount参数发现，状态为ESTABLISHED的TCP连接中，<code>Recv-Q</code>为0的条数与maxThread相等（符合预期，说明这几个TCP连接所发送的请求正被服务处理），而<code>Recv-Q</code>不为0的数目总等于acceptCount+1。进而查看Tomcat源码，发现：</p>
+
+<pre><code class="language-java">static {
+        replacements.put(&quot;acceptCount&quot;, &quot;backlog&quot;);
+        replacements.put(&quot;connectionLinger&quot;, &quot;soLinger&quot;);
+        replacements.put(&quot;connectionTimeout&quot;, &quot;soTimeout&quot;);
+        replacements.put(&quot;rootFile&quot;, &quot;rootfile&quot;);
+    }
+</code></pre>
+
+<p>所以acceptCount只是映射为Socket的backlog参数，由此来控制TCP底层连接队列的数量。在<a href="http://hongjiang.info/tomcat-connector-tuning-1/">tomcat-connector的微调(1): acceptCount参数</a>这篇博客得到验证。
+进而了解了backlog参数的相关资料。</p>
+
+<blockquote>
+<p><a href="http://www.piao2010.com/linux%E8%AF%A1%E5%BC%82%E7%9A%84%E5%8D%8A%E8%BF%9E%E6%8E%A5syn_recv%E9%98%9F%E5%88%97%E9%95%BF%E5%BA%A6%E4%B8%80">linux诡异的半连接(SYN_RECV)队列长度(一)</a></p>
+
+<p><a href="http://www.piao2010.com/linux%E8%AF%A1%E5%BC%82%E7%9A%84%E5%8D%8A%E8%BF%9E%E6%8E%A5syn_recv%E9%98%9F%E5%88%97%E9%95%BF%E5%BA%A6%E4%BA%8C">linux诡异的半连接(SYN_RECV)队列长度(二)</a></p>
+
+<p><a href="http://www.jianshu.com/p/ff26312e67a9">tcp的半连接与完全连接队列</a></p>
+</blockquote>
+
+<p>总结几点就是：</p>
+
+<ol>
+<li>backlog在Linux 2.2之后表示的是已完成三次握手但还未被应用程序accept的队列长度，即全连接队列长度。</li>
+<li>backlog不能超过<code>net.core.somaxconn</code>整个参数，所以全连接队列长度等于<code>min(backlog,somaxconn)</code>;</li>
+<li>半连接队列长度（<code>max_qlen_log</code>），内核版本小于2.6.20的话<code>max_qlen_log</code>是直接由<code>sysctl_max_syn_backlog</code>决定的，否则是</li>
+</ol>
+
+<pre><code class="language-c">   table_entries = min(min(somaxconn,backlog),tcp_max_syn_backlog)
+   roundup_pow_of_two(table_entries + 1)
+   //这个计算方式可能有点问题，因为实际测试好像有点差别，具体可以查 看上面引用的资料。
+</code></pre>
+
+<p>因此，Tomcat在BIO下同时能接受的请求数量为maxThread+acceptCount，根据官方描述超过的请求会直接返回connect refused，但我这边测试的结果是：</p>
+
+<p>当状态为ESTABLISHED的TCP连接已经达到maxThread+acceptCount时，此时全连接队列已满，再过来的请求会卡在SYN_RECV状态（处于半连接队列），即收到客户端SYN包但并不做响应，直到全连接队列有空位才响应客户端SYN+ACK包，在这种情况下客户端会重试发送SYN包直到超时。当半连接队列满了的时候，再过来的请求会被直接拒绝掉（根据服务端的<code>net.ipv4.tcp_abort_on_overflow</code>等参数决定表现）。</p>
+
+<p>但是以上并没有解决为什么<strong><code>Recv-Q</code>不为0的数目总等于accptCount+1</strong>这个问题。一番瞎折腾后并没有结论，不过有了几个推测：</p>
+
+<ul>
+<li>和Tomcat的acceptorThreadCount配置有关，该参数的定义是<code>The number of threads to be used to accept connections</code>，即会启动acceptorThreadCount个Acceptor线程去接收请求，然后判断Tomcat线程池是否有剩余线程去处理该个请求。猜想会不会被该Acceptor线程接受的请求会离开全连接队列？不过将acceptorThreadCount这个参数设置为2时，<strong><code>Recv-Q</code>不为0的数目依旧等于accptCount+1</strong>。（不过这个可能跟CPU核数有关&amp;#%&amp;#*￥&amp;</li>
+<li>另一个猜测是全连接队列的长度=acceptCount+1,不过这个+1是在哪个环节操作的还<strong><em>待验证</em></strong></li>
+</ul>
+
+<h2 id="压测">压测</h2>
+
+<h3 id="服务端环境">服务端环境</h3>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Tomcat配置</td>
+<td><strong>maxThreads=&ldquo;2&rdquo;</strong><br>minSpareThreads=&ldquo;0&rdquo;<br>connectionTimeout=&ldquo;200000&rdquo;<br>enableLookups=&ldquo;false&rdquo;<br><strong>acceptCount=&ldquo;2&rdquo;</strong><br>acceptorThreadCount=&ldquo;1&rdquo;</td>
+<td></td>
+</tr>
+
+<tr>
+<td>环境</td>
+<td>Docker容器内</td>
+<td></td>
+</tr>
+
+<tr>
+<td>服务描述</td>
+<td>当收到一个请求后，将处理该请求的线程sleep10s,然后返回response。因为该服务本身几乎不占用任何系统资源，所以在CPU，Mem，IO上是不会产生瓶颈的（实际压测证实），且因为该场景下控制了每个请求的耗时，QPS不高，所以在网络IO上也不会产生瓶颈。因此会影响QPS的只有Tomcat线程池的参数和Tomcat的性能</td>
+<td></td>
+</tr>
+
+<tr>
+<td>服务耗时</td>
+<td>10s</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="场景1">场景1:</h4>
+
+<p><strong>服务器无正在处理请求</strong></p>
+
+<p>用<code>curl http://172.16.200.18:8891/Jweb/1</code>从客户端发送一条请求</p>
+
+<p><img src="https://yesphet.github.io/img4post/20170214/1.png" alt="" /></p>
+
+<p>服务器在空负载的情况下，抓包请求表现如图。先是三次握手建立连接，然后发送HTTP请求和接受HTTP请求，之后四次挥手断开连接。其中第4个包为客户端发送的Http Request，经过了10s后收到第6个包，即服务端返回的Response。10s刚好和服务端请求处理时间吻合，<strong>符合预期</strong>。</p>
+
+<p>因为服务端收到客户端的FIN包时，发现自己也已经没有数据要传给客户端了，所以会将ACK包和FIN包合在一起发送给客户端(网上资料说这种情况是少数，坑，但发现现在大部分内核都是这样处理的)<strong>已验证</strong>。</p>
+
+<h4 id="场景2">场景2：</h4>
+
+<p><strong>服务器Tomcat线程池被占满，即有2个正在处理的请求</strong></p>
+
+<p>先在客户端<code>192.168.41.108</code>用<code>./wrk -t1 -c2 -d5m --timeout 5m --latency http://172.16.200.18:8891/Jweb/1</code>模拟两个不间断的请求。</p>
+
+<p>通过<code>netstat -nat</code>查看服务端连接:</p>
+
+<pre><code class="language-bash">服务端netstat
+tcp        0      0 0.0.0.0:8891            0.0.0.0:*               LISTEN
+tcp        0      0 172.16.200.18:8891      192.168.41.108:48627    ESTABLISHED
+tcp        0      0 172.16.200.18:8891      192.168.41.108:48628    ESTABLISHED
+</code></pre>
+
+<p>发现两个TCP连接都为<code>ESTABLISHED</code>状态，对应从<code>192.168.41.108</code>过来的两个请求，且这两个连接的<code>Recv-Q</code>为0，所以表示正在被服务端处理。</p>
+
+<p>接着从客户端<code>172.16.20.6</code>用<code>curl http://172.16.200.18:8891/Jweb/1</code>发送一条请求，查看客户端连接发现该请求建连成功，处于<code>ESTABLISHED</code>状态。</p>
+
+<pre><code class="language-bash">客户端netstat
+tcp4       0      0  172.16.20.6.60645      172.16.200.18.8891     ESTABLISHED
+</code></pre>
+
+<p>此时再查看服务端连接</p>
+
+<pre><code class="language-bash">tcp        1      0 0.0.0.0:8891            0.0.0.0:*               LISTEN
+tcp        0      0 172.16.200.18:8891      192.168.41.108:48627    ESTABLISHED
+tcp        0      0 172.16.200.18:8891      192.168.41.108:48628    ESTABLISHED
+tcp       88      0 172.16.200.18:8891      172.16.20.6:60681       ESTABLISHED
+</code></pre>
+
+<p>有三条TCP连接，其中从<code>172.16.20.6</code>发来的请求<code>Recv-Q</code>不为0，所以处于全连接队列，等待服务端处理。直到服务端处理完了当前请求，<code>192.168.41.108:48627</code>和<code>192.168.41.108:48628</code>几乎同时处理完。此时轮到处理<code>172.16.20.6:60681</code>请求，同时<code>192.168.41.108</code>又发来了两条请求，其中一条进入全连接队列等待。具体查看如下服务端连接状态：</p>
+
+<pre><code class="language-bash">tcp        1      0 0.0.0.0:8891            0.0.0.0:*               LISTEN
+tcp        0      0 172.16.200.18:8891      172.16.20.6:60681       ESTABLISHED
+tcp       50      0 172.16.200.18:8891      192.168.41.108:48630    ESTABLISHED
+tcp        0      0 172.16.200.18:8891      192.168.41.108:48629    ESTABLISHED
+</code></pre>
+
+<p>查看客户端<code>172.16.20.6</code>抓包情况</p>
+
+<p><img src="https://yesphet.github.io/img4post/20170214/2.png" alt="" /></p>
+
+<p>对比第4个和第6个包，因为该请求经过一段时间的排队，所以在Request后经过了18s才收到Response。<strong>符合预期</strong></p>
+
+<p>再观察<code>192.168.41.108</code>的wrk压测数据:</p>
+
+<pre><code>[root@meitu_6 wrk]# ./wrk -t1 -c2 -d5m --timeout 5m --latency http://172.16.200.18:8891/Jweb/1
+Running 5m test @ http://172.16.200.18:8891/Jweb/1
+  1 threads and 2 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    10.18s     1.33s   20.01s    98.25%
+    Req/Sec     0.00      0.00     0.00    100.00%
+  Latency Distribution
+     50%   10.00s
+     75%   10.00s
+     90%   10.01s
+     99%   20.01s
+  57 requests in 5.00m, 6.72KB read
+Requests/sec:      0.19
+Transfer/sec:      22.92B
+
+</code></pre>
+
+<p>整段压测持续了5m=300s，因为服务端每10s能处理2个请求，所以预期应该处理完的请求应该是$$ <sup>300</sup>&frasl;<sub>10</sub>*2=60 $$。但是因为每个请求耗时是略大于10s的（网络传输等其他耗时），所以最后两个请求应该来不及接受response。因此请求总数应该是<code>60-2=58</code>。又由于中间插入处理了一条来自<code>172.16.20.6</code>的请求，所以请求总数为$$ 58-1=57 $$ 。<strong>符合预期</strong></p>
+
+<h4 id="场景3">场景3：</h4>
+
+<p><strong>服务器Tomcat线程池被占满，即有2个正在处理的请求，且有3个正在排队的请求，即全连接队列满</strong></p>
+
+<p><em>为什么全连接队列长度为3（Tomcat配置的acceptCount=2），参见开头的初步压测描述。</em></p>
+
+<p>先在客户端<code>192.168.41.108</code>用<code>./wrk -t1 -c5 -d5m --timeout 5m --latency http://172.16.200.18:8891/Jweb/1</code>模拟五个不间断的请求。</p>
+
+<p>查看服务端连接：</p>
+
+<pre><code>tcp        3      0 0.0.0.0:8891            0.0.0.0:*               LISTEN
+tcp        0      0 172.16.200.18:8891      192.168.41.108:48942    ESTABLISHED
+tcp        0      0 172.16.200.18:8891      192.168.41.108:48943    ESTABLISHED
+tcp       50      0 172.16.200.18:8891      192.168.41.108:48946    ESTABLISHED
+tcp       50      0 172.16.200.18:8891      192.168.41.108:48945    ESTABLISHED
+tcp       50      0 172.16.200.18:8891      192.168.41.108:48944    ESTABLISHED
+</code></pre>
+
+<p>可以看见有5条TCP连接，其中两条正在被服务端处理，三条处于全连接队列，此时全连接队列已满。</p>
+
+<p>再从客户端<code>172.16.20.6</code>用<code>curl http://172.16.200.18:8891/Jweb/1</code>发送一条请求，查看客户端连接发现该请求建联成功，处于<code>ESTABLISHED</code>状态。</p>
+
+<pre><code>tcp4       0     88  172.16.20.6.61166      172.16.200.18.8891     ESTABLISHED
+</code></pre>
+
+<p>查看服务端连接：</p>
+
+<pre><code>tcp        3      0 0.0.0.0:8891            0.0.0.0:*               LISTEN
+tcp        0      0 172.16.200.18:8891      172.16.20.6:61166       SYN_RECV
+tcp        0      0 172.16.200.18:8891      192.168.41.108:48942    ESTABLISHED
+tcp        0      0 172.16.200.18:8891      192.168.41.108:48943    ESTABLISHED
+tcp       50      0 172.16.200.18:8891      192.168.41.108:48946    ESTABLISHED
+tcp       50      0 172.16.200.18:8891      192.168.41.108:48945    ESTABLISHED
+tcp       50      0 172.16.200.18:8891      192.168.41.108:48944    ESTABLISHED
+</code></pre>
+
+<p>来自<code>172.16.20.6</code>的请求处于<code>SYN_RECV</code>状态。</p>
+
+<p>分析在客户端<code>172.16.20.6</code>抓的包：</p>
+
+<p><img src="https://yesphet.github.io/img4post/20170214/3.png" alt="" title="客户端抓包" /></p>
+
+<ul>
+<li>首先1-3个包表示三次握手成功，因此客户端连接状态为<code>ESTABLISHED</code></li>
+<li>第4个包，客户端发送了HTTP Request</li>
+<li>但是服务端并没有对第4个包进行响应。因此过了45ms客户端发了第5个包，进行了第一次重传(Retransmission)，重传了第4个包。但是服务端依旧没有响应ACK包，因此又重传了第6、7、8三个包。</li>
+<li>此时收到了来自<code>172.16.200.18</code>的第9个包，被标记为<code>Spurious Retansmission</code>，即服务端伪重传了第2个包（SYN包）。再看服务端将这条TCP连接被标记为<code>SYN_RECV</code>，说明服务端其实是没有收到第3个包或者对第3个包做处理的。查看下方图片对服务端的抓包，第35个包是客户端发给服务端的对SYN的ACK包，说明服务端是有收到对SYN的ACK包的，但是由于全连接队列满了，所以并没有对这个包做处理。因此服务端以为还没有收到这个ACK包，进而重传了SYN包。</li>
+<li>收到来自服务端的<code>Spurious Retansmission</code>SYN包后，客户端重传了对服务端SYN的ACK包，即第10个包。</li>
+<li>但是由于服务端全连接队列依旧是满的，所以仍没有处理这个ACK包，依旧处于<code>SYN_RECV</code>。</li>
+<li>之后客户端继续重传第4个包（即HTTP Request请求）,总共重传了13次（每次重传的间隔是有规律的，是倍增直到一个上限值，根据配置有不同，具体的不展开）</li>
+<li>服务端由于全连接队列一直处于满的状态，所以一直也没有处理客户端的ACK包，并假设是客户端没有收到SYN包，因此总共也重传了3次SYN包。</li>
+<li>直到第26个包，客户端达到了某种限制（可能是TCP重传次数或者timeout，因为客户端是mac，查看了几个内核参数都有点不符，暂时不知道是哪种限制）所以向服务端发送了RST包，重置了本次连接。</li>
+<li>对比下图对服务端的抓包分析，可以验证以上结论。</li>
+<li>一个疑问是，客户端整个重传持续了17s，而服务端10s就可以处理完一个请求，在这一瞬间服务端会从全连接队列中取2个请求继续处理，此时全连接队列会出现空位。但是为什么服务端并没有直接处理来自客户端的ACK包并将其放入全连接队列，而是接受了来自<code>192.168.41.108</code>的新的请求？会不会是因为<strong>服务端收到SYN的ACK包时，发现全连接队列满了，是否直接将这个ACK包抛弃？</strong>在场景4做验证。</li>
+</ul>
+
+<p><img src="https://yesphet.github.io/img4post/20170214/4.png" alt="" title="服务端抓包" /></p>
+
+<p>服务端处理完一个请求时的连接状态，此时<code>172.16.20.6:61166</code>这条连接依旧处于半连接队列，状态为<code>SYN_RECV</code>,但有一条新的连接<code>192.168.41.108:48952</code>插入了全连接队列（该连接未进入半连接队列）：</p>
+
+<pre><code>tcp        3      0 0.0.0.0:8891            0.0.0.0:*               LISTEN
+tcp        0      0 172.16.200.18:8891      172.16.20.6:61166       SYN_RECV
+tcp        0      0 172.16.200.18:8891      192.168.41.108:48946    ESTABLISHED
+tcp        0      0 172.16.200.18:8891      192.168.41.108:48945    TIME_WAIT
+tcp       50      0 172.16.200.18:8891      192.168.41.108:48951    ESTABLISHED
+tcp       50      0 172.16.200.18:8891      192.168.41.108:48948    ESTABLISHED
+tcp        0      0 172.16.200.18:8891      192.168.41.108:48944    TIME_WAIT
+tcp       50      0 172.16.200.18:8891      192.168.41.108:48952    ESTABLISHED
+tcp        0      0 172.16.200.18:8891      192.168.41.108:48947    ESTABLISHED
+</code></pre>
+
+<p>来自<code>172.16.20.6</code>的连接重置后：</p>
+
+<pre><code>tcp        3      0 0.0.0.0:8891            0.0.0.0:*               LISTEN
+tcp        0      0 172.16.200.18:8891      192.168.41.108:48946    ESTABLISHED
+tcp        0      0 172.16.200.18:8891      192.168.41.108:48945    TIME_WAIT
+tcp       50      0 172.16.200.18:8891      192.168.41.108:48951    ESTABLISHED
+tcp       50      0 172.16.200.18:8891      192.168.41.108:48948    ESTABLISHED
+tcp        0      0 172.16.200.18:8891      192.168.41.108:48944    TIME_WAIT
+tcp       50      0 172.16.200.18:8891      192.168.41.108:48952    ESTABLISHED
+tcp        0      0 172.16.200.18:8891      192.168.41.108:48947    ESTABLISHED
+</code></pre>
+
+<h4 id="场景4">场景4：</h4>
+
+<p><strong>服务器Tomcat线程池被占满，即有2个正在处理的请求，且有3个正在排队的请求，即全连接队列满，第6个请求处于<code>SYN_RECV</code>状态，没有更多的请求</strong></p>
+
+<p>首先从<code>192.168.41.108</code>用<code>for i in {1..5};do curl http://172.16.200.18:8891/Jweb/1&amp; done</code>模拟5个并发请求。</p>
+
+<p>查看服务端连接：</p>
+
+<pre><code>tcp        3      0 0.0.0.0:8891            0.0.0.0:*               LISTEN
+tcp      179      0 172.16.200.18:8891      192.168.41.108:49201    ESTABLISHED
+tcp      179      0 172.16.200.18:8891      192.168.41.108:49203    ESTABLISHED
+tcp      179      0 172.16.200.18:8891      192.168.41.108:49202    ESTABLISHED
+tcp        0      0 172.16.200.18:8891      192.168.41.108:49200    ESTABLISHED
+tcp        0      0 172.16.200.18:8891      192.168.41.108:49199    ESTABLISHED
+</code></pre>
+
+<p>5条<code>ESTABLISHED</code>连接，3条处于全连接队列，2条正在被处理。</p>
+
+<p>再从客户端<code>172.16.20.6</code>用<code>curl http://172.16.200.18:8891/Jweb/1</code>发送一条请求，查看客户端连接发现该请求建连成功，处于<code>ESTABLISHED</code>状态。</p>
+
+<pre><code>tcp4       0      0  172.16.20.6.62147      172.16.200.18.8891     ESTABLISHED
+</code></pre>
+
+<p>查看服务度连接</p>
+
+<pre><code>tcp        3      0 0.0.0.0:8891            0.0.0.0:*               LISTEN
+tcp        0      0 172.16.200.18:8891      172.16.20.6:62147       SYN_RECV
+tcp      179      0 172.16.200.18:8891      192.168.41.108:49201    ESTABLISHED
+tcp      179      0 172.16.200.18:8891      192.168.41.108:49203    ESTABLISHED
+tcp      179      0 172.16.200.18:8891      192.168.41.108:49202    ESTABLISHED
+tcp        0      0 172.16.200.18:8891      192.168.41.108:49200    ESTABLISHED
+tcp        0      0 172.16.200.18:8891      192.168.41.108:49199    ESTABLISHED
+</code></pre>
+
+<p>来自<code>172.16.20.6</code>的请求处于<code>SYN_RECV</code>，与场景3相同。
+10s后，服务端处理完一条请求，查看服务端连接：</p>
+
+<pre><code>tcp        2      0 0.0.0.0:8891            0.0.0.0:*               LISTEN
+tcp        0      0 172.16.200.18:8891      192.168.41.108:49201    ESTABLISHED
+tcp      179      0 172.16.200.18:8891      192.168.41.108:49203    ESTABLISHED
+tcp        0      0 172.16.200.18:8891      192.168.41.108:49202    ESTABLISHED
+tcp       88      0 172.16.200.18:8891      172.16.20.6:62147       ESTABLISHED
+</code></pre>
+
+<p>发现来自<code>172.16.20.6</code>的请求进入了全连接队列。</p>
+
+<p>再看客户端的抓包分析</p>
+
+<p><img src="https://yesphet.github.io/img4post/20170214/5.png" alt="" title="客户端抓包" /></p>
+
+<ul>
+<li>前17个包和场景3表现相同</li>
+<li>在服务端处理完当前请求后，由于此时服务端全连接队列出现了空位，因此处理了<code>172.16.20.6</code>的ACK包，并将该连接放入全连接队列，所以此时该连接变成<code>ESTABLISHED</code>状态。（<strong>有个疑问是此时服务端是立即处理之前传过来的HTTP Request包，还是等待下一个包？</strong>个人估计应该是等待下一个包，在处理SYN的ACK包前，也就是服务端连接处于<code>SYN_RECV</code>时，该连接发来的其他包应该都是被丢弃的，通过对比第18个包和17个包的时间间隔只有0.1ms级别猜测在服务端收到第17个包前已经将连接置为<code>ESTABLISHED</code>）</li>
+<li>第18个包是服务端对客户端的HTTP Request包响应的ACK包，根据Tsecr判断是对第17个包的ACK。</li>
+<li>之后便是正常的Request处理。</li>
+<li>观察第20个包和第17个包差了20s，是因为这个请求进入全连接队列后等待了10s后又被Tomcat处理了10s,因此等待了$$10+10=20$$s。</li>
+<li>所以，当全连接队列满的时候，处于半连接队列的TCP连接的ACK包并没有被丢弃，而是大概存在于一个队列中等待处理吧。（<strong>需要查看内核源码验证</strong>）</li>
+<li>不过<strong>当全连接出现空位时，并不是立即从半连接队列取出一个连接处理并放入全连接队列</strong>。我估计是有个定时器定时查看全连接队列是否有空闲位置，有的话才从半连接队列取出连接放入全连接队列（我猜的,<strong>需要查看内核源码验证</strong>&hellip;）。</li>
+</ul>
+
+<h3 id="总结">总结</h3>
+
+<ol>
+<li>Tomcat服务端能保持<code>ESTABLISHED</code>状态的连接数量为<code>maxThread+acceptCount+1</code>,至于这个+1是怎么来的，目前我也母鸡。</li>
+<li>当Tomcat服务端保持的连接数达到<code>maxThread+acceptCount+1</code>时，再过来的请求会处于半连接队列，对于半连接队列的连接，客户端会不停的重发包直到超时或超次数，或者全连接队列出现了空位且该连接被放入全连接队列（优先级不是最高，即不是全连接队列一有空位就马上主动从半连接队列取一个放入全连接队列。）。</li>
+<li>当全连接队列满了的情况下，还不停有请求过来时，再过来的请求会被放入半连接队列，但是服务端会有剔除的策略（策略是怎么样的我也不知道&hellip;.），会主动向半连接队列中的一些连接发RST包断开这些连接。</li>
+<li>当全连接队列和半连接队列都满了的情况下，对客户端再发来的SYN包，服务端不会响应ACK包。</li>
+<li>当TCP连接没有建立成功就被RST掉的时候，客户响应的会是<code>Connection reset by peer</code>，Chrome浏览器响应like this:
+<img src="https://yesphet.github.io/img4post/20170214/6.png" alt="" /></li>
+</ol>
+
+<h3 id="个人总结">个人总结</h3>
+
+<ol>
+<li>初步了解了WireShark和tcpdump的使用及相互配合。</li>
+<li>初步了解了docker环境的部署，包括镜像的build，对docker实例的操作。</li>
+<li>对TCP协议有了更深的理解。包括三次握手，四次挥手及各种状态，之后要系统的总结一下。感觉这篇更偏向与对TCP连接的测试。。。</li>
+<li>对Tomcat源码有了进一步的了解，主要在connector和executor这一块，虽然还在很浅的层次。以及目前还只是了解BIO模式，NIO和apr还需探索。</li>
+<li>修为还不够，看到linux内核代码还是一头雾水。。。</li>
+<li>对ab和wrk压测工具有更深的理解，萌生了自己写一个压测工具的想法，初步想要使用go来写（感觉是个大坑&hellip;）。</li>
+<li>再说下对压测的想法：当压测目标不是很明确的时候，如果没有很详细的计划来执行压测（像我这段时间对Tomcat的压测就是没有详细计划的，只有一个大概目标，想到什么压测什么），就会产生很多压测数据不符合预期的情况，两种情况，一个是预期出错了，一个是压测数据出错了。在这个过程中我两种情况都遇到过，但是为了验证是哪个出错花费了我绝大部分压测的时间。虽然学到了很多东西，但过程是痛苦的，因为很多时候是毫无头绪的，猜到一种可能就验证一种可能。为了避免压测数据出错，我认为有几点：
+
+<ul>
+<li>确保压测的环境是稳定的，包括网络，CPU，内存，IO等等可能涉及的资源，且要确保在相同场景下，这些资源的配置是一样的，尽量做到在整个压测过程中所有场景下这些资源都达到一致。</li>
+<li>理清整个服务的流程链路再进行压测。确保能快速定位到是哪一个环境出现了异常。</li>
+<li>保证所有涉及到的资源只服务于当前压测的服务。</li>
+</ul></li>
+</ol>
+
+<p>再就说说压测计划，查过网上一些压测计划，发现太过规整有点偏向于形式化了，不是很喜欢（懒）。我认为压测计划主要是描述清楚各个压测场景就足够了，尽量做到场景覆盖所有情况，且针对每个场景都有与其对比的其他场景。然后将这些场景设立的原因及场景描述写清楚（因为一些细节真的很容易忘记，虽然有些细节可能在你想到后写下来前就忘记了。。。所以更应该记下来）。
+8. 然后再就是要注重是实践吧，很多东西你不去做真的不知道，就算你想去找，网上可能还真的没有，比如一些很细节的东西，可能有些人经历过，但不是每个人都会将其记下并传到网上，且还能被搜索引擎顶到前列。
+9. 之前想了很多点要写的，你看写到这里就忘记了。。。
+10. 再附上报告中被压测项目的源码做个记录，几乎是裸的:<a href="https://github.com/Yesphet/Jweb">https://github.com/Yesphet/Jweb</a></p>
+
+                        
+
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <div class="text-center">
+            <button class="back-button btn btn-default" role="button" onclick="window.history.go(-1)">back</button>
+        </div>
+
+        <footer class="footerbox">
+    <div class="row">
+        <div class="copyright col-lg-8 col-lg-offset-2 text-right">
+            <span>© 2019 Powered by <a href="http://gohugo.io">Hugo</a></span>
+            |
+            <span>By <a href="#">Yesphet</a></span>
+        </div>
+    </div>
+</footer>
+
+
+        <!-- jQuery -->
+<script src="https://yesphet.github.io/js/jquery.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="https://yesphet.github.io/js/bootstrap.min.js"></script>
+<!-- Plugin JavaScript -->
+<script src="https://yesphet.github.io/js/jquery.easing.min.js"></script>
+<script src="https://yesphet.github.io/js/jquery.fittext.js"></script>
+<script src="https://yesphet.github.io/js/wow.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="https://yesphet.github.io/js/creative.js"></script>
+
+        
+        
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-134542736-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+    </body>
+
+</html>

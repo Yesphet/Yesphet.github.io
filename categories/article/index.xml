@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Article on Yesphet</title>
+    <link>https://yesphet.github.io/categories/article/</link>
+    <description>Recent content in Article on Yesphet</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 05 Nov 2018 00:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://yesphet.github.io/categories/article/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>分布式异步回调模型的回调策略</title>
+      <link>https://yesphet.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%BC%82%E6%AD%A5%E5%9B%9E%E8%B0%83%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%9B%9E%E8%B0%83%E7%AD%96%E7%95%A5/</link>
+      <pubDate>Mon, 05 Nov 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%BC%82%E6%AD%A5%E5%9B%9E%E8%B0%83%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%9B%9E%E8%B0%83%E7%AD%96%E7%95%A5/</guid>
+      <description>一、背景 客户端请求Web服务架构中，一般有同步阻塞模型和异步回调两种模型。对于服务端耗时较长，例如音视频转码等重操作的服务，异步回调模型相比同步模型有许多的优势:
+ 不会阻塞客户端的请求线程，可以提高客户端的线程利用率。 服务端根据自身的处理能力进行处理，保证服务端的稳定性。不会由于峰值请求造成服务端过载。  但是，在异步回调模型中，由于多了一次回调的链路，会带来更多的可用性问题。因此，本文主要讨论在异步回调模型中，如何制定有效的回调策略来保证回调链路的成功率，并提高整个异步服务的可用性。
+二、异步回调模型 异步回调模型可以参考引用1中的描述，一般有以下两种细分模型：
+2.1 Asynchronous Web Service Using a Single Request Queue 2.2 Asynchronous Web Service Using a Request and a Response Queue 其中2.2的模型虽然更复杂，但可以有效的提高服务端的资源使用率。避免由于回调阻塞导致处理能力的下降。同时可以增加一些判重策略，防止回调服务出现故障时，由于客户端重试导致服务端重复处理的资源浪费。
+在分布式服务场景下，2.2 模型还可以细分为Inner Response Queue及outer Response Queue两种：
+ Inner Response Queue为每个服务端app使用内存队列作为Response Queue，由内部的线程作为Callback Client。 Outer Response Queue为使用统一的消息队列中间件作为Response Queue，另外部署一套Callback Client服务来处理这些Response。  Outer模型相比Inner模型部署结构较为复杂，但与处理结构完全解耦，可以针对回调做更多策略，同时可以防止由于处理app宕机造成的Response丢失（不过由于callback client以及消息中间件策略的问题，仍然会存在response丢失的风险）。
+以上各个模型各有优劣，应该根据业务场景选择合适的模型。
+三、回调策略 对于异步回调模型，callback service一般由业务方提供，无法对可用性做保证。因此callback client必须要制定一些策略尽量的应对callback service失败的情况。尤其是在一个callback client对应多个callback service的场景下，需要尽量防止由于某些service的问题，影响回调其他service的情况。
+Callback Service 失败场景： 1. client与service之间出现网络波动，甚至中断。 callback client请求service时，响应域名解析失败或者client请求超时。
+快速重试策略可以解决网络波动问题。轮询重试策略可以解决短时间中断问题。
+2. service超时。 callback service处理回调超时。这种情况除去网络问题，一般是由于service负载过高，或者设计存在问题导致。这种场景如果过度重试一般会造成service雪崩。解决的方案是周知业务方，由业务方对callback service进行排查。</description>
+    </item>
+    
+    <item>
+      <title>Tomcat7压测(2)</title>
+      <link>https://yesphet.github.io/posts/tomcat7%E5%8E%8B%E6%B5%8B2/</link>
+      <pubDate>Tue, 14 Feb 2017 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/tomcat7%E5%8E%8B%E6%B5%8B2/</guid>
+      <description>目的  本篇将请求的耗时调大，主要为了观察线程池及等待队列都满了的情况下，Tomcat的表现及反应。  初步压测描述 先描述下一开始进行这部分压测遇到的问题。首先根据Tomcat7官方文档描述：
+ Each incoming request requires a thread for the duration of that request. If more simultaneous requests are received than can be handled by the currently available request processing threads, additional threads will be created up to the configured maximum (the value of the maxThreads attribute). If still more simultaneous requests are received, they are stacked up inside the server socket created by the Connector, up to the configured maximum (the value of the acceptCount attribute).</description>
+    </item>
+    
+    <item>
+      <title>Tomcat7压测(1)</title>
+      <link>https://yesphet.github.io/posts/tomcat7%E5%8E%8B%E6%B5%8B1/</link>
+      <pubDate>Wed, 08 Feb 2017 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/tomcat7%E5%8E%8B%E6%B5%8B1/</guid>
+      <description>Tomcat7压测（一） 目的  目的主要有几点：
+ 了解空跑的TomcatQPS能达到多少 测试在Tomcat线程池，等待队列，最大连接数满了的情况下Tomcat的表现 通过压测暴露一些问题及对这些问题的解决 提升性能测试的姿势，算是一种锻炼吧  应该会分几个篇幅来分析，因为压测场景及数据比较多。
+ 本篇主要是最基础的测试，后续会对压测中发现的问题做一些解决
+  压测 场景           Tomcat配置 maxThreads=&amp;ldquo;300&amp;rdquo;
+minSpareThreads=&amp;ldquo;100&amp;rdquo;
+connectionTimeout=&amp;ldquo;8000&amp;rdquo;
+enableLookups=&amp;ldquo;false&amp;rdquo;
+acceptCount=&amp;ldquo;100&amp;rdquo;
+acceptorThreadCount=&amp;ldquo;1&amp;rdquo;    环境 Docker容器内    服务描述 当收到一个请求后，将处理该请求的线程sleep20ms,然后返回response。因为该服务本身几乎不占用任何系统资源，所以在CPU，Mem，IO上是不会产生瓶颈的（实际压测证实），且因为该场景下控制了每个请求的耗时，QPS不高，所以在网络IO上也不会产生瓶颈。因此会影响QPS的只有Tomcat线程池的参数和Tomcat的性能    服务耗时 20ms     数据(整理后)    序号 API TotalTime Requests per second Time per request Tomcat线程池线程数 描述     1 ab -c100 -n500000 -k http://172.</description>
+    </item>
+    
+  </channel>
+</rss>

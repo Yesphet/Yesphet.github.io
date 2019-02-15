@@ -6,9 +6,269 @@
     <description>Recent content in 文章列表 on Yesphet</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Tue, 13 Nov 2018 00:00:00 +0800</lastBuildDate>
     
 	<atom:link href="https://yesphet.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>计算密集型服务部署于k8s压力测试总结</title>
+      <link>https://yesphet.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AF%86%E9%9B%86%E5%9E%8B%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2%E4%BA%8Ek8s%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Tue, 13 Nov 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AF%86%E9%9B%86%E5%9E%8B%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2%E4%BA%8Ek8s%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</guid>
+      <description>一、背景 二、知识点 2.1 k8s中容器资源的分配与管理  request 与 limit  2.2 docker中，使用cgroup进行资源隔离  cpuset  三、参考 NUMA架构的CPU &amp;ndash; 你真的用好了么？
+Control CPU Management Policies on the Node - Kubernetes</description>
+    </item>
+    
+    <item>
+      <title>分布式异步回调模型的回调策略</title>
+      <link>https://yesphet.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%BC%82%E6%AD%A5%E5%9B%9E%E8%B0%83%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%9B%9E%E8%B0%83%E7%AD%96%E7%95%A5/</link>
+      <pubDate>Mon, 05 Nov 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%BC%82%E6%AD%A5%E5%9B%9E%E8%B0%83%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%9B%9E%E8%B0%83%E7%AD%96%E7%95%A5/</guid>
+      <description>一、背景 客户端请求Web服务架构中，一般有同步阻塞模型和异步回调两种模型。对于服务端耗时较长，例如音视频转码等重操作的服务，异步回调模型相比同步模型有许多的优势:
+ 不会阻塞客户端的请求线程，可以提高客户端的线程利用率。 服务端根据自身的处理能力进行处理，保证服务端的稳定性。不会由于峰值请求造成服务端过载。  但是，在异步回调模型中，由于多了一次回调的链路，会带来更多的可用性问题。因此，本文主要讨论在异步回调模型中，如何制定有效的回调策略来保证回调链路的成功率，并提高整个异步服务的可用性。
+二、异步回调模型 异步回调模型可以参考引用1中的描述，一般有以下两种细分模型：
+2.1 Asynchronous Web Service Using a Single Request Queue 2.2 Asynchronous Web Service Using a Request and a Response Queue 其中2.2的模型虽然更复杂，但可以有效的提高服务端的资源使用率。避免由于回调阻塞导致处理能力的下降。同时可以增加一些判重策略，防止回调服务出现故障时，由于客户端重试导致服务端重复处理的资源浪费。
+在分布式服务场景下，2.2 模型还可以细分为Inner Response Queue及outer Response Queue两种：
+ Inner Response Queue为每个服务端app使用内存队列作为Response Queue，由内部的线程作为Callback Client。 Outer Response Queue为使用统一的消息队列中间件作为Response Queue，另外部署一套Callback Client服务来处理这些Response。  Outer模型相比Inner模型部署结构较为复杂，但与处理结构完全解耦，可以针对回调做更多策略，同时可以防止由于处理app宕机造成的Response丢失（不过由于callback client以及消息中间件策略的问题，仍然会存在response丢失的风险）。
+以上各个模型各有优劣，应该根据业务场景选择合适的模型。
+三、回调策略 对于异步回调模型，callback service一般由业务方提供，无法对可用性做保证。因此callback client必须要制定一些策略尽量的应对callback service失败的情况。尤其是在一个callback client对应多个callback service的场景下，需要尽量防止由于某些service的问题，影响回调其他service的情况。
+Callback Service 失败场景： 1. client与service之间出现网络波动，甚至中断。 callback client请求service时，响应域名解析失败或者client请求超时。
+快速重试策略可以解决网络波动问题。轮询重试策略可以解决短时间中断问题。
+2. service超时。 callback service处理回调超时。这种情况除去网络问题，一般是由于service负载过高，或者设计存在问题导致。这种场景如果过度重试一般会造成service雪崩。解决的方案是周知业务方，由业务方对callback service进行排查。</description>
+    </item>
+    
+    <item>
+      <title>编译安装gcc5.3</title>
+      <link>https://yesphet.github.io/posts/%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85gcc5.3.0/</link>
+      <pubDate>Tue, 22 May 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85gcc5.3.0/</guid>
+      <description>安装命令 ## 准备安装到的目录 export GCC5.3.0_BASE=/usr/local/gcc5.3.0 ## install gmp4.3.2 wget ftp://gcc.gnu.org/pub/gcc/infrastructure/gmp-4.3.2.tar.bz2 tar jxvf gmp-4.3.2.tar.bz2 cd gmp-4.3.2 ./configure --prefix=$GCC5.3.0_BASE make &amp;amp;&amp;amp; make install ## install mptr wget ftp://gcc.gnu.org/pub/gcc/infrastructure/mpfr-2.4.2.tar.bz2 tar jxvf mpfr-2.4.2.tar.bz2 cd mpfr-2.4.2 ./configure --prefix=$GCC5.3.0_BASE --with-gmp=$GCC5.3.0_BASE make &amp;amp;&amp;amp; make install ## install wget ftp://gcc.gnu.org/pub/gcc/infrastructure/mpc-0.8.1.tar.gz tar xvzf mpc-0.8.1.tar.gz cd mpc-0.8.1 ./configure --prefix=$GCC5.3.0_BASE --with-gmp=$GCC5.3.0_BASE --with-mpfr=$GCC5.3.0_BASE make &amp;amp;&amp;amp; make install ## install gcc5.3.0 wget http://ftp.gnu.org/gnu/gcc/gcc-5.3.0/gcc-5.3.0.tar.gz tar xvzf gcc-5.3.0.tar.gz cd gcc-5.3.0 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$GCC5.3.0_BASE/lib ./configure --prefix=$GCC5.3.0_BASE --with-gmp=$GCC5.</description>
+    </item>
+    
+    <item>
+      <title>FFmpeg安装</title>
+      <link>https://yesphet.github.io/posts/ffmpeg%E5%AE%89%E8%A3%85/</link>
+      <pubDate>Wed, 11 Apr 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/ffmpeg%E5%AE%89%E8%A3%85/</guid>
+      <description>编译参数 export FF_BUILD=$HOME/ffmpeg3.4.1_build export FF_INCLUDE=$FF_BUILD/include export FF_LIB=$FF_BUILD/lib export FF_BIN=$FF_BUILD/bin export PATH=$FF_BIN:$PATH  fdk_aac cd /tmp/ffmpeg_source git clone --depth 1 git://git.code.sf.net/p/opencore-amr/fdk-aac cd fdk-aac autoreconf -fiv ./configure --prefix=&amp;quot;$FF_BUILD&amp;quot; --disable-shared make &amp;amp;&amp;amp; make install &amp;amp;&amp;amp; make distclean  libmp3lame cd /tmp/ffmpeg_source wget http://iweb.dl.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz tar zxf lame-3.99.5.tar.gz cd lame-3.99.5 ./configure --prefix=&amp;quot;$FF_BUILD&amp;quot; --bindir=&amp;quot;$FF_BIN&amp;quot; --enable-shared --enable-nasm make &amp;amp;&amp;amp; make install &amp;amp;&amp;amp; make distclean  yasm cd /tmp/ffmpeg_source git clone --depth 1 git://github.com/yasm/yasm.git cd yasm autoreconf -fiv .</description>
+    </item>
+    
+    <item>
+      <title>ImageMagick安装</title>
+      <link>https://yesphet.github.io/posts/imagemagick%E5%AE%89%E8%A3%85/</link>
+      <pubDate>Wed, 11 Apr 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/imagemagick%E5%AE%89%E8%A3%85/</guid>
+      <description>由于工作需求，一直有需要使用ImageMagick和FFmpeg等多媒体处理软件做一些简单的需求。这两个项目的依赖较多，且针对不同的需求，可能需要开启不同的功能，安装较为麻烦。因此在此做下一些相关安装的记录，避免之后的重复学习。
+Centos 1、直接安装 yum install imageMagick  很粗暴，但是由于yum源更新较慢，版本一般较低。所以不建议这种方式。
+2、源码安装 安装delegates yum install libjpg libjpg-devel libpng libpng libwebp libwebp-devel libxml2 libxml2-devel fontconfig fontconfig-devel libtiff libtiff-devel freetype freetype-devel zlib zlib-devel jasper jasper-devel   参考 官网文档
+ wget https://www.imagemagick.org/download/ImageMagick.tar.gz tar xvzf ImageMagick.tar.gz cd ImageMagick-7.0.7-28/ ./configure --enable-hdri make sudo make install sudo ldconfig /usr/local/lib convert -version  建议采用这种姿势，可以比较自用的配置安装项。
+Mac OS X 1、 brew安装 brew install imagemagick  也是简单粗暴，但brew源更新的速度就很快，一般都可以安装到近期的ImageMagick的版本。因此建议采用这种方式，省心。
+brew info imagemagick  也可以通过info查看安装选项，灰常方便。</description>
+    </item>
+    
+    <item>
+      <title>FFmpeg学习笔记</title>
+      <link>https://yesphet.github.io/posts/ffmpeg%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 12 Sep 2017 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/ffmpeg%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>查看视频信息 使用ffprobe
+ 文档： https://ffmpeg.org/ffprobe.html
+ 插入关键帧 -force_key_frames
+一般使用expr:expr方式来指定: &amp;gt; If the argument is prefixed with expr:, the string expr is interpreted like an expression and is evaluated for each frame. A key frame is forced in case the evaluation is non-zero.
+ 文档： https://ffmpeg.org/ffmpeg.html
+expr函数可以参考： https://ffmpeg.org/ffmpeg-all.html#Expression-Evaluation
+ 视频分割 ffmpeg -i 4M.mp4 -codec:v h264 -codec:a copy \ -force_key_frames &#39;expr:if(isnan(prev_forced_t),gte(t,0),gte(t,prev_forced_t+5))&#39; \ -f segment -segment_list test.ffcat -segment_times 5,10 -segment_time_delta 1 out%03d.ts   文档： https://ffmpeg.</description>
+    </item>
+    
+    <item>
+      <title>Tomcat7压测(2)</title>
+      <link>https://yesphet.github.io/posts/tomcat7%E5%8E%8B%E6%B5%8B2/</link>
+      <pubDate>Tue, 14 Feb 2017 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/tomcat7%E5%8E%8B%E6%B5%8B2/</guid>
+      <description>目的  本篇将请求的耗时调大，主要为了观察线程池及等待队列都满了的情况下，Tomcat的表现及反应。  初步压测描述 先描述下一开始进行这部分压测遇到的问题。首先根据Tomcat7官方文档描述：
+ Each incoming request requires a thread for the duration of that request. If more simultaneous requests are received than can be handled by the currently available request processing threads, additional threads will be created up to the configured maximum (the value of the maxThreads attribute). If still more simultaneous requests are received, they are stacked up inside the server socket created by the Connector, up to the configured maximum (the value of the acceptCount attribute).</description>
+    </item>
+    
+    <item>
+      <title>Tomcat7压测(1)</title>
+      <link>https://yesphet.github.io/posts/tomcat7%E5%8E%8B%E6%B5%8B1/</link>
+      <pubDate>Wed, 08 Feb 2017 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/tomcat7%E5%8E%8B%E6%B5%8B1/</guid>
+      <description>Tomcat7压测（一） 目的  目的主要有几点：
+ 了解空跑的TomcatQPS能达到多少 测试在Tomcat线程池，等待队列，最大连接数满了的情况下Tomcat的表现 通过压测暴露一些问题及对这些问题的解决 提升性能测试的姿势，算是一种锻炼吧  应该会分几个篇幅来分析，因为压测场景及数据比较多。
+ 本篇主要是最基础的测试，后续会对压测中发现的问题做一些解决
+  压测 场景           Tomcat配置 maxThreads=&amp;ldquo;300&amp;rdquo;
+minSpareThreads=&amp;ldquo;100&amp;rdquo;
+connectionTimeout=&amp;ldquo;8000&amp;rdquo;
+enableLookups=&amp;ldquo;false&amp;rdquo;
+acceptCount=&amp;ldquo;100&amp;rdquo;
+acceptorThreadCount=&amp;ldquo;1&amp;rdquo;    环境 Docker容器内    服务描述 当收到一个请求后，将处理该请求的线程sleep20ms,然后返回response。因为该服务本身几乎不占用任何系统资源，所以在CPU，Mem，IO上是不会产生瓶颈的（实际压测证实），且因为该场景下控制了每个请求的耗时，QPS不高，所以在网络IO上也不会产生瓶颈。因此会影响QPS的只有Tomcat线程池的参数和Tomcat的性能    服务耗时 20ms     数据(整理后)    序号 API TotalTime Requests per second Time per request Tomcat线程池线程数 描述     1 ab -c100 -n500000 -k http://172.</description>
+    </item>
+    
+    <item>
+      <title>Java·多线程·并发学习笔记</title>
+      <link>https://yesphet.github.io/posts/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Fri, 06 Jan 2017 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description> 进程和线程  进程(Process)是指一次程序的运行。对于单核CPU来说，同一时间只能执行一个进程。单核CPU实现多任务的方式一般是每个进程轮流执行，任务1执行0.01秒，然后切换到任务2。。。多核CPU则可以真正意义上实现多个任务并发执行，但当任务数大于CPU核数时，也是采取轮流执行的方法。进程之间是相互独立的。 线程(Thread)则是存在于进程之内，一个进程内可以拥有多个线程，多个线程共享该进程的一切资源。 协程(Coroutine)，埋个坑。在较新的语言中，比如go，对协程应用较广。  非线程安全和线程安全  非线程安全指多个线程对同一个资源进行操作时，可能导致值不同步的情况。 线程安全指不会出现非线程安全问题。。。 - . -  Java中的Thread 一、 多线程的实现方法  继承Thread，重写run方法。  public class MyThread extends Thread{ @Override public void run() { } } 执行线程： new MyThread().start();   实现Runnable，传给Thread构造  public class MyRunnable implements Runnable{ public void run() { //执行内容 } } 调用方法： new Thread(new MyRunnable()).start(); 或者使用jdk1.8的lambda表达式: new Thread(()-&amp;gt;{ //执行内容 }).start();  二、线程的停止  线程停止的方法
+   </description>
+    </item>
+    
+    <item>
+      <title>RFC3986</title>
+      <link>https://yesphet.github.io/posts/rfc3986/</link>
+      <pubDate>Tue, 15 Nov 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/rfc3986/</guid>
+      <description>预备知识  统一资源标识符（URI）
+RFC3986中文文档
+RFC3986英文文档
+ RFC3986编码与解码  保留字符
+Url可以划分成若干个组件，协议、主机、路径等。有一些字符（:/?#[]@）是用作分隔不同组件的。例如:冒号用于分隔协议和主机，/用于分隔主机和路径，?用于分隔路径和查询参数，等等。还有一些字符（!$&amp;amp;&amp;lsquo;()*+,;=）用于在每个组件中起到分隔作用的，如=用于表示查询参数中的键值对，&amp;amp;符号用于分隔查询多个键值对。当组件中的普通数据包含这些特殊字符时，需要对其进行编码。
+RFC3986中指定了以下字符为保留字符：
+! * &#39; ( ) ; : @ &amp;amp; = + $ , / ? # [ ]  不安全字符
+还有一些字符，当他们直接放在Url中的时候，可能会引起解析程序的歧义。这些字符被视为不安全字符，原因有很多。
+   符号 描述     空格 Url在传输的过程，或者用户在排版的过程，或者文本处理程序在处理Url的过程，都有可能引入无关紧要的空格，或者将那些有意义的空格给去掉   引号以及&amp;lt;&amp;gt; 引号和尖括号通常用于在普通文本中起到分隔Url的作用   # 通常用于表示书签或者锚点   % 百分号本身用作对不安全字符进行编码时使用的特殊字符，因此本身需要编码   {} \1`~ 某一些网关或者传输代理会篡改这些字符    对保留字符及不安全字符进行编码
+Url编码通常也被称为百分号编码（Url Encoding，also known as percent-encoding），是因为它的编码方式非常简单，使用%百分号加上两位的字符——0123456789ABCDEF——代表一个字节的十六进制形式。Url编码默认使用的字符集是US-ASCII。例如a在US-ASCII码中对应的字节是0x61，那么Url编码之后得到的就是%61，我们在地址栏上输入http://g.cn/search?q=%61%62%63，实际上就等同于在google上搜索abc了。又如@符号在ASCII字符集中对应的字节为0x40，经过Url编码之后得到的是%40。</description>
+    </item>
+    
+    <item>
+      <title>CPU：物理核与逻辑核</title>
+      <link>https://yesphet.github.io/posts/cpu%E7%89%A9%E7%90%86%E6%A0%B8%E4%B8%8E%E9%80%BB%E8%BE%91%E6%A0%B8/</link>
+      <pubDate>Fri, 04 Nov 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/cpu%E7%89%A9%E7%90%86%E6%A0%B8%E4%B8%8E%E9%80%BB%E8%BE%91%E6%A0%B8/</guid>
+      <description>一、物理CPU  物理CPU数是指实际Server中插槽上的CPU个数 物理核数是指一个CPU上的物理核心数。 每个CPU上有一到多个物理核 物理总核数=物理CPU个数 X 每个物理CPU的核数  二、逻辑CPU  逻辑CPU是指处理器单元，它可以在与其它逻辑CPU并行执行。 一般所说的CPU核数是指逻辑CPU数。 总逻辑CPU数 = 物理CPU个数 X 每颗物理CPU的核数 X 超线程数 如果采用了Intel的超线程技术（HT)，则上面公式的超线程数=2。即总逻辑CPU数为物理总核数的两倍  三、如何查看CPU信息 #Linux #查看CPU信息 cat /proc/cpuinfo #OUTPUT: #processor : 0 逻辑核ID #vendor_id : GenuineIntel #cpu family : 6 #model : 45 #model name : Intel(R) Xeon(R) CPU E5-2660 0 @ 2.20GHz #stepping : #cpu MHz : 2200.000 #cache size : 20480 KB #physical id : 0 物理CPU的编号 #siblings : 2 所在物理CPU有几个逻辑核 #core id : 0 物理核编号 #cpu cores : 2 所在物理CPU有几个物理核 #apicid : 0 #initial apicid : 0 #fpu : yes #fpu_exception : yes #cpuid level : 13 #wp : yes #flags : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts xtopology tsc_reliable nonstop_tsc aperfmperf unfair_spinlock pni pclmulqdq ssse3 cx16 sse4_1 sse4_2 popcnt aes xsave avx hypervisor lahf_lm ida arat xsaveopt pln pts dts #bogomips : 4400.</description>
+    </item>
+    
+    <item>
+      <title>监控系统状态的指令</title>
+      <link>https://yesphet.github.io/posts/%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81%E7%9A%84%E6%8C%87%E4%BB%A4/</link>
+      <pubDate>Fri, 04 Nov 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81%E7%9A%84%E6%8C%87%E4%BB%A4/</guid>
+      <description>有标系统名称的为该系统特有
+#查看系统运行时间、用户数、负载 $ uptime 16:20:43 up 50 days, 1:50, 1 user, load average: 0.00, 0.00, 0.00 #监控当前进程及简单系统状态,包括cpu占用，内存占用，load, $ top #查看load及活动用户 $ w #查看硬盘使用情况 $ df -h #查看所有监听端口 $ netstat -lntp #查看IO负载 $ iostat ######Linux##### #查看内存状态，-m，-k, -b可以指定单位 $ free #查看网卡信息，需要root权限 $ ethtool DEVNAME ######OS X###### #其实OS X直接打开自带的活动监视器，一目了然。。。  </description>
+    </item>
+    
+    <item>
+      <title>Unix目录结构</title>
+      <link>https://yesphet.github.io/posts/unix%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/</link>
+      <pubDate>Sun, 25 Sep 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/unix%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/</guid>
+      <description> 参考：linux目录结构详解
+ 在大多数linux系统中使用命令 man hier就可以查看系统自带的目录结构介绍。
+ / :根目录
+ /boot ：引导程序，内核等存放的目录。
+ 这个目录，包括了在引导过程中所必需的文件，引导程序的相关文件（例如grub，lilo以及相应的配置文件）以及Linux操作系统内核相关文件（例如vmlinuz）等一般都存放在这里。在最开始的启动阶段，通过引导程序将内核加载到内存，完成内核的启动，这个时候，虚拟文件系统还不存在，加载的内核虽然是从硬盘读取的，但是没经过Linux的虚拟文件系统，这是比较底层的东西来实现的。然后内核自己创建好虚拟文件系统，并且从虚拟文件系统的其他子目录中（例如/sbin 和 /etc）加载需要在开机启动的其他程序或者服务或者特定的动作。如果我们的机器中包含多个操作系统，那么可以通过修改这个目录中的某个配置文件（例如grub.conf）来调整启动的默认操作系统，系统启动的选择菜单，以及启动延迟等参数。
+ /bin ：普通用户可以使用的命令的存放目录
+ 系统所需要的那些命令位于此目录，比如ls、cp、mkdir等命令；类似的目录还/usr/bin，/usr/local/bin等等。这个目录中的文件都是可执行的、普通用户都可以使用的命令。作为基础系统所需要的最基础的命令就是放在这里。
+ /sbin ：超级用户可以使用的命令的存放目录
+ 存放大多涉及系统管理的命令（例如引导系统的init程序），是超级权限用户root的可执行命令存放地，普通用户无权限执行这个目录下的命令（但是时普通用户也可能会用到）。这个目录和/usr/sbin; /usr/X11R6/sbin或/usr/local/sbin等目录是相似的，我们要记住，凡是目录sbin中包含的都是root权限才能执行的，这样就行了。
+ /lib ：/bin/和/sbin/中二进制文件必要的库文件。
+ 此目录下包含系统引导和在根用户执行命令时候所必需用到的共享库。类似的目录还有/usr/lib，/usr/local/lib等等。
+ /dev ：设备文件目录。
+ 在Linux中设备都是以文件形式出现，这里的设备可以是硬盘，键盘，鼠标，网卡，终端，等设备，通过访问这些文件可以访问到相应的设备。设备文件可以使用mknod命令来创建，具体参见相应的命令；而为了将对这些设备文件的访问转化为对设备的访问，需要向相应的设备提供设备驱动模块（一般将设备驱动编译之后，生成的结果是一个*.ko类型的二进制文件，在内核启动之后，再通过insmod等命令加载相应的设备驱动之后，我们就可以通过设备文件来访问设备了）。一般来说，想要Linux系统支持某个设备，只要个东西：相应的硬件设备，支持硬件的驱动模块，以及相应的设备文件。
+ /etc ：全局的配置文件存放目录。
+ 系统和程序一般都可以通过修改相应的配置文件，来进行配置。例如，要配置系统开机的时候启动那些程序，配置某个程序启动的时候显示什么样的风格等等。通常这些配置文件都集中存放在/etc目录中，所以想要配置什么东西的话，可以在/etc下面寻找我们可能需要修改的文件。一些大型套件，如X11，在 /etc 下它们自己的子目录。系统配置文件可以放在这里或在 /usr/etc。 不过所有程序总是在 /etc 目录下查找所需的配置文件，你也可以将这些文件链接到目录 /usr/etc。另外，还有一个需要注意的常见现象就是，当某个程序在某个用户下运行的时候，可能会在该用户的家目录中生成一个配置文件（一般这个文件最开始就是/etc下相应配置文件的拷贝，存放相应于“当前用户”的配置，这样当前用户可以通过配置这个家目录的配置文件，来改变程序的行为，并且这个行为只是该用户特有的。原因就是：一般来说一个程序启动，如果需要读取一些配置文件的话，它会首先读取当前用户家目录的配置文件，如果存在就使用；如果不存在它就到/etc下读取全局的配置文件进而启动程序。就是这个配置文件不自动生成，我们手动在自己的家目录中创建一个文件的话，也有许多程序会首先读取到这个家目录的文件并且以它的配置作为启动的选项（例如我们可以在家目录中创建vim程序的配置文件.vimrc，来配置自己的vim程序）。
+ /home ：普通用户的家目录
+ 在Linux机器上，用户主目录通常直接或间接地置在此目录下。其结构通常由本地机的管理员来决定。
+ /root ：用户root的$HOME目录
+ 系统管理员(就是root用户或超级用户)的主目录比较特殊，不存放在/home中，而是直接放在/root目录下了。
+ /usr ：默认软件都会存于该目录下。包含绝大多数的(多)用户工具和应用程序。
+ 其地位类似Windows上面的”Program Files”目录。
+ /var ：变量文件——在正常运行的系统中其内容不断变化的文件，如日志，脱机文件和临时电子邮件文件。
+   </description>
+    </item>
+    
+    <item>
+      <title>单元测试测什么</title>
+      <link>https://yesphet.github.io/posts/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%B5%8B%E4%BB%80%E4%B9%88/</link>
+      <pubDate>Thu, 22 Sep 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%B5%8B%E4%BB%80%E4%B9%88/</guid>
+      <description>I get paid for code that works, not for tests, so my philosophy is to test as little as possible to reach a given level of confidence (I suspect this level of confidence is high compared to industry standards, but that could just be hubris). If I don’t typically make a kind of mistake (like setting the wrong variables in a constructor), I don’t test for it. I do tend to make sense of test errors, so I’m extra careful when I have logic with complicated conditionals.</description>
+    </item>
+    
+    <item>
+      <title>Shell下批量导入导出数据库</title>
+      <link>https://yesphet.github.io/posts/shell%E4%B8%8B%E6%89%B9%E9%87%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+      <pubDate>Wed, 24 Aug 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/shell%E4%B8%8B%E6%89%B9%E9%87%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%BA%93/</guid>
+      <description>带mysql&amp;gt;前缀的命令为mysql命令
+  导出所有库
+mysqldump -uusername -ppassword --all-databases &amp;gt; all.sql
+ 导入所有库
+mysql&amp;gt;source all.sql;
+ 导出某些库
+mysqldump -uusername -ppassword --databases db1 db2 &amp;gt; db1db2.sql
+ 导入某些库
+mysql&amp;gt;source db1db2.sql;
+ 导入某个库
+mysql -uusername -ppassword db1 &amp;lt; db1.sql;  或
+mysql&amp;gt;source db1.sql;  导出某些数据表
+mysqldump -uusername -ppassword db1 table1 table2 &amp;gt; tb1tb2.sql  导入某些数据表
+mysql -uusername -ppassword db1 &amp;lt; tb1tb2.sql  或
+mysql&amp;gt; use db1; source tb1tb2.sql;  只导表结构
+mysqldump --opt -d -uusername -ppassword db1 table1 table2 &amp;gt; tb1tb2.</description>
+    </item>
+    
+    <item>
+      <title>Windows下的shell脚本传到Linux下无法执行</title>
+      <link>https://yesphet.github.io/posts/windows%E4%B8%8B%E7%9A%84shell%E8%84%9A%E6%9C%AC%E4%BC%A0%E5%88%B0linux%E4%B8%8B%E6%97%A0%E6%B3%95%E6%89%A7%E8%A1%8C/</link>
+      <pubDate>Wed, 24 Aug 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/windows%E4%B8%8B%E7%9A%84shell%E8%84%9A%E6%9C%AC%E4%BC%A0%E5%88%B0linux%E4%B8%8B%E6%97%A0%E6%B3%95%E6%89%A7%E8%A1%8C/</guid>
+      <description>原因：windos下的.sh文件格式为dos格式。而linux只能执行格式为unix格式的脚本 解决办法：
+ 用vi或vim打开文件 执行set ff指令查看文件的格式，应该为fileformat=dos 修改format为unix。执行set ff=unix或 set fileformat=unix wq保存退出  </description>
+    </item>
+    
+    <item>
+      <title>Cookie和Session的区别</title>
+      <link>https://yesphet.github.io/posts/cookie%E5%92%8Csession%E7%9A%84%E5%8C%BA%E5%88%AB/</link>
+      <pubDate>Mon, 18 Jul 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/cookie%E5%92%8Csession%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
+      <description>cookie保存在客户端本地，session保存在服务器 cookie的不安全性，可以通过修改本地的cookie进行cookie欺骗 当服务器的访问量很大的时候，session会占用较多的服务器性能 单个cookie保存的数据大小上限是4K  SessionID，用于服务器标识Session，服务器通过客户端发来的SessionID检索客户端对应的Session。SessionID一般放在Cookie中进行传递和保存。当Cookie被禁止时，还可以通过URL重写（将SessionID直接附加在URL地址后面），或者表单隐藏字段（服务器自动修改表单，添加一个隐藏字段，在表单提交时就能够把SessionID传递回服务器）来传递SessionID。</description>
+    </item>
+    
+    <item>
+      <title>Put和Post的区别</title>
+      <link>https://yesphet.github.io/posts/put%E5%92%8Cpost%E7%9A%84%E5%8C%BA%E5%88%AB/</link>
+      <pubDate>Fri, 15 Jul 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/put%E5%92%8Cpost%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
+      <description> 首先，两者都能实现更新资源的功能。
+ 区别：
+ Post不是幂等（idempotent）的
+对于一个接口，每次提交相同的动作，其产生的结果是不一致的，则使用post。比如一个减少100余额的接口，调用一次减少100，调用两次减少200，则使用Post。
+ Put是幂等的
+对于一个接口，每次提交相同的动作，其产生的结果一致，则使用put。比如一个修改文件名的接口，只要提交的文件名相同，调用多少次都产生相同的结果，则使用put。 Html4.0只支持post和get，所以使用post去完成put和delete的操作。因此针对PC端一般考虑post和get请求。 但在支持html5的客户端则需要考虑post,get,put和delete
+   </description>
+    </item>
+    
+    <item>
+      <title>RESTful 设计风格</title>
+      <link>https://yesphet.github.io/posts/restful-%E8%AE%BE%E8%AE%A1%E9%A3%8E%E6%A0%BC/</link>
+      <pubDate>Tue, 12 Jul 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/restful-%E8%AE%BE%E8%AE%A1%E9%A3%8E%E6%A0%BC/</guid>
+      <description> REST(Representational State Transfer) REST 指的是一组架构约束条件和原则。满足这些约束条件和原则的应用程序或设计就是 RESTful。 网络上的实体，都可以称为“资源”，比如网上的一张图片，一段视频。而每个“资源”，都应该有一个URI（统一资源定位符）与其对应，这个URI即该资源在网络上的唯一标识符。 “资源”是实体，可以有多种表现形式，就像一段文本可以是txt、html、json等形式表现出来，这些形式称之为表现层。 客户端如果想要操作服务器，即通过某种手段让服务器上的“资源”发生“状态转换（State Transfer）”，而这种转化是建立在“资源”的表现层上的，因此称之为 REST(Representational State Transfer)。 客户端的手段就是HTTP协议。通过HTTP的四个动词：get,post,put,delete让服务器上的资源发生状态转化。
+ 综合上面的解释，我们总结一下什么是RESTful架构
+ 每一个URI代表一种资源; 客户端和服务器之间，传递这种资源的某种表现层; 客户端通过四个HTTP动词，对服务器端资源进行操作，实现&amp;rdquo;表现层状态转化&amp;rdquo;。   </description>
+    </item>
     
   </channel>
 </rss>

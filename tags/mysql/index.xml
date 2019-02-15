@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mysql on Yesphet</title>
+    <link>https://yesphet.github.io/tags/mysql/</link>
+    <description>Recent content in Mysql on Yesphet</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 24 Aug 2016 00:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://yesphet.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Shell下批量导入导出数据库</title>
+      <link>https://yesphet.github.io/posts/shell%E4%B8%8B%E6%89%B9%E9%87%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+      <pubDate>Wed, 24 Aug 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/shell%E4%B8%8B%E6%89%B9%E9%87%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%BA%93/</guid>
+      <description>带mysql&amp;gt;前缀的命令为mysql命令
+  导出所有库
+mysqldump -uusername -ppassword --all-databases &amp;gt; all.sql
+ 导入所有库
+mysql&amp;gt;source all.sql;
+ 导出某些库
+mysqldump -uusername -ppassword --databases db1 db2 &amp;gt; db1db2.sql
+ 导入某些库
+mysql&amp;gt;source db1db2.sql;
+ 导入某个库
+mysql -uusername -ppassword db1 &amp;lt; db1.sql;  或
+mysql&amp;gt;source db1.sql;  导出某些数据表
+mysqldump -uusername -ppassword db1 table1 table2 &amp;gt; tb1tb2.sql  导入某些数据表
+mysql -uusername -ppassword db1 &amp;lt; tb1tb2.sql  或
+mysql&amp;gt; use db1; source tb1tb2.sql;  只导表结构
+mysqldump --opt -d -uusername -ppassword db1 table1 table2 &amp;gt; tb1tb2.</description>
+    </item>
+    
+  </channel>
+</rss>

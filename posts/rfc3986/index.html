@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<!-- _default/single.html -->
+<html lang="en-us">
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Yesphet">
+<meta name="description" content="No seek, no find">
+<meta name="generator" content="Hugo 0.54.0" />
+
+<title>RFC3986</title>
+
+<!-- Favicon -->
+<link rel="shortcut icon" href="https://yesphet.github.io/favicon.ico">
+<!-- Bootstrap Core CSS -->
+<link rel="stylesheet" href="https://yesphet.github.io/css/bootstrap.min.css" type="text/css">
+<!-- Custom Fonts -->
+<link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://yesphet.github.io/font-awesome-5/css/all.min.css" type="text/css">
+
+<!-- Plugin CSS -->
+<link rel="stylesheet" href="https://yesphet.github.io/css/animate.min.css" type="text/css">
+<!-- Custom CSS -->
+<link rel="stylesheet" href="https://yesphet.github.io/css/creative.css" type="text/css">
+<link rel="stylesheet" href="https://yesphet.github.io/css/modals.css" type="text/css">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+
+        <link rel="stylesheet" href="https://yesphet.github.io/css/post.css" type="text/css">
+    </head>
+
+    <body>
+
+        <!-- NAVIGATION -->
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+                <a class="navbar-brand page-scroll" href="https://yesphet.github.io/#page-top">Yesphet</a>
+            
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+
+        <!-- HEADER -->
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/7.webp)">
+    <div class="header-content">
+        <div class="header-content-inner">
+            
+                <h1>RFC3986</h1>
+            
+            <hr>
+
+            
+
+            <div class="text-center">
+                <ul class="list-inline item-details">
+                
+                    <li>
+                        <strong>Tuesday,  Nov 15,  2016</strong>
+                    </li>
+                
+                
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+        <section class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <article class="post-body">
+
+                        
+                            <h3 id="预备知识">预备知识</h3>
+
+<blockquote>
+<p><a href="https://zh.wikipedia.org/wiki/%E7%BB%9F%E4%B8%80%E8%B5%84%E6%BA%90%E6%A0%87%E5%BF%97%E7%AC%A6">统一资源标识符（URI）</a></p>
+
+<p><a href="http://wiki.jabbercn.org/RFC3986">RFC3986中文文档</a></p>
+
+<p><a href="https://tools.ietf.org/html/rfc3986">RFC3986英文文档</a></p>
+</blockquote>
+
+<h3 id="rfc3986编码与解码">RFC3986编码与解码</h3>
+
+<p><ul>
+<li><p>保留字符</p></p>
+
+<p>Url可以划分成若干个组件，协议、主机、路径等。有一些字符（:/?#[]@）是用作分隔不同组件的。例如:冒号用于分隔协议和主机，/用于分隔主机和路径，?用于分隔路径和查询参数，等等。还有一些字符（!$&amp;&lsquo;()*+,;=）用于在每个组件中起到分隔作用的，如=用于表示查询参数中的键值对，&amp;符号用于分隔查询多个键值对。当组件中的普通数据包含这些特殊字符时，需要对其进行编码。</p>
+
+<p>RFC3986中指定了以下字符为保留字符：</p>
+
+<p><pre><code>! * &lsquo; ( ) ; : @ &amp; = + $ , / ? # [ ]
+</code></pre></li></p>
+
+<p><li><p>不安全字符</p></p>
+
+<p>还有一些字符，当他们直接放在Url中的时候，可能会引起解析程序的歧义。这些字符被视为不安全字符，原因有很多。</p>
+
+<p><table>
+<thead>
+<tr>
+<th align="left">符号</th>
+<th>描述</th>
+</tr>
+</thead></p>
+
+<p><tbody>
+<tr>
+<td align="left">空格</td>
+<td>Url在传输的过程，或者用户在排版的过程，或者文本处理程序在处理Url的过程，都有可能引入无关紧要的空格，或者将那些有意义的空格给去掉</td>
+</tr></p>
+
+<p><tr>
+<td align="left">引号以及&lt;&gt;</td>
+<td>引号和尖括号通常用于在普通文本中起到分隔Url的作用</td>
+</tr></p>
+
+<p><tr>
+<td align="left">#</td>
+<td>通常用于表示书签或者锚点</td>
+</tr></p>
+
+<p><tr>
+<td align="left">%</td>
+<td>百分号本身用作对不安全字符进行编码时使用的特殊字符，因此本身需要编码</td>
+</tr></p>
+
+<p><tr>
+<td align="left">{}</td>
+<td>&lt;sup class=&ldquo;footnote-ref&rdquo; id=&ldquo;fnref:footnote-1&rdquo;&gt;<a href="#fn:footnote-1">1</a></sup>`~   某一些网关或者传输代理会篡改这些字符</td>
+</tr>
+</tbody>
+</table></li></p>
+
+<p><li><p>对保留字符及不安全字符进行编码</p></p>
+
+<p>Url编码通常也被称为百分号编码（Url Encoding，also known as percent-encoding），是因为它的编码方式非常简单，使用%百分号加上两位的字符——0123456789ABCDEF——代表一个字节的十六进制形式。Url编码默认使用的字符集是US-ASCII。例如a在US-ASCII码中对应的字节是0x61，那么Url编码之后得到的就是%61，我们在地址栏上输入<a href="http://g.cn/search?q=%61%62%63，实际上就等同于在google上搜索abc了。又如@符号在ASCII字符集中对应的字节为0x40，经过Url编码之后得到的是%40。">http://g.cn/search?q=%61%62%63，实际上就等同于在google上搜索abc了。又如@符号在ASCII字符集中对应的字节为0x40，经过Url编码之后得到的是%40。</a></p>
+
+<p><table>
+<thead>
+<tr>
+<th>!</th>
+<th>*</th>
+<th>&ldquo;</th>
+<th>&lsquo;</th>
+<th>(</th>
+<th>)</th>
+<th>;</th>
+<th>:</th>
+<th>@</th>
+<th>&amp;</th>
+</tr>
+</thead></p>
+
+<p><tbody>
+<tr>
+<td>%21</td>
+<td>%2A</td>
+<td>%22</td>
+<td>%27</td>
+<td>%28</td>
+<td>%29</td>
+<td>%3B</td>
+<td>%3A</td>
+<td>%40</td>
+<td>%26</td>
+</tr></p>
+
+<p><tr>
+<td>=</td>
+<td>+</td>
+<td>$</td>
+<td>,</td>
+<td>/</td>
+<td>?</td>
+<td>%</td>
+<td>#</td>
+<td>[</td>
+<td>]</td>
+</tr></p>
+
+<p><tr>
+<td>%3D</td>
+<td>%2B</td>
+<td>%24</td>
+<td>%2C</td>
+<td>%2F</td>
+<td>%3F</td>
+<td>%25</td>
+<td>%23</td>
+<td>%5B</td>
+<td>%5D</td>
+</tr>
+</tbody>
+</table></li></p>
+
+<p><li><p>题外</p></p>
+
+<p><p>现在有许多资源链接都是采用标准URI格式，许多都是根据RFC3986的规定。比如mysql,redis等服务。像这些服务一般是将username和password放在URI的userInfo中，此时如果username或者password带有保留字符比如@就很尴尬了。这时候应该使用RFC3986的字符编码进行替换。我也是因为这个原因才会有这篇文章。</p></li>
+</ul>
+<div class="footnotes"></p>
+
+<hr />
+
+<p><ol>
+<li id="fn:footnote-1"> <a class="footnote-return" href="#fnref:footnote-1"><sup>[return]</sup></a></li>
+</ol>
+</div></p>
+
+                        
+
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <div class="text-center">
+            <button class="back-button btn btn-default" role="button" onclick="window.history.go(-1)">back</button>
+        </div>
+
+        <footer class="footerbox">
+    <div class="row">
+        <div class="copyright col-lg-8 col-lg-offset-2 text-right">
+            <span>© 2019 Powered by <a href="http://gohugo.io">Hugo</a></span>
+            |
+            <span>By <a href="#">Yesphet</a></span>
+        </div>
+    </div>
+</footer>
+
+
+        <!-- jQuery -->
+<script src="https://yesphet.github.io/js/jquery.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="https://yesphet.github.io/js/bootstrap.min.js"></script>
+<!-- Plugin JavaScript -->
+<script src="https://yesphet.github.io/js/jquery.easing.min.js"></script>
+<script src="https://yesphet.github.io/js/jquery.fittext.js"></script>
+<script src="https://yesphet.github.io/js/wow.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="https://yesphet.github.io/js/creative.js"></script>
+
+        
+        
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-134542736-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+    </body>
+
+</html>

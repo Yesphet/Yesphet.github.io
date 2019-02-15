@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tool on Yesphet</title>
+    <link>https://yesphet.github.io/categories/tool/</link>
+    <description>Recent content in Tool on Yesphet</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 22 May 2018 00:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://yesphet.github.io/categories/tool/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>编译安装gcc5.3</title>
+      <link>https://yesphet.github.io/posts/%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85gcc5.3.0/</link>
+      <pubDate>Tue, 22 May 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85gcc5.3.0/</guid>
+      <description>安装命令 ## 准备安装到的目录 export GCC5.3.0_BASE=/usr/local/gcc5.3.0 ## install gmp4.3.2 wget ftp://gcc.gnu.org/pub/gcc/infrastructure/gmp-4.3.2.tar.bz2 tar jxvf gmp-4.3.2.tar.bz2 cd gmp-4.3.2 ./configure --prefix=$GCC5.3.0_BASE make &amp;amp;&amp;amp; make install ## install mptr wget ftp://gcc.gnu.org/pub/gcc/infrastructure/mpfr-2.4.2.tar.bz2 tar jxvf mpfr-2.4.2.tar.bz2 cd mpfr-2.4.2 ./configure --prefix=$GCC5.3.0_BASE --with-gmp=$GCC5.3.0_BASE make &amp;amp;&amp;amp; make install ## install wget ftp://gcc.gnu.org/pub/gcc/infrastructure/mpc-0.8.1.tar.gz tar xvzf mpc-0.8.1.tar.gz cd mpc-0.8.1 ./configure --prefix=$GCC5.3.0_BASE --with-gmp=$GCC5.3.0_BASE --with-mpfr=$GCC5.3.0_BASE make &amp;amp;&amp;amp; make install ## install gcc5.3.0 wget http://ftp.gnu.org/gnu/gcc/gcc-5.3.0/gcc-5.3.0.tar.gz tar xvzf gcc-5.3.0.tar.gz cd gcc-5.3.0 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$GCC5.3.0_BASE/lib ./configure --prefix=$GCC5.3.0_BASE --with-gmp=$GCC5.</description>
+    </item>
+    
+    <item>
+      <title>FFmpeg安装</title>
+      <link>https://yesphet.github.io/posts/ffmpeg%E5%AE%89%E8%A3%85/</link>
+      <pubDate>Wed, 11 Apr 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/ffmpeg%E5%AE%89%E8%A3%85/</guid>
+      <description>编译参数 export FF_BUILD=$HOME/ffmpeg3.4.1_build export FF_INCLUDE=$FF_BUILD/include export FF_LIB=$FF_BUILD/lib export FF_BIN=$FF_BUILD/bin export PATH=$FF_BIN:$PATH  fdk_aac cd /tmp/ffmpeg_source git clone --depth 1 git://git.code.sf.net/p/opencore-amr/fdk-aac cd fdk-aac autoreconf -fiv ./configure --prefix=&amp;quot;$FF_BUILD&amp;quot; --disable-shared make &amp;amp;&amp;amp; make install &amp;amp;&amp;amp; make distclean  libmp3lame cd /tmp/ffmpeg_source wget http://iweb.dl.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz tar zxf lame-3.99.5.tar.gz cd lame-3.99.5 ./configure --prefix=&amp;quot;$FF_BUILD&amp;quot; --bindir=&amp;quot;$FF_BIN&amp;quot; --enable-shared --enable-nasm make &amp;amp;&amp;amp; make install &amp;amp;&amp;amp; make distclean  yasm cd /tmp/ffmpeg_source git clone --depth 1 git://github.com/yasm/yasm.git cd yasm autoreconf -fiv .</description>
+    </item>
+    
+    <item>
+      <title>ImageMagick安装</title>
+      <link>https://yesphet.github.io/posts/imagemagick%E5%AE%89%E8%A3%85/</link>
+      <pubDate>Wed, 11 Apr 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/imagemagick%E5%AE%89%E8%A3%85/</guid>
+      <description>由于工作需求，一直有需要使用ImageMagick和FFmpeg等多媒体处理软件做一些简单的需求。这两个项目的依赖较多，且针对不同的需求，可能需要开启不同的功能，安装较为麻烦。因此在此做下一些相关安装的记录，避免之后的重复学习。
+Centos 1、直接安装 yum install imageMagick  很粗暴，但是由于yum源更新较慢，版本一般较低。所以不建议这种方式。
+2、源码安装 安装delegates yum install libjpg libjpg-devel libpng libpng libwebp libwebp-devel libxml2 libxml2-devel fontconfig fontconfig-devel libtiff libtiff-devel freetype freetype-devel zlib zlib-devel jasper jasper-devel   参考 官网文档
+ wget https://www.imagemagick.org/download/ImageMagick.tar.gz tar xvzf ImageMagick.tar.gz cd ImageMagick-7.0.7-28/ ./configure --enable-hdri make sudo make install sudo ldconfig /usr/local/lib convert -version  建议采用这种姿势，可以比较自用的配置安装项。
+Mac OS X 1、 brew安装 brew install imagemagick  也是简单粗暴，但brew源更新的速度就很快，一般都可以安装到近期的ImageMagick的版本。因此建议采用这种方式，省心。
+brew info imagemagick  也可以通过info查看安装选项，灰常方便。</description>
+    </item>
+    
+    <item>
+      <title>监控系统状态的指令</title>
+      <link>https://yesphet.github.io/posts/%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81%E7%9A%84%E6%8C%87%E4%BB%A4/</link>
+      <pubDate>Fri, 04 Nov 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81%E7%9A%84%E6%8C%87%E4%BB%A4/</guid>
+      <description>有标系统名称的为该系统特有
+#查看系统运行时间、用户数、负载 $ uptime 16:20:43 up 50 days, 1:50, 1 user, load average: 0.00, 0.00, 0.00 #监控当前进程及简单系统状态,包括cpu占用，内存占用，load, $ top #查看load及活动用户 $ w #查看硬盘使用情况 $ df -h #查看所有监听端口 $ netstat -lntp #查看IO负载 $ iostat ######Linux##### #查看内存状态，-m，-k, -b可以指定单位 $ free #查看网卡信息，需要root权限 $ ethtool DEVNAME ######OS X###### #其实OS X直接打开自带的活动监视器，一目了然。。。  </description>
+    </item>
+    
+    <item>
+      <title>Shell下批量导入导出数据库</title>
+      <link>https://yesphet.github.io/posts/shell%E4%B8%8B%E6%89%B9%E9%87%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+      <pubDate>Wed, 24 Aug 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/shell%E4%B8%8B%E6%89%B9%E9%87%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%BA%93/</guid>
+      <description>带mysql&amp;gt;前缀的命令为mysql命令
+  导出所有库
+mysqldump -uusername -ppassword --all-databases &amp;gt; all.sql
+ 导入所有库
+mysql&amp;gt;source all.sql;
+ 导出某些库
+mysqldump -uusername -ppassword --databases db1 db2 &amp;gt; db1db2.sql
+ 导入某些库
+mysql&amp;gt;source db1db2.sql;
+ 导入某个库
+mysql -uusername -ppassword db1 &amp;lt; db1.sql;  或
+mysql&amp;gt;source db1.sql;  导出某些数据表
+mysqldump -uusername -ppassword db1 table1 table2 &amp;gt; tb1tb2.sql  导入某些数据表
+mysql -uusername -ppassword db1 &amp;lt; tb1tb2.sql  或
+mysql&amp;gt; use db1; source tb1tb2.sql;  只导表结构
+mysqldump --opt -d -uusername -ppassword db1 table1 table2 &amp;gt; tb1tb2.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Code on Yesphet</title>
+    <link>https://yesphet.github.io/tags/code/</link>
+    <description>Recent content in Code on Yesphet</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 22 Sep 2016 00:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://yesphet.github.io/tags/code/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>单元测试测什么</title>
+      <link>https://yesphet.github.io/posts/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%B5%8B%E4%BB%80%E4%B9%88/</link>
+      <pubDate>Thu, 22 Sep 2016 00:00:00 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%B5%8B%E4%BB%80%E4%B9%88/</guid>
+      <description>I get paid for code that works, not for tests, so my philosophy is to test as little as possible to reach a given level of confidence (I suspect this level of confidence is high compared to industry standards, but that could just be hubris). If I don’t typically make a kind of mistake (like setting the wrong variables in a constructor), I don’t test for it. I do tend to make sense of test errors, so I’m extra careful when I have logic with complicated conditionals.</description>
+    </item>
+    
+  </channel>
+</rss>
