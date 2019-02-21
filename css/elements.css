@@ -1,7 +1,19 @@
 
+.post-container {
+    padding-top:  61px;
+}
+
 .post-body *{
 	width: 100%;
 	line-height: 1.5em;
+}
+
+.post-prop {
+    padding:10px;
+}
+
+.post-prop-value {
+    margin: 0 5px; 
 }
 
 .back-button {
