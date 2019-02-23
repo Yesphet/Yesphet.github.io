@@ -13,6 +13,11 @@
   </url>
   
   <url>
+    <loc>https://yesphet.github.io/posts/%E9%80%82%E7%94%A8%E4%BA%8E%E5%A4%9A%E5%AA%92%E4%BD%93%E4%BA%91%E5%A4%84%E7%90%86%E7%9A%84faas%E5%AE%9E%E7%8E%B0/</loc>
+    <lastmod>2018-06-21T15:17:43+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://yesphet.github.io/posts/%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85gcc5.3.0/</loc>
     <lastmod>2018-05-22T00:00:00+08:00</lastmod>
   </url>
@@ -112,6 +117,12 @@
   <url>
     <loc>https://yesphet.github.io/tags/code/</loc>
     <lastmod>2016-09-22T00:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://yesphet.github.io/tags/faas/</loc>
+    <lastmod>2018-06-21T15:17:43+08:00</lastmod>
     <priority>0</priority>
   </url>
   
