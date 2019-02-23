@@ -16,6 +16,10 @@
     margin: 0 5px; 
 }
 
+.post-icon {
+    width: auto;
+}
+
 .back-button {
 	width: auto;
 	font-size: 14px;
