@@ -10,7 +10,7 @@
 <meta name="description" content="No seek, no find">
 <meta name="generator" content="Hugo 0.54.0" />
 
-<title>Serverless and Faas</title>
+<title>HowToRead</title>
 
 <!-- Favicon -->
 <link rel="shortcut icon" href="https://yesphet.github.io/captain-america.png">
@@ -74,11 +74,11 @@
 
 
         <!-- HEADER -->
-<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/9.webp)">
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/1.webp)">
     <div class="header-content">
         <div class="header-content-inner">
             
-                <h1>Serverless and Faas</h1>
+                <h1>HowToRead</h1>
             
             <hr>
 
@@ -88,7 +88,7 @@
                 <ul class="list-inline item-details">
                 
                     <li>
-                        <strong>Thursday,  Feb 21,  2019</strong>
+                        <strong>Friday,  Jul 12,  2019</strong>
                     </li>
                 
                 
@@ -106,19 +106,11 @@
                         
                         <li>Categories:
                              
-                                <strong class="post-prop-value"><a href="https://yesphet.github.io/categories/article">Article</a></strong>
+                                <strong class="post-prop-value"><a href="https://yesphet.github.io/categories/record">Record</a></strong>
                             
                         </li>
                         
 
-                        
-                        <li>Tags:
-                             
-                                <strong class="post-prop-value"><a href="#">Faas</a></strong>
-                             
-                                <strong class="post-prop-value"><a href="#">Serverless</a></strong>
-                            
-                        </li>
                         
 
                        
@@ -126,74 +118,75 @@
                     <article class="post-body markdown-body">
 
                         
-                            <h2 id="一-serverless-faas">一、Serverless/Faas</h2>
+                            <h2 id="how-to-read-a-paper">How to Read a Paper</h2>
 
-<p>什么是Serverless？在云时代，简单的说就是<strong>服务器对开发者是透明的</strong> 。当然并不仅是这么简单，只是我认为在还不能完全做到服务器对开发者透明的时候，探讨Severless更多的含义是没有太大意义的。因为无论是什么技术的出现，其目的都是为了提高生产效率。在计算机领域，提高生产效率的方式有很多种，降低程序员的心智负担，降低开发门槛是其中非常重要的一种，毕竟现在还是以人为本的时代。而Severless很重要的一个能力便是极大极大地减轻开发人员的负担，更简单的说便是极大地减少每一个项目的代码量。</p>
+<blockquote>
+<p><a href="https://web.stanford.edu/class/ee384m/Handouts/HowtoReadPaper.pdf">How to Read a Paper</a></p>
+</blockquote>
 
-<p>作为一个菜鸡，我没有资格探讨什么计算机的前世今生。但就像汇编语言让机器语言变成透明，高级语言让汇编语言变成透明一样，Serverless可以让服务器逐渐变得透明。服务端开发人员不再必须明白操作系统、计算机网络等底层内容就能够很好地开发维护和使用一个服务，就像现在的程序员已经不再必须明白电路信号就能开始写代码一样。</p>
+<h3 id="三步阅读法-three-pass-approach">三步阅读法 （Three-pass approach）</h3>
 
-<p>这是我认知的Serverless，但我一直还觉得Serverless远不只于此。</p>
+<h4 id="第一步-first-pass">第一步（first-pass）</h4>
 
-<p>那什么是Function as a Service（Faas）呢，我认同Faas是Serverless的一种实现。通过Faas，开发人员只需要专注于业务代码，不需要去关心服务器环境之类，自然服务器对开发者就是透明的。当然Serverless还有许多其他的实现，例如云存储（AWS的S3/阿里云的OSS）就是Serverless在存储系统上的一种实现。</p>
-
-<p>有了Faas，程序员开发上线一个Hello World服务，就真的只要在代码里写下Hello World，就有了Hello World这个服务了。不需要关心服务器在哪里，怎么配置搭建环境，怎么打包发布。甚至当你写了Hello World这些代码发布成服务后，你不需要任何操作就可以直接获得这个服务的监控，比如多少访问QPS、成功率多少、响应时间多少，当成功率低于多少时你便会收到报警。这些所有的配套设施Faas都帮你做了，这就是Faas的魅力，是非常切实地在提升生产效率。</p>
-
-<p>在物理机时代，只有优秀的程序员，可以掌握从设计到架构，从开发到上线，可以精准地定位解决问题，不单是程序的，还包括各个层面导致的问题。而通过Faas，不那么优秀的程序员，也可以做到和优秀程序员一样的事了。这是一本秘籍，一本化繁为简的秘籍。不需要那么多的架构设计，我只需要关注并设计好这个小小的Function，没有那么多问题需要排查了，就这几十几百行的代码能有多少问题呢？Faas平台有缺陷，有漏洞？那是Faas维护者的事，反馈就完事了。就像现在有多少程序员能真的帮忙解决修复操作系统的缺陷呢？而优秀的程序员，也不再需要被业务缠身，轻松完成开发上线，从而有更多的精力投身更多的建设。</p>
-
-<p>当然，现在的Faas已经远不止我说的这些。它还有许多优秀的特性，我们继续分析。</p>
-
-<h2 id="二-faas的特性">二、Faas的特性</h2>
-
-<p>现在，Faas已经从边缘走向了中心，越来越频繁地出现在技术人员的视线中。其具有最明显的优势是：</p>
+<p>快速浏览整篇论文，同时决定是否需要继续阅读该文章。这一步一般花费5-10分钟完成以下事情：</p>
 
 <ul>
-<li>按需计算</li>
-<li>简化开发</li>
-<li>事件驱动</li>
-<li>小巧灵活</li>
+<li>仔细阅读标题、摘要和介绍</li>
+<li>阅读章节和子章节的标题，忽略其他内容</li>
+<li>阅读结论</li>
+<li>浏览引用，在心中标出你已经阅读过原文的引用。</li>
 </ul>
 
-<h4 id="2-1-按需计算">2.1 按需计算</h4>
+<p>在完成第一步后，你需要能回答以下五个内容：</p>
 
-<p>Faas是真正的按需计算，这些计算任务需要多少资源，就给你多少资源。</p>
+<ul>
+<li>分类（Category）： 这篇论文的类型是什么？</li>
+<li>上下文 （Context）：这篇论文有哪些关联的其他论文？这篇论文使用了哪些理论依据来分析问题？</li>
+<li>正确性（Correctness）：论文中的假想是否成立？</li>
+<li>贡献（Contributions）：论文的主要贡献？</li>
+<li>澄清（Clarify）：论文是否写的好？</li>
+</ul>
 
-<p>在离线任务的场景下，这很好实现，因为一开始我就知道有多少计算任务，需要多少计算资源。但在在线任务场景下呢？谁也不知道下一个流量峰刺什么时候到来。在物理机时代，大家只能按照经验准备足够的物理机冗余。在云主机时代，也需要提前扩容VPS，这些不得不的冗余虽然一定程度保障了服务的安全，但同时也造成了资源的浪费，这是资源等待请求的模式。而Faas，通过毫秒级别的冷启动时间，并不需要提前启动好资源等待请求。而是可以等请求到来的时候，让请求等待资源启动，然后进行计算，计算完成后释放计算资源。这是请求等待资源的模式，是完全按需的。这个等待时间是极短的。可能有些业务场景容忍不了这额外带来的毫秒级别的等待，但faas依然可以通过极少的资源冗余和<strong>弹性伸缩</strong>去解决这些等待时间，让请求几乎无感知等待耗时。</p>
+<p>根据这些内容，你可以选择是否继续阅读。</p>
 
-<p>弹性伸缩便是通过各项指标，来预测资源冗余是否充足或过多，从而提前自动扩容缩容。这些指标简单可以是CPU使用率、Load值、内存使用率等资源指标，但这样的指标其实已经稍微偏离了业务，并不能达到非常准确的预测。更高级地可以通过业务QPS的增长率等贴近业务的指标来作为判断依据，更为准确，也更专注于业务。</p>
+<h4 id="第二步-second-pass">第二步 （second-pass）</h4>
 
-<p>通过这种真正的按需计算，也可以真正达到<code>cost-efficient，high utilization</code>的目标。</p>
+<p>第二步，仔细阅读论文，但是忽略一些例如证明的细节。阅读的时候对关键点做一些笔记或在边缘做一些评论是会有帮助的。</p>
 
-<h4 id="2-2-简化开发">2.2 简化开发</h4>
+<ul>
+<li>仔细阅读论文中的图形、图表和插图。尤其关注曲线图，轴线是否有恰当的标签？结果是否标记错误，导致结论有统计显著性（statistically significant）? 这些常见的错误可以用来区分论文是赶工的还是真正优秀的</li>
+<li>记得标注未曾读过的引用，在之后进行阅读。这可以很好的帮助学习这篇论文相关的背景。</li>
+</ul>
 
-<p>如第一部分说的，在Faas下，开发人员只需要专注在业务代码中，编程模型得到了极大的简化。除此之外，还将很多事情<code>让渡</code>给了云。例如2.1中说的弹性伸缩，其实在物理机、云主机模式下也可以实现，但在这些模式下，不够干净的隔离，只会给开发人员带来更多的心智负担。Faas还为开发人员完成许多想做但又可能没有精力做的事情，例如完善的监控于报警系统等等。</p>
+<p>第二步花费一个小时。在这一步之后，你需要能理解这篇论文的内容，并能总结文章的主旨用来向其他人证明。对于你感兴趣的论文，此时你的理解程度已经可以满足，但对于你的专业研究，此时的理解还不足够。<br />
+有时你完成第二步后仍然无法理解这篇论文。这可能是因为你对论文的主题比较陌生，对论文中的术语、缩写不熟悉。或者作者使用了一些你不明白的证明或试验技术，导致文章的大部分内容难以理解。或者论文不严谨的使用未证实的定理或者指向大量的引用。或者可能只是时间太晚你觉得疲倦了。这个时候，你可以选择：</p>
 
-<h4 id="2-3-事件驱动">2.3 事件驱动</h4>
+<ul>
+<li>把这篇论文放在一边，祈祷在你的职业中不需要理解这些材料。</li>
+<li>在阅读相关的背景材料之后再回来阅读这篇论文。</li>
+<li>坚持进行第三步</li>
+</ul>
 
-<p>现在很多Faas实现的协议都是遵循事件驱动的。也就是除了普通的Http请求、消费消息队列，还有许多的方式去触发计算，例如文件上传到云存储，可以自动触发内容识别、审核、分类的Function。这也简化许多业务的流程。</p>
+<h4 id="第三步-third-pass">第三步（third-pass）</h4>
 
-<h4 id="2-4-小巧灵活">2.4 小巧灵活</h4>
+<p>为了完整理解一篇论文，尤其当你是审稿员时，需要进行第三步。第三步的关键是在虚拟中尝试重新实现这篇论文：和作者做同样的假设，重新构建工作。 通过对比你的重构和原文，你可以轻易的验证文章的创新，发现其中隐藏的缺点和假想。<br />
+这一步需要花费很多的注意力在细节上。你需要验证和质疑每一段话中的每个假想。除此之外，你需要思考你自己会提出什么样特别的观点。这种实际和虚拟的对比给予你对论文中的证明和技术强烈的洞察力，你可以轻易的把这些加入你的工具储备。在这一步中，你同样需要记下每一个观点用于以后的工作。<br />
+这一步对于初学者会占用大概四到五个小时，对于有经验的读者只需要大约一个小时。在这一步的最后，你需要可以在记忆中重建这篇论文的结构，同时也可以验证它的优缺点。特别的，你需要能精确的指出其中暗藏的假设，缺少的引用，和实验技术中潜在的问题。</p>
 
-<p>在Faas下，期望的是能做到足够的解耦，每个Function都足够的小，因此能运行在许许多多的计算资源上。通常情况下我们认知的计算资源就是服务器，但其实除了专用服务器，还有很多很多计算资源没有被好好利用。例如CDN的边缘节点、IoT中许多空闲的智能设备。Faas为利用这些资源带来了可能，因为一定有足够小的Function，小到可以用这些轻量设备就完成计算。并且这些设备协议通常也都遵循事件驱动的方式。这也是边缘计算的可能。</p>
+<h3 id="文献调研">文献调研</h3>
 
-<h2 id="三-faas的实现">三、Faas的实现</h2>
+<p>论文阅读技巧可以在文献调研中得到检验。文献调研需要你阅读数十篇论文，可能是在你不熟悉的领域。那么你需要阅读哪些论文呢？</p>
 
-<p>目前开源的Faas项目已经有许多，其中我较为熟悉的是fission、kubeless，可以参考<a href="../适用于多媒体云处理的faas实现/#二-前期调研">适用于多媒体云处理的faas实现</a>。</p>
+<p>首先，通过学术搜索引擎例如Google Scholar或者CiteSeer和一些精选的关键词，找到3-5篇该领域最新的论文。先对每一篇文章完成第一步（first-pass）来获得对该领域一个初步的认识，然后阅读这些论文相关的章节。你会找到一个对于该领域大概的总结。如果你足够幸运，可能可以找到一个该领域的调查报告，阅读该调查报告即可。</p>
 
-<p>//TODO  补充Faas的实现思路</p>
+<p>然后，在这些论文的参考文献列表中，找到相同的引用文献和重复的作者名字。这些是该领域的关键论文和研究者。下载这些文献放在一旁。然后到这些研究者的网站中看看他们最近在那些地方做了发表。这可以帮助你确认这个领域最顶级的会议。因为最好的研究者经常会在顶级会议做发表。</p>
 
-<h2 id="四-相关资料">四、相关资料</h2>
-
-<ol>
-<li><a href="http://jolestar.com/serverless-faas-current-status-and-future/">Serverless/FaaS 的现状和未来</a></li>
-<li><a href="https://arxiv.org/pdf/1708.08028.pdf">Report from workshop and panel on the Status of Serverless Computing and Function-as-a-Service(FaaS) in Industry and Research</a></li>
-<li><a href="https://www.infoq.cn/article/faas-cloud-2.0">FaaS 如何在云 2.0 时代发挥优势，又将走向何方？</a></li>
-<li><a href="http://serverless.ink/#%E4%BB%80%E4%B9%88%E6%98%AF-serverless-%E6%9E%B6%E6%9E%84">Serverless 应用开发指南</a></li>
-</ol>
+<p>最后，到这些顶级会议的网站中查看他们最近的进程。快速的浏览可以帮助确认该领域最新相关的高质量成果。这些成果连同之前下载的文献，可以组成你第一个版本的调研。然后通过第二步（second-pass）阅读这些文章。如果这些文章都引用了相同的你之前没有找到的文献，那么就获取并阅读该文献，以此迭代。</p>
 
                         
 
                         <hr>
-                        <a href="https://yesphet.github.io/posts/faas-serverless/"><i class="fa fa-fingerprint post-icon"></i>  本文地址</a>
+                        <a href="https://yesphet.github.io/posts/how-to-read/"><i class="fa fa-fingerprint post-icon"></i>  本文地址</a>
 
                     </article>
                 </div>
