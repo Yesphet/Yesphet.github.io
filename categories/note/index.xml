@@ -17,7 +17,9 @@
       <pubDate>Tue, 13 Nov 2018 00:00:00 +0800</pubDate>
       
       <guid>https://yesphet.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AF%86%E9%9B%86%E5%9E%8B%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2%E4%BA%8Ek8s%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/</guid>
-      <description>一、背景 二、知识点 2.1 k8s中容器资源的分配与管理  request 与 limit  2.2 docker中，使用cgroup进行资源隔离  cpuset  三、参考 NUMA架构的CPU &amp;ndash; 你真的用好了么？
+      <description>一、背景 二、知识点 2.1 k8s中容器资源的分配与管理  request 与 limit  //TODO
+2.2 docker中，使用cgroup进行资源隔离  cpuset  //TODO
+三、参考 NUMA架构的CPU &amp;ndash; 你真的用好了么？
 Control CPU Management Policies on the Node - Kubernetes</description>
     </item>
     

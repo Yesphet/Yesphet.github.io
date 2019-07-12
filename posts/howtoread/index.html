@@ -10,7 +10,7 @@
 <meta name="description" content="No seek, no find">
 <meta name="generator" content="Hugo 0.54.0" />
 
-<title>Put和Post的区别</title>
+<title>HowToRead</title>
 
 <!-- Favicon -->
 <link rel="shortcut icon" href="https://yesphet.github.io/captain-america.png">
@@ -74,11 +74,11 @@
 
 
         <!-- HEADER -->
-<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/3.webp)">
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/5.webp)">
     <div class="header-content">
         <div class="header-content-inner">
             
-                <h1>Put和Post的区别</h1>
+                <h1>HowToRead</h1>
             
             <hr>
 
@@ -88,7 +88,7 @@
                 <ul class="list-inline item-details">
                 
                     <li>
-                        <strong>Friday,  Jul 15,  2016</strong>
+                        <strong>Friday,  Jul 12,  2019</strong>
                     </li>
                 
                 
@@ -112,40 +112,81 @@
                         
 
                         
-                        <li>Tags:
-                             
-                                <strong class="post-prop-value"><a href="#">Http</a></strong>
-                            
-                        </li>
-                        
 
                        
                     </ul>
                     <article class="post-body markdown-body">
 
                         
-                            <ul>
-<li><p>首先，两者都能实现更新资源的功能。</p></li>
+                            <h2 id="how-to-read-a-paper">How to Read a Paper</h2>
 
-<li><p>区别：</p>
+<blockquote>
+<p><a href="https://web.stanford.edu/class/ee384m/Handouts/HowtoReadPaper.pdf">How to Read a Paper</a></p>
+</blockquote>
+
+<h3 id="三步阅读法-three-pass-approach">三步阅读法 （Three-pass approach）</h3>
+
+<h4 id="第一步-first-pass">第一步（first-pass）</h4>
+
+<p>快速浏览整篇论文，同时决定是否需要继续阅读该文章。这一步一般花费5-10分钟完成以下事情：</p>
 
 <ul>
-<li><p>Post不是幂等（idempotent）的</p>
-
-<p>对于一个接口，每次提交相同的动作，其产生的结果是不一致的，则使用post。比如一个减少100余额的接口，调用一次减少100，调用两次减少200，则使用Post。</p></li>
-
-<li><p>Put是幂等的</p>
-
-<p>对于一个接口，每次提交相同的动作，其产生的结果一致，则使用put。比如一个修改文件名的接口，只要提交的文件名相同，调用多少次都产生相同的结果，则使用put。
-Html4.0只支持post和get，所以使用post去完成put和delete的操作。因此针对PC端一般考虑post和get请求。
-但在支持html5的客户端则需要考虑post,get,put和delete</p></li>
-</ul></li>
+<li>仔细阅读标题、摘要和介绍</li>
+<li>阅读章节和子章节的标题，忽略其他内容</li>
+<li>阅读结论</li>
+<li>浏览引用，在心中标出你已经阅读过原文的引用。</li>
 </ul>
+
+<p>在完成第一步后，你需要能回答以下五个内容：</p>
+
+<ul>
+<li>分类（Category）： 这篇论文的类型是什么？</li>
+<li>上下文 （Context）：这篇论文有哪些关联的其他论文？这篇论文使用了哪些理论依据来分析问题？</li>
+<li>正确性（Correctness）：论文中的假想是否成立？</li>
+<li>贡献（Contributions）：论文的主要贡献？</li>
+<li>澄清（Clarify）：论文是否写的好？</li>
+</ul>
+
+<p>根据这些内容，你可以选择是否继续阅读。</p>
+
+<h4 id="第二步-second-pass">第二步 （second-pass）</h4>
+
+<p>第二步，仔细阅读论文，但是忽略一些例如证明的细节。阅读的时候对关键点做一些笔记或在边缘做一些评论是会有帮助的。</p>
+
+<ul>
+<li>仔细阅读论文中的图形、图表和插图。尤其关注曲线图，轴线是否有恰当的标签？结果是否标记错误，导致结论有统计显著性（statistically significant）? 这些常见的错误可以用来区分论文是赶工的还是真正优秀的</li>
+<li>记得标注未曾读过的引用，在之后进行阅读。这可以很好的帮助学习这篇论文相关的背景。</li>
+</ul>
+
+<p>第二步花费一个小时。在这一步之后，你需要能理解这篇论文的内容，并能总结文章的主旨用来向其他人证明。对于你感兴趣的论文，此时你的理解程度已经可以满足，但对于你的专业研究，此时的理解还不足够。<br />
+有时你完成第二步后仍然无法理解这篇论文。这可能是因为你对论文的主题比较陌生，对论文中的术语、缩写不熟悉。或者作者使用了一些你不明白的证明或试验技术，导致文章的大部分内容难以理解。或者论文不严谨的使用未证实的定理或者指向大量的引用。或者可能只是时间太晚你觉得疲倦了。这个时候，你可以选择：</p>
+
+<ul>
+<li>把这篇论文放在一边，祈祷在你的职业中不需要理解这些材料。</li>
+<li>在阅读相关的背景材料之后再回来阅读这篇论文。</li>
+<li>坚持进行第三步</li>
+</ul>
+
+<h4 id="第三步-third-pass">第三步（third-pass）</h4>
+
+<p>为了完整理解一篇论文，尤其当你是审稿员时，需要进行第三步。第三步的关键是在虚拟中尝试重新实现这篇论文：和作者做同样的假设，重新构建工作。 通过对比你的重构和原文，你可以轻易的验证文章的创新，发现其中隐藏的缺点和假想。<br />
+这一步需要花费很多的注意力在细节上。你需要验证和质疑每一段话中的每个假想。除此之外，你需要思考你自己会提出什么样特别的观点。这种实际和虚拟的对比给予你对论文中的证明和技术强烈的洞察力，你可以轻易的把这些加入你的工具储备。在这一步中，你同样需要记下每一个观点用于以后的工作。<br />
+这一步对于初学者会占用大概四到五个小时，对于有经验的读者只需要大约一个小时。在这一步的最后，你需要可以在记忆中重建这篇论文的结构，同时也可以验证它的优缺点。特别的，你需要能精确的指出其中暗藏的假设，缺少的引用，和实验技术中潜在的问题。</p>
+
+<h3 id="文献调研">文献调研</h3>
+
+<p>论文阅读技巧可以在文献调研中得到检验。文献调研需要你阅读数十篇论文，可能是在你不熟悉的领域。那么你需要阅读哪些论文呢？</p>
+
+<p>首先，通过学术搜索引擎例如Google Scholar或者CiteSeer和一些精选的关键词，找到3-5篇该领域最新的论文。先对每一篇文章完成第一步（first-pass）来获得对该领域一个初步的认识，然后阅读这些论文相关的章节。你会找到一个对于该领域大概的总结。如果你足够幸运，可能可以找到一个该领域的调查报告，阅读该调查报告即可。</p>
+
+<p>然后，在这些论文的参考文献列表中，找到相同的引用文献和重复的作者名字。这些是该领域的关键论文和研究者。下载这些文献放在一旁。然后到这些研究者的网站中看看他们最近在那些地方做了发表。这可以帮助你确认这个领域最顶级的会议。因为最好的研究者经常会在顶级会议做发表。</p>
+
+<p>最后，到这些顶级会议的网站中查看他们最近的进程。快速的浏览可以帮助确认该领域最新相关的高质量成果。这些成果连同之前下载的文献，可以组成你第一个版本的调研。然后通过第二步（second-pass）阅读这些文章。如果这些文章都引用了相同的你之前没有找到的文献，那么就获取并阅读该文献，以此迭代。</p>
 
                         
 
                         <hr>
-                        <a href="https://yesphet.github.io/posts/put%E5%92%8Cpost%E7%9A%84%E5%8C%BA%E5%88%AB/"><i class="fa fa-fingerprint post-icon"></i>  本文地址</a>
+                        <a href="https://yesphet.github.io/posts/howtoread/"><i class="fa fa-fingerprint post-icon"></i>  本文地址</a>
 
                     </article>
                 </div>
