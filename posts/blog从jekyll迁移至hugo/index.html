@@ -10,7 +10,7 @@
 <meta name="description" content="No seek, no find">
 <meta name="generator" content="Hugo 0.54.0" />
 
-<title>单元测试测什么</title>
+<title>Blog从Jekyll迁移至Hugo</title>
 
 <!-- Favicon -->
 <link rel="shortcut icon" href="https://yesphet.github.io/captain-america.png">
@@ -74,11 +74,11 @@
 
 
         <!-- HEADER -->
-<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/4.webp)">
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/9.webp)">
     <div class="header-content">
         <div class="header-content-inner">
             
-                <h1>单元测试测什么</h1>
+                <h1>Blog从Jekyll迁移至Hugo</h1>
             
             <hr>
 
@@ -88,7 +88,7 @@
                 <ul class="list-inline item-details">
                 
                     <li>
-                        <strong>Thursday,  Sep 22,  2016</strong>
+                        <strong>Tuesday,  Feb 19,  2019</strong>
                     </li>
                 
                 
@@ -106,7 +106,7 @@
                         
                         <li>Categories:
                              
-                                <strong class="post-prop-value"><a href="https://yesphet.github.io/categories/thinking">Thinking</a></strong>
+                                <strong class="post-prop-value"><a href="https://yesphet.github.io/categories/note">Note</a></strong>
                             
                         </li>
                         
@@ -114,7 +114,7 @@
                         
                         <li>Tags:
                              
-                                <strong class="post-prop-value"><a href="#">Code</a></strong>
+                                <strong class="post-prop-value"><a href="#">hugo</a></strong>
                             
                         </li>
                         
@@ -124,21 +124,94 @@
                     <article class="post-body markdown-body">
 
                         
-                            <blockquote>
-<p>I get paid for code that works, not for tests, so my philosophy is to test as little as possible to reach a given level of confidence (I suspect this level of confidence is high compared to industry standards, but that could just be hubris). If I don’t typically make a kind of mistake (like setting the wrong variables in a constructor), I don’t test for it. I do tend to make sense of test errors, so I’m extra careful when I have logic with complicated conditionals. When coding on a team, I modify my strategy to carefully test code that we, collectively, tend to get wrong.</p>
-</blockquote>
+                            <h2 id="一-背景">一、背景</h2>
+
+<p>很久没有更新博客了，年后打算重新收拾一下。之前使用的是Jekyll，但是依赖管理什么的实在是太麻烦了，因此打算更换一个框架。刚好了解到Hugo是用Golang写的，所以就准备将博客从Jekyll迁移到Hugo。
+现在迁移基本完成了，过程还是踩了蛮多坑的，所以顺便写一篇记录一下，防止以后要改改改的时候又重新踩坑。</p>
+
+<h2 id="二-方案">二、方案</h2>
+
+<p>这次使用的hugo版本是：</p>
+
+<pre><code>Hugo Static Site Generator v0.54.0/extended darwin/amd64 BuildDate: unknown
+</code></pre>
+
+<p>安装姿势随便搜一下就有了。</p>
+
+<h4 id="2-1-直接使用hugo-cli工具">2.1 直接使用hugo cli工具</h4>
+
+<pre><code class="language-shell">➜  hugo import --help
+Import your site from other web site generators like Jekyll.
+
+Import requires a subcommand, e.g. `hugo import jekyll jekyll_root_path target_path`.
+
+Usage:
+  hugo import [command]
+
+Available Commands:
+  jekyll      hugo import from Jekyll
+
+Flags:
+  -h, --help   help for import
+
+Global Flags:
+      --config string      config file (default is path/config.yaml|json|toml)
+      --configDir string   config dir (default &quot;config&quot;)
+      --debug              debug output
+      --log                enable Logging
+      --logFile string     log File path (if set, logging enabled automatically)
+      --quiet              build in quiet mode
+  -v, --verbose            verbose output
+      --verboseLog         verbose logging
+
+Use &quot;hugo import [command] --help&quot; for more information about a command.
+</code></pre>
+
+<p>试了一下没有成功，没有深究，因为之前的样式也看的有点倦了，想重新换套样式，所以就保留了post部分，其他的则用Hugo重新构建了一套。</p>
+
+<h3 id="2-2-使用hugo生成静态网站">2.2 使用Hugo生成静态网站</h3>
+
+<p>Hugo的官方文档已经写的非常的详细，如果想要自己DIY一些组件和样式的话，建议还是撸一遍文档，内容没有很多，我这种英语渣花半个下午可以简单浏览一遍，后面再边做边查，效果不错。</p>
+
+<p><a href="https://gohugo.io/getting-started/">Get Start Hugo ➜ </a></p>
+
+<h2 id="三-过程">三、过程</h2>
+
+<h3 id="3-1-选择一套主题">3.1 选择一套主题</h3>
+
+<p>自己从零开始做一套主题有点不靠谱，因此第一件事就是选择一个主题 <a href="https://themes.gohugo.io/">Themes ➜</a>。<br />
+在下选择的是 <a href="https://themes.gohugo.io/creative/">Creative</a>，是个公司主页模板，只有单页，但是设计风格我很喜欢，而且基本风格有了，自己加上其他页也比较简单。这是我fork后调整成个人主页的主题：<a href="https://github.com/Yesphet/hugo-creative-theme">hugo-creative-theme</a></p>
+
+<h3 id="3-2-编写一些自定义界面-修改一些样式">3.2 编写一些自定义界面，修改一些样式</h3>
+
+<p>改一改主页之后，然后就是增加自己需要的一些页面。主要包括：</p>
 
 <ul>
-<li>开发过程中，单元测试应该来测试哪些可能会出错的地方和边界条件</li>
-<li>维护过程中，单元测试应该跟着bug report走，对于每一个bug都应该有个UT，用以保证相同的bug不会再出现</li>
-<li>不要被教条束缚</li>
-<li>对于一个方法，单元测试只应该关注输入和输出的对应情况</li>
+<li>Post 页面，单篇文章页面。使用<a href="https://gohugo.io/templates/single-page-templates/">Single Page Template</a>实现。</li>
+<li>Post 列表页面，文章列表页面。使用<a href="https://gohugo.io/templates/lists/">List Page Template</a>实现。</li>
+<li>Category 及 Tag页面，文章分类页面。使用 <a href="https://gohugo.io/templates/taxonomy-templates/">Taxonomy Templates</a>实现。</li>
 </ul>
+
+<h3 id="3-3-增加category分类">3.3 增加category分类</h3>
+
+<p>这边使用的是<a href="https://gohugo.io/templates/taxonomy-templates/">Taxonomy Template</a> 来实现的文章自动分类。只要在文章的Front Matter中添加<code>categories</code>和<code>tags</code>参数，就可以实现自动分类。</p>
+
+<p>但是过程中遇到一个大坑，就是我希望在taxonomy中增加自定义的一些meta信息，官方文档中的建议是： <a href="https://gohugo.io/content-management/taxonomies/#add-custom-metadata-to-a-taxonomy-term">Add custom metadata to a Taxonomy Term</a>，这种方式有很大的问题。根据官方文档中的例子，这样会导致 <code>/actors/bruce-willis</code>这个页面有两种解析方案，一种是taxonomy list template，另一种是single page template，问题出在于hugo会两种方式各解析一次，但是顺序是随机的，并且只有第一次解析生效。因此当先使用 single page template去解析的时候，就会获取不到 <code>.Pages</code> 等参数，这个时候页面的展示就会不符合预期。</p>
+
+<p>解决的方案是使用<a href="https://gohugo.io/templates/data-templates/">Data Template</a>来增加自定义meta，然后使用 <code>$.Site.Data</code>来获取参数。</p>
+
+<h3 id="3-4-增加自定义的markdown渲染">3.4 增加自定义的markdown渲染</h3>
+
+<p>这个比较简单，网上找一个markdown的渲染css文件，将其保存到<code>/static</code>目录下，然后用<code>&lt;link&gt;</code> 标签引入该css文件，然后在post中 <code>{{ .Content }}</code>的父元素中增加对应的class。我这边使用的是github的渲染风格：<a href="https://github.com/sindresorhus/github-markdown-css">https://github.com/sindresorhus/github-markdown-css</a></p>
+
+<h3 id="3-5-增加catelog侧边栏">3.5 增加catelog侧边栏</h3>
+
+<p>TODO</p>
 
                         
 
                         <hr>
-                        <a href="https://yesphet.github.io/posts/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%B5%8B%E4%BB%80%E4%B9%88/"><i class="fa fa-fingerprint post-icon"></i>  本文地址</a>
+                        <a href="https://yesphet.github.io/posts/blog%E4%BB%8Ejekyll%E8%BF%81%E7%A7%BB%E8%87%B3hugo/"><i class="fa fa-fingerprint post-icon"></i>  本文地址</a>
 
                     </article>
                 </div>

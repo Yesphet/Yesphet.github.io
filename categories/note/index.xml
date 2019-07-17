@@ -6,10 +6,22 @@
     <description>Recent content in Note on Yesphet</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 13 Nov 2018 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 19 Feb 2019 17:55:49 +0800</lastBuildDate>
     
 	<atom:link href="https://yesphet.github.io/categories/note/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Blog从Jekyll迁移至Hugo</title>
+      <link>https://yesphet.github.io/posts/blog%E4%BB%8Ejekyll%E8%BF%81%E7%A7%BB%E8%87%B3hugo/</link>
+      <pubDate>Tue, 19 Feb 2019 17:55:49 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/blog%E4%BB%8Ejekyll%E8%BF%81%E7%A7%BB%E8%87%B3hugo/</guid>
+      <description>一、背景 很久没有更新博客了，年后打算重新收拾一下。之前使用的是Jekyll，但是依赖管理什么的实在是太麻烦了，因此打算更换一个框架。刚好了解到Hugo是用Golang写的，所以就准备将博客从Jekyll迁移到Hugo。 现在迁移基本完成了，过程还是踩了蛮多坑的，所以顺便写一篇记录一下，防止以后要改改改的时候又重新踩坑。
+二、方案 这次使用的hugo版本是：
+Hugo Static Site Generator v0.54.0/extended darwin/amd64 BuildDate: unknown  安装姿势随便搜一下就有了。
+2.1 直接使用hugo cli工具 ➜ hugo import --help Import your site from other web site generators like Jekyll. Import requires a subcommand, e.g. `hugo import jekyll jekyll_root_path target_path`. Usage: hugo import [command] Available Commands: jekyll hugo import from Jekyll Flags: -h, --help help for import Global Flags: --config string config file (default is path/config.yaml|json|toml) --configDir string config dir (default &amp;quot;config&amp;quot;) --debug debug output --log enable Logging --logFile string log File path (if set, logging enabled automatically) --quiet build in quiet mode -v, --verbose verbose output --verboseLog verbose logging Use &amp;quot;hugo import [command] --help&amp;quot; for more information about a command.</description>
+    </item>
     
     <item>
       <title>计算密集型服务部署于k8s压力测试总结</title>
