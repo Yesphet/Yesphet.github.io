@@ -6,10 +6,40 @@
     <description>Recent content in 文章列表 on Yesphet</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 12 Jul 2019 10:37:47 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 19 Mar 2020 18:05:51 +0800</lastBuildDate>
     
 	<atom:link href="https://yesphet.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Linux内核版本及发行版版本介绍</title>
+      <link>https://yesphet.github.io/posts/linux%E5%86%85%E6%A0%B8%E7%89%88%E6%9C%AC%E5%8F%8A%E5%8F%91%E8%A1%8C%E7%89%88%E7%89%88%E6%9C%AC%E4%BB%8B%E7%BB%8D/</link>
+      <pubDate>Thu, 19 Mar 2020 18:05:51 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/linux%E5%86%85%E6%A0%B8%E7%89%88%E6%9C%AC%E5%8F%8A%E5%8F%91%E8%A1%8C%E7%89%88%E7%89%88%E6%9C%AC%E4%BB%8B%E7%BB%8D/</guid>
+      <description>前段时间在排查一个TCP丢包没有重传的问题，最后定位到是由于线上机器内核存在问题导致的。排查期间发现对于Linux内核版本、CentOS版本等各种版本有点傻傻分不清楚，因此今天整理一下。
+Linux 内核介绍 Linux 内核介绍直接参考 WIKI
+Linux 内核版本命名规范经历过三次调整。3.0 以前的版本号规范历史可以参考 Linux Kernel Version Numbering 这篇。从3.0之后，版本号的格式都是 x.y.z，并没有遵循 Semantic Versioning ，查阅了一些资料感觉并没有什么固定的版本号规范，不过这也不重要就是了，只需要从Linux官网 https://kernel.org/ 查询最新的版本即可，在官网中：
+ mainline 表示主线版本 stable 表示稳定版，由mainline在实际成熟时发布 longterm （Long Term Support, LTS）长期支持版，当不再支持时会标记EOL（End Of Life）  需要注意的是从 2.6 之后，好像就不再有偶数表示稳定版，奇数表示测试版的说法了。
+那最重要的呢就是我们需要知道我们当前环境使用的内核版本，可以直接通过以下方式查看。
+查看完整的内核版本信息 ➜ uname -a Linux matrix-cloud-storage-pro-97338-8gu60 3.10.0-957.21.3.el7.x86_64 #1 SMP Tue Jun 18 16:35:19 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux ➜ cat /proc/version Linux version 3.10.0-957.21.3.el7.x86_64 (mockbuild@kbuilder.bsys.centos.org) (gcc version 4.8.5 20150623 (Red Hat 4.</description>
+    </item>
+    
+    <item>
+      <title>TCP丢包不重传问题排查</title>
+      <link>https://yesphet.github.io/posts/tcp%E4%B8%A2%E5%8C%85%E4%B8%8D%E9%87%8D%E4%BC%A0%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</link>
+      <pubDate>Thu, 19 Mar 2020 14:59:19 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/tcp%E4%B8%A2%E5%8C%85%E4%B8%8D%E9%87%8D%E4%BC%A0%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</guid>
+      <description>一、背景 前段时间，我们将私有云存储内容迁移到了某公有云存储，由于协议不兼容的原因，我们在业务及公有云存储中间搭建了一层代理服务做协议转换。在流量切换之后，发现约有0.05%的请求出现读内容超时的情况。大致表现就是对于一些下载请求，代理服务响应了Header 200，但在传输body的时候，出现了超时。
+二、抓包分析 通过在代理服务（服务端）和负载均衡层Ingress（客户端）抓包发现，主要的问题是对于一些丢包，服务端没有进行重传（Retransmission）导致最后客户端一直没有收到完整的包直到超时。具体抓包如下：
+从以下客户端抓包可以看到，客户端没有收到 [2711665,2719857] 这个包，因此一直在对 2711665进行ack，而服务端确实有收到大量的Duplicate ACK ack 2711665，但问题是为什么没有触发服务端的快速重传呢？ 查看 /proc/sys/net/ipv4/tcp_reordering 的值为3，所以可以确认服务端是有开启快速重传的，在收到3次duplicate ACK后就应该进行快重传，但从抓包文件中并没有发现有触发快速重传。
+客户端抓包： 服务端抓包： 再通过 nstat 发现TcpExtTcpWqueueTooBig值较为异常
+通过google搜索TcpExtTcpWqueueTooBig这个关键字，发现 Adventures in the TCP stack: Uncovering performance regressions in the TCP SACKs vulnerability fixes 这篇博文描述的问题和我们所遇到的基本一致。查看服务端内核版本为 3.10.0-957.21.3.el7.x86_64，再通过查看内核Changelog发现该版本正是刚好打完CVE-2019-11477, CVE-2019-11478 &amp;amp; CVE-2019-11479 这三个补丁
+之后通过升级内核版本至 3.10.0-1062.1.1.el7.x86_64 后发现问题得到了解决。
+三、问题分析 TCP SACK PANIC - Kernel vulnerabilities - CVE-2019-11477, CVE-2019-11478 &amp;amp; CVE-2019-11479 这三个补丁是为了解决SACK的安全问题。 在函数 tcp_fragment 中新增了如下代码
+if (unlikely((sk-&amp;gt;sk_wmem_queued &amp;gt;&amp;gt; 1) &amp;gt; sk-&amp;gt;sk_sndbuf)) { NET_INC_STATS(sock_net(sk), LINUX_MIB_TCPWQUEUETOOBIG); return -ENOMEM; }  从重传代码中发现当socket buffer长度大于MSS（最大报文长度）时，会先执行函数tcp_fragment，当以上代码if模块为true时，则会导致重传被中断，表现也就是我们上面抓包看到的收到了3次Duplicate ACK，却没有进行Retransmission的情况。更加具体的分析可以查看这篇博文Adventures in the TCP stack: Uncovering performance regressions in the TCP SACKs vulnerability fixes</description>
+    </item>
     
     <item>
       <title>HowToRead</title>

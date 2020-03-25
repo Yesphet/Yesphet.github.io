@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://yesphet.github.io/posts/linux%E5%86%85%E6%A0%B8%E7%89%88%E6%9C%AC%E5%8F%8A%E5%8F%91%E8%A1%8C%E7%89%88%E7%89%88%E6%9C%AC%E4%BB%8B%E7%BB%8D/</loc>
+    <lastmod>2020-03-19T18:05:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yesphet.github.io/posts/tcp%E4%B8%A2%E5%8C%85%E4%B8%8D%E9%87%8D%E4%BC%A0%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</loc>
+    <lastmod>2020-03-19T14:59:19+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://yesphet.github.io/posts/how-to-read/</loc>
     <lastmod>2019-07-12T10:37:47+08:00</lastmod>
   </url>
@@ -172,6 +182,12 @@
   </url>
   
   <url>
+    <loc>https://yesphet.github.io/tags/linux/</loc>
+    <lastmod>2020-03-19T18:05:51+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://yesphet.github.io/tags/mysql/</loc>
     <lastmod>2016-08-24T00:00:00+08:00</lastmod>
     <priority>0</priority>
@@ -214,6 +230,12 @@
   </url>
   
   <url>
+    <loc>https://yesphet.github.io/tags/tcp/</loc>
+    <lastmod>2020-03-19T14:59:19+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://yesphet.github.io/categories/thinking/</loc>
     <lastmod>2016-09-22T00:00:00+08:00</lastmod>
     <priority>0</priority>
@@ -239,13 +261,13 @@
   
   <url>
     <loc>https://yesphet.github.io/</loc>
-    <lastmod>2019-07-12T10:37:47+08:00</lastmod>
+    <lastmod>2020-03-19T18:05:51+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://yesphet.github.io/posts/</loc>
-    <lastmod>2019-07-12T10:37:47+08:00</lastmod>
+    <lastmod>2020-03-19T18:05:51+08:00</lastmod>
   </url>
   
   <url>
