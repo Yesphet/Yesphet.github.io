@@ -10,7 +10,7 @@
 <meta name="description" content="No seek, no find">
 <meta name="generator" content="Hugo 0.54.0" />
 
-<title>Linux内核版本及发行版版本介绍</title>
+<title>Time Series Database</title>
 
 <!-- Favicon -->
 <link rel="shortcut icon" href="https://yesphet.github.io/captain-america.png">
@@ -110,12 +110,12 @@
 
 
         <!-- HEADER -->
-<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/9.webp)">
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/2.webp)">
     <div class="header-content">
         <div class="header-content-inner">
             
                 
-                <h1>Linux内核版本及发行版版本介绍</h1>
+                <h1>Time Series Database</h1>
             
             <hr>
 
@@ -125,7 +125,7 @@
                 <ul class="list-inline item-details">
                 
                     <li>
-                        <strong>Thursday,  Mar 19,  2020</strong>
+                        <strong>Monday,  Jul 15,  2019</strong>
                     </li>
                 
                 
@@ -143,109 +143,232 @@
                         
 
                         
-                        <li>Tags:
-                             
-                                <strong class="post-prop-value"><a href="#">Linux</a></strong>
-                            
-                        </li>
-                        
 
                        
                     </ul>
                     <article class="post-body markdown-body">
 
                         
-                            <p>前段时间在排查一个TCP丢包没有重传的问题，最后定位到是由于线上机器内核存在问题导致的。排查期间发现对于Linux内核版本、CentOS版本等各种版本有点傻傻分不清楚，因此今天整理一下。</p>
+                            <h2 id="一-feature-comparison">一、Feature Comparison</h2>
 
-<h4 id="linux-内核介绍">Linux 内核介绍</h4>
+<blockquote>
+<p><a href="http://btw2017.informatik.uni-stuttgart.de/slidesandpapers/E4-14-109/paper_web.pdf">Survey and Comparison of
+Open Source Time Series Databases</a></p>
+</blockquote>
 
-<p>Linux 内核介绍直接参考 <a href="https://zh.wikipedia.org/wiki/Linux%E5%86%85%E6%A0%B8">WIKI</a><br />
-Linux 内核版本命名规范经历过三次调整。3.0 以前的版本号规范历史可以参考 <a href="http://www.linfo.org/kernel_version_numbering.html">Linux Kernel Version Numbering</a> 这篇。从3.0之后，版本号的格式都是 x.y.z，并没有遵循 <a href="https://semver.org/">Semantic Versioning</a> ，查阅了一些资料感觉并没有什么固定的版本号规范，不过这也不重要就是了，只需要从Linux官网 <a href="https://kernel.org/">https://kernel.org/</a> 查询最新的版本即可，在官网中：</p>
+<h3 id="tsdb-的分组">TSDB 的分组</h3>
 
-<p><img src="./linux-kernel-host.png" alt="" /></p>
+<ol>
+<li>依赖其他DBMS（如Cassandra，HBase，CouchDB，MySQL）来存储time series数据的。该分组不包括使用其他DBMS来存储meta信息的TSDB。</li>
+<li>不依赖其他DBMS来存储time series数据的。</li>
+<li>可以存储time series数据的RDBMS</li>
+<li>非开源的TSDB</li>
+</ol>
+
+<h3 id="tsdb-对比">TSDB 对比</h3>
+
+<p>从 <a href="http://btw2017.informatik.uni-stuttgart.de/slidesandpapers/E4-14-109/paper_web.pdf">Survey and Comparison of
+Open Source Time Series Databases</a> 中提取关于 InfluxDB、Prometheus、Druid、OpenTSDB的对比。这篇Paper主要是对各个TSDB进行定义和分类，以及对比比较流行的前12个TSDBs的特性。以下摘取其中比较值得注意的对比。更详细的请参考原文。</p>
+
+<p><strong>✓ means available</strong><br />
+<strong>(✓) means available with restrictions</strong><br />
+<strong>✗ means not available</strong></p>
+
+<h4 id="1-criteria-group-1-distribution-clusterability">1、Criteria Group 1: Distribution/Clusterability.</h4>
+
+<table>
+<thead>
+<tr>
+<th>TSDB</th>
+<th>High Avaliable</th>
+<th>Scalability</th>
+<th>Load Balancing</th>
+<th>remark</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>OpenTSDB</td>
+<td>✓</td>
+<td>(✓)</td>
+<td>(✓)</td>
+<td>部署多个HBase节点，通过DNS或者HaProxy等lb将query分布到不同的实例</td>
+</tr>
+
+<tr>
+<td>Druid</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>Druid 使用RDBMS作为元数据存储，zookeeper作为协调，以及分布式存储（HDFS/S3/Azure）来保存数据，需要部署5个不同类型的节点。</td>
+</tr>
+
+<tr>
+<td>InfluxDB</td>
+<td>✓</td>
+<td>✗ （企业版才支持）</td>
+<td>✓</td>
+<td>通过 influxDB-relay 来实现高可用和负载均衡</td>
+</tr>
+
+<tr>
+<td>Prometheus</td>
+<td>✗</td>
+<td>(✓)</td>
+<td>(✓)</td>
+<td><a href="https://prometheus.io/docs/introduction/faq/#can-prometheus-be-made-highly-available">Can Prometheus be made highly available?</a>  </br>  <a href="https://www.robustperception.io/scaling-and-federating-prometheus">Scaling and Federating Prometheus</a></td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="2-criteria-group-2-functions">2、Criteria Group 2: Functions</h4>
+
+<p>大部分TSDB基本都支持Aggregation，但大部分不支持 UPD 和 DEL（InfluxDB支持）。</p>
+
+<h4 id="3-criteria-group-3-tags-continuous-calculation-long-term-storage-and-matrix-time-series">3、Criteria Group 3: Tags, Continuous Calculation, Long-term Storage, and Matrix Time Series.</h4>
+
+<p>Matrix Time Series : 一条数据有多个TimeStamp</p>
+
+<table>
+<thead>
+<tr>
+<th>TSDB</th>
+<th>Continuous Calculation</th>
+<th>Tags</th>
+<th>Long-Term Storage</th>
+<th>Matrix Time Series</th>
+<th>remark</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>OpenTSDB</td>
+<td>✗</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+<td></td>
+</tr>
+
+<tr>
+<td>Druid</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td></td>
+</tr>
+
+<tr>
+<td>InfluxDB</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>通过CQ 降采样和Retention policies来实现Continuous Calculation 和  Long-Term Storage</td>
+</tr>
+
+<tr>
+<td>Prometheus</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="4-criteria-group-4-granularity">4、Criteria Group 4: Granularity.</h4>
+
+<table>
+<thead>
+<tr>
+<th>TSDB</th>
+<th>Downsampling</th>
+<th>Smallest Sample Interval</th>
+<th>Smallest Granularity for Storage</th>
+<th>Smallest Guaranteed Granularity for Storage</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>OpenTSDB</td>
+<td>✓</td>
+<td>1 ms</td>
+<td>1 ms</td>
+<td>&gt; 1ms^41</td>
+</tr>
+
+<tr>
+<td>Druid</td>
+<td>✓</td>
+<td>1 ms</td>
+<td>1 ms</td>
+<td>1 ms</td>
+</tr>
+
+<tr>
+<td>InfluxDB</td>
+<td>✓</td>
+<td>1 ms</td>
+<td>1 ms</td>
+<td>1 ms</td>
+</tr>
+
+<tr>
+<td>Prometheus</td>
+<td>✓</td>
+<td>1 ms</td>
+<td>1 ms</td>
+<td>1 ms</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="二-influxdb-survey">二、InfluxDb Survey</h2>
+
+<blockquote>
+<p>InfluxDB 1.7</p>
+</blockquote>
+
+<h3 id="2-1-features">2.1 Features</h3>
 
 <ul>
-<li>mainline 表示主线版本</li>
-<li>stable 表示稳定版，由mainline在实际成熟时发布</li>
-<li>longterm （Long Term Support, LTS）长期支持版，当不再支持时会标记EOL（End Of Life）</li>
+<li>高性能的TSDB，使用<a href="https://docs.influxdata.com/influxdb/v1.7/concepts/storage_engine/">TSM</a>存储引擎。</li>
+<li>使用Go语言编写。安装时不需要其他依赖。</li>
+<li>简单高性能的HTTP APIs。</li>
+<li>支持其他数据摄取协议，如Graphite/OpenTSDB。</li>
+<li>使用SQL-like的查询语法（InfluxSQL）</li>
+<li>使用Tag作为series索引，使查询更快。</li>
+<li>支持Retention polilcies，可以自动删除过期数据。</li>
+<li>Continuous queries(CQ)，自动聚合数据，降采样，以此提高查询性能。</li>
 </ul>
 
-<p>需要注意的是从 2.6 之后，好像就不再有偶数表示稳定版，奇数表示测试版的说法了。</p>
+<h3 id="2-2-encouraged-schema-design-https-docs-influxdata-com-influxdb-v1-7-concepts-schema-and-data-layout-encouraged-schema-design">2.2 <a href="https://docs.influxdata.com/influxdb/v1.7/concepts/schema_and_data_layout/#encouraged-schema-design">Encouraged Schema Design</a></h3>
 
-<p>那最重要的呢就是我们需要知道我们当前环境使用的内核版本，可以直接通过以下方式查看。</p>
+<ol>
+<li>Tags 有做索引，而fields没有做索引。根据tag做查询性能会好很多。</li>
+<li>避免使用和InfluxQL的保留字同样的字段名。</li>
+</ol>
 
-<pre><code class="language-bash">查看完整的内核版本信息
-➜  uname -a
-Linux matrix-cloud-storage-pro-97338-8gu60 3.10.0-957.21.3.el7.x86_64 #1 SMP Tue Jun 18 16:35:19 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+<h3 id="2-3-discouraged-schema-design-https-docs-influxdata-com-influxdb-v1-7-concepts-schema-and-data-layout-discouraged-schema-design">2.3 <a href="https://docs.influxdata.com/influxdb/v1.7/concepts/schema_and_data_layout/#discouraged-schema-design">Discouraged schema design</a></h3>
 
-➜  cat /proc/version
-Linux version 3.10.0-957.21.3.el7.x86_64 (mockbuild@kbuilder.bsys.centos.org) (gcc version 4.8.5 20150623 (Red Hat 4.8.5-36) (GCC) ) #1 SMP Tue Jun 18 16:35:19 UTC 2019
+<ol>
+<li>控制time series的数量，如果time series数量过多会导致内存占用过高。<a href="https://docs.influxdata.com/influxdb/v1.7/guides/hardware_sizing/#general-hardware-guidelines-for-a-single-node">不同数据量级的硬件建议</a></li>
+<li>不要使用表名来保存数据。通过tag的方式会更好。</li>
+<li>不要在一个tag中包含多个信息。</li>
+</ol>
 
-只查看内核版本号
-➜  uname -r
-3.10.0-957.21.3.el7.x86_64
-</code></pre>
-
-<p>内核版本号尾部有时会携带一些描述，具体含义如下：</p>
-
-<pre><code>    rc（或r），表示发行候选版本（release candidate），rc后的数字表示该正式版本的第几个候选版本，多数情况下，各候选版本之间数字越大越接近正式版。
-    smp，表示对称多处理器（Symmetric MultiProcessing）。
-    pp，在Red Hat Linux中常用来表示测试版本（pre-patch）。
-    EL，在Red Hat Linux中用来表示企业版Linux（Enterprise Linux）。
-    mm，表示专门用来测试新的技术或新功能的版本。
-    fc，在Red Hat Linux中表示Fedora Core。  
-</code></pre>
-
-<h4 id="linux-查看内核changelog">Linux 查看内核Changelog</h4>
-
-<p>定位问题的时候，有时候需要查看当前的内核是否有打了某个补丁，可以通过内核的Changelog查看。查看方式如下：</p>
-
-<pre><code class="language-bash">1.  先查看内核版本
-
-➜  uname -r
-3.10.0-957.21.3.el7.x86_64
-
-2. 获取内核完整rpm包名
-
-➜  rpm -qa | grep 3.10.0-957.21.3.el7.x86_64
-kernel-tools-libs-3.10.0-957.21.3.el7.x86_64
-kernel-headers-3.10.0-957.21.3.el7.x86_64
-kernel-3.10.0-957.21.3.el7.x86_64
-python-perf-3.10.0-957.21.3.el7.x86_64
-kernel-tools-3.10.0-957.21.3.el7.x86_64
-kernel-devel-3.10.0-957.21.3.el7.x86_64
-
-3. 获取内核changelog
-
-➜  rpm -q --changelog kernel-3.10.0-957.21.3.el7.x86_64 | less
-
-或者直接通过以下命令查看
-
-➜  rpm -q --changelog kernel
-</code></pre>
-
-<h4 id="linux-发行版">Linux 发行版</h4>
-
-<p>搞清楚了Linux内核后，我们再来了解下什么是Linux发行版，具体还是参考<a href="https://zh.wikipedia.org/wiki/Linux">WIKI</a>。简单讲Linux发行版就是Linux内核以及一系列的应用和软件合起来的软件包。例如CentOS、RHEL(Red Hat Enterprise Linux)、Debian、Ubuntu这些都是Linux发行版。每个发行版都有自己的版本号约定，例如RHEL有RHEL6.1/RHEL6.2/RHEL7.0/RHEL8.0等等。而CentOS则是RHEL依照开源协议规定发布的源码所编译而成的，只是Red Hat不对其提供商业支持而已。</p>
-
-<p>由于RHEL最重要的是保证稳定性。因此，对于每个RHEL主版本，其使用的内核版本在第一次发布之后即会固定，对于一些安全补丁和驱动升级，则会以补丁的方式打回到该内核版本上。以下是RHEL的内核版本表：</p>
-
-<ul>
-<li>RHEL 2.1 (released in 2002) used kernel version 2.4.9.</li>
-<li>RHEL 3 (released in 2003, based on RHL 9) used kernel version 2.4.21.</li>
-<li>RHEL 4 (released in 2005, based on Fedora Core 3) used kernel version 2.6.9.</li>
-<li>RHEL 5 (released in 2007, based on Fedora Core 6) used kernel version 2.6.18.</li>
-<li>RHEL 6 (released in 2010, based on a mix of Fedora 12 and 13) used kernel version 2.6.32.</li>
-<li>RHEL 7 (released in 2014, based on a mix of Fedora 19 and 20) uses kernel version 3.10.0.</li>
-<li>RHEL 8 (released in 2019, based on Fedora 28) uses kernel version 4.18.0.</li>
-</ul>
-
-<p>这也是为什么目前Linux 内核稳定版已经升级到5.5.10，而我们目前常用的CentOS7使用的内核版本仍在3.10.0的原因。</p>
+<h3 id="2-4-shard-group-duration-trade-offs-https-docs-influxdata-com-influxdb-v1-7-concepts-schema-and-data-layout-shard-group-duration-tradeoffs">2.4 <a href="https://docs.influxdata.com/influxdb/v1.7/concepts/schema_and_data_layout/#shard-group-duration-tradeoffs">Shard group duration tradeoffs</a></h3>
 
                         
 
                         <hr>
-                        <a href="https://yesphet.github.io/posts/linux%E5%86%85%E6%A0%B8%E7%89%88%E6%9C%AC%E5%8F%8A%E5%8F%91%E8%A1%8C%E7%89%88%E7%89%88%E6%9C%AC%E4%BB%8B%E7%BB%8D/"><i class="fa fa-fingerprint post-icon"></i>  本文地址</a>
+                        <a href="https://yesphet.github.io/posts/time-series-database/"><i class="fa fa-fingerprint post-icon"></i>  本文地址</a>
 
                     </article>
                 </div>

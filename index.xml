@@ -42,7 +42,32 @@ if (unlikely((sk-&amp;gt;sk_wmem_queued &amp;gt;&amp;gt; 1) &amp;gt; sk-&amp;gt;
     </item>
     
     <item>
-      <title>HowToRead</title>
+      <title>Redis学习笔记</title>
+      <link>https://yesphet.github.io/posts/redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Thu, 12 Sep 2019 10:11:42 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>Most of the contents of this note are excerpted from the Redis official documentation. It is recommended to read the official documentation directly if you want to learn Redis.
+Redis data types  An introduction to Redis data types and abstractions
+ Data structures supported by Redis:  Binary-safe strings Lists: collections of string elements sorted according to the order of insertion. They are basically linked lists. Sets: collections of unique, unsorted string elements.</description>
+    </item>
+    
+    <item>
+      <title>Time Series Database</title>
+      <link>https://yesphet.github.io/posts/time-series-database/</link>
+      <pubDate>Mon, 15 Jul 2019 17:07:35 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/time-series-database/</guid>
+      <description>一、Feature Comparison  Survey and Comparison of Open Source Time Series Databases
+ TSDB 的分组  依赖其他DBMS（如Cassandra，HBase，CouchDB，MySQL）来存储time series数据的。该分组不包括使用其他DBMS来存储meta信息的TSDB。 不依赖其他DBMS来存储time series数据的。 可以存储time series数据的RDBMS 非开源的TSDB  TSDB 对比 从 Survey and Comparison of Open Source Time Series Databases 中提取关于 InfluxDB、Prometheus、Druid、OpenTSDB的对比。这篇Paper主要是对各个TSDB进行定义和分类，以及对比比较流行的前12个TSDBs的特性。以下摘取其中比较值得注意的对比。更详细的请参考原文。
+✓ means available
+(✓) means available with restrictions
+✗ means not available
+1、Criteria Group 1: Distribution/Clusterability.    TSDB High Avaliable Scalability Load Balancing remark     OpenTSDB ✓ (✓) (✓) 部署多个HBase节点，通过DNS或者HaProxy等lb将query分布到不同的实例   Druid ✓ ✓ ✓ Druid 使用RDBMS作为元数据存储，zookeeper作为协调，以及分布式存储（HDFS/S3/Azure）来保存数据，需要部署5个不同类型的节点。   InfluxDB ✓ ✗ （企业版才支持） ✓ 通过 influxDB-relay 来实现高可用和负载均衡   Prometheus ✗ (✓) (✓) Can Prometheus be made highly available?</description>
+    </item>
+    
+    <item>
+      <title>How To Read</title>
       <link>https://yesphet.github.io/posts/how-to-read/</link>
       <pubDate>Fri, 12 Jul 2019 10:37:47 +0800</pubDate>
       
@@ -130,6 +155,27 @@ Control CPU Management Policies on the Node - Kubernetes</description>
 Callback Service 失败场景： 1. client与service之间出现网络波动，甚至中断。 callback client请求service时，响应域名解析失败或者client请求超时。
 快速重试策略可以解决网络波动问题。轮询重试策略可以解决短时间中断问题。
 2. service超时。 callback service处理回调超时。这种情况除去网络问题，一般是由于service负载过高，或者设计存在问题导致。这种场景如果过度重试一般会造成service雪崩。解决的方案是周知业务方，由业务方对callback service进行排查。</description>
+    </item>
+    
+    <item>
+      <title>动态查找树</title>
+      <link>https://yesphet.github.io/posts/%E5%B9%B3%E8%A1%A1%E6%A0%91/</link>
+      <pubDate>Wed, 18 Jul 2018 16:10:58 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/%E5%B9%B3%E8%A1%A1%E6%A0%91/</guid>
+      <description>一、二叉查找树 二叉查找树是比较基础的一种结构，我一般比较习惯叫它排序二叉树或堆排。具体的定义可以参考 维基百科
+对于一棵排序二叉树，主要有以下几个操作：
+   操作 时间复杂度     查找 时间复杂度等于树高，期望是 $O(log n)$，最差情况是 $O(n)$，即树退化成了链表   插入 复杂度和查找相同，先查找到新元素的位置，再 $O(1)$ 插入即可   删除 复杂度和查找相同，先查找到元素的位置，再 $O(1)$ 删除即可    作为堆排，其时间复杂度是 $O(n log n)$ ，即n次插入操作。之后再进行一次中序遍历即可输出排序好的数列。
+源码实现： https://github.com/yak2p/trees/tree/master/binary-search-tree
+二、平衡二叉树 1、什么是平衡树 平衡树是对二叉查找树的一种改进。目的是通过平衡树的左右子树，使所有叶子节点的深度趋于平衡，即树高等于 $O(log n)$。以此使查找的复杂度尽量趋近于 $O(log n)$。 具体的定义还是参考维基百科
+平衡二叉树的定义如下：
+ 左右子树的高度差小于等于 1。 每一个子树均为平衡二叉树。  2、AVL树 AVL树是最早被发明的自旋平衡二叉查找树。在AVL树中，任一节点对应的两棵子树的最大高度差为1，因此它也被称为高度平衡树。查找、插入和删除在平均和最坏情况下的时间复杂度都是 $O(log n)$
+AVL树的实现是通过记录平衡因子（Balance Factor）来判断树是否平衡。
+ 平衡因子： 左子树的高度减去它的右子树的高度
+ 当一个节点的平衡因子不为 -1、0、1时，即该节点的左子树和右子树的高度差超过1，则认为以该节点为根的子树不平衡。
+当插入和删除一个节点之前，我们认为树总是平衡的。
+当插入和删除一个节点之后，如果导致树变得不平衡，则通过旋转操作来将树重新平衡。
+因此，对于AVL树，在任何时刻，平衡因子的绝对值不可能&amp;gt;2。</description>
     </item>
     
     <item>
