@@ -10,7 +10,7 @@
 <meta name="description" content="No seek, no find">
 <meta name="generator" content="Hugo 0.67.1" />
 
-<title>Windows下的shell脚本传到Linux下无法执行</title>
+<title>Java·多线程·并发学习笔记</title>
 
 <!-- Favicon -->
 <link rel="shortcut icon" href="https://yesphet.github.io/captain-america.png">
@@ -110,12 +110,12 @@
 
 
         <!-- HEADER -->
-<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/6.webp)">
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/5.webp)">
     <div class="header-content">
         <div class="header-content-inner">
             
                 
-                <h1>Windows下的shell脚本传到Linux下无法执行</h1>
+                <h1>Java·多线程·并发学习笔记</h1>
             
             <hr>
 
@@ -125,7 +125,7 @@
                 <ul class="list-inline item-details">
                 
                     <li>
-                        <strong>Wednesday,  Aug 24,  2016</strong>
+                        <strong>Friday,  Jan 6,  2017</strong>
                     </li>
                 
                 
@@ -151,7 +151,7 @@
                         
                         <li>Tags:
                              
-                                <strong class="post-prop-value"><a href="#">OS</a></strong>
+                                <strong class="post-prop-value"><a href="#">Java</a></strong>
                             
                         </li>
                         
@@ -161,19 +161,62 @@
                     <article class="post-body markdown-body">
 
                         
-                            <p>原因：windos下的.sh文件格式为dos格式。而linux只能执行格式为unix格式的脚本
-解决办法：</p>
+                            <h3 id="进程和线程">进程和线程</h3>
 <ul>
-<li>用vi或vim打开文件</li>
-<li>执行set ff指令查看文件的格式，应该为fileformat=dos</li>
-<li>修改format为unix。执行set ff=unix或 set fileformat=unix</li>
-<li>wq保存退出</li>
+<li>进程(Process)是指一次程序的运行。对于单核CPU来说，同一时间只能执行一个进程。单核CPU实现多任务的方式一般是每个进程轮流执行，任务1执行0.01秒，然后切换到任务2。。。多核CPU则可以真正意义上实现多个任务并发执行，但当任务数大于CPU核数时，也是采取轮流执行的方法。进程之间是相互独立的。</li>
+<li>线程(Thread)则是存在于进程之内，一个进程内可以拥有多个线程，多个线程共享该进程的一切资源。</li>
+<li>协程(Coroutine)，埋个坑。在较新的语言中，比如go，对协程应用较广。</li>
 </ul>
+<h3 id="非线程安全和线程安全">非线程安全和线程安全</h3>
+<ul>
+<li>非线程安全指多个线程对同一个资源进行操作时，可能导致值不同步的情况。</li>
+<li>线程安全指不会出现非线程安全问题。。。  - . -</li>
+</ul>
+<h3 id="java中的thread">Java中的Thread</h3>
+<h4 id="一-多线程的实现方法">一、 多线程的实现方法</h4>
+<ol>
+<li>
+<p>继承Thread，重写run方法。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyThread</span> <span style="color:#66d9ef">extends</span> Thread<span style="color:#f92672">{</span>
+	
+     <span style="color:#a6e22e">@Override</span>
+     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+            
+     <span style="color:#f92672">}</span>
+ <span style="color:#f92672">}</span>
+    
+ 执行线程<span style="color:#960050;background-color:#1e0010">：</span>
+ <span style="color:#66d9ef">new</span> MyThread<span style="color:#f92672">().</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+</code></pre></div></li>
+<li>
+<p>实现Runnable，传给Thread构造</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyRunnable</span> <span style="color:#66d9ef">implements</span> Runnable<span style="color:#f92672">{</span>
+     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+         <span style="color:#75715e">//执行内容
+</span><span style="color:#75715e"></span>     <span style="color:#f92672">}</span>
+ <span style="color:#f92672">}</span>
+    
+ 调用方法<span style="color:#960050;background-color:#1e0010">：</span>
+ <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> MyRunnable<span style="color:#f92672">()).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+    
+ 或者使用jdk1<span style="color:#f92672">.</span><span style="color:#a6e22e">8的lambda表达式</span><span style="color:#f92672">:</span>
+ <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(()-&gt;{</span>
+     <span style="color:#75715e">//执行内容
+</span><span style="color:#75715e"></span> <span style="color:#f92672">}).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+</code></pre></div></li>
+</ol>
+<h4 id="二线程的停止">二、线程的停止</h4>
+<ol>
+<li>
+<p>线程停止的方法</p>
+</li>
+<li></li>
+</ol>
 
                         
 
                         <hr>
-                        <a href="https://yesphet.github.io/posts/windows%E4%B8%8B%E7%9A%84shell%E8%84%9A%E6%9C%AC%E4%BC%A0%E5%88%B0linux%E4%B8%8B%E6%97%A0%E6%B3%95%E6%89%A7%E8%A1%8C/"><i class="fa fa-fingerprint post-icon"></i>  本文地址</a>
+                        <a href="https://yesphet.github.io/posts/study-notes/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa fa-fingerprint post-icon"></i>  本文地址</a>
 
                     </article>
                 </div>

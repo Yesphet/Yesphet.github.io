@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Article on Yesphet</title>
@@ -17,7 +17,7 @@
       <pubDate>Thu, 21 Feb 2019 15:05:35 +0800</pubDate>
       
       <guid>https://yesphet.github.io/posts/faas-serverless/</guid>
-      <description> 一、Serverless/Faas 什么是Serverless？在云时代，简单的说就是服务器对开发者是透明的 。当然并不仅是这么简单，只是我认为在还不能完全做到服务器对开发者透明的时候，探讨Severless更多的含义是没有太大意义的。因为无论是什么技术的出现，其目的都是为了提高生产效率。在计算机领域，提高生产效率的方式有很多种，降低程序员的心智负担，降低开发门槛是其中非常重要的一种，毕竟现在还是以人为本的时代。而Severless很重要的一个能力便是极大极大地减轻开发人员的负担，更简单的说便是极大地减少每一个项目的代码量。
+      <description>一、Serverless/Faas 什么是Serverless？在云时代，简单的说就是服务器对开发者是透明的 。当然并不仅是这么简单，只是我认为在还不能完全做到服务器对开发者透明的时候，探讨Severless更多的含义是没有太大意义的。因为无论是什么技术的出现，其目的都是为了提高生产效率。在计算机领域，提高生产效率的方式有很多种，降低程序员的心智负担，降低开发门槛是其中非常重要的一种，毕竟现在还是以人为本的时代。而Severless很重要的一个能力便是极大极大地减轻开发人员的负担，更简单的说便是极大地减少每一个项目的代码量。
 作为一个菜鸡，我没有资格探讨什么计算机的前世今生。但就像汇编语言让机器语言变成透明，高级语言让汇编语言变成透明一样，Serverless可以让服务器逐渐变得透明。服务端开发人员不再必须明白操作系统、计算机网络等底层内容就能够很好地开发维护和使用一个服务，就像现在的程序员已经不再必须明白电路信号就能开始写代码一样。
 这是我认知的Serverless，但我一直还觉得Serverless远不只于此。
 那什么是Function as a Service（Faas）呢，我认同Faas是Serverless的一种实现。通过Faas，开发人员只需要专注于业务代码，不需要去关心服务器环境之类，自然服务器对开发者就是透明的。当然Serverless还有许多其他的实现，例如云存储（AWS的S3/阿里云的OSS）就是Serverless在存储系统上的一种实现。
@@ -95,15 +95,10 @@ Protocol interface { // 解析Http Request，并传递给Controller层处理。�
       <pubDate>Wed, 08 Feb 2017 00:00:00 +0800</pubDate>
       
       <guid>https://yesphet.github.io/posts/tomcat7%E5%8E%8B%E6%B5%8B1/</guid>
-      <description>Tomcat7压测（一） 目的  目的主要有几点：
- 了解空跑的TomcatQPS能达到多少 测试在Tomcat线程池，等待队列，最大连接数满了的情况下Tomcat的表现 通过压测暴露一些问题及对这些问题的解决 提升性能测试的姿势，算是一种锻炼吧  应该会分几个篇幅来分析，因为压测场景及数据比较多。
- 本篇主要是最基础的测试，后续会对压测中发现的问题做一些解决
-  压测 场景           Tomcat配置 maxThreads=&amp;ldquo;300&amp;rdquo;
-minSpareThreads=&amp;ldquo;100&amp;rdquo;
-connectionTimeout=&amp;ldquo;8000&amp;rdquo;
-enableLookups=&amp;ldquo;false&amp;rdquo;
-acceptCount=&amp;ldquo;100&amp;rdquo;
-acceptorThreadCount=&amp;ldquo;1&amp;rdquo;    环境 Docker容器内    服务描述 当收到一个请求后，将处理该请求的线程sleep20ms,然后返回response。因为该服务本身几乎不占用任何系统资源，所以在CPU，Mem，IO上是不会产生瓶颈的（实际压测证实），且因为该场景下控制了每个请求的耗时，QPS不高，所以在网络IO上也不会产生瓶颈。因此会影响QPS的只有Tomcat线程池的参数和Tomcat的性能    服务耗时 20ms     数据(整理后)    序号 API TotalTime Requests per second Time per request Tomcat线程池线程数 描述     1 ab -c100 -n500000 -k http://172.</description>
+      <description>Tomcat7压测（一） 目的   目的主要有几点：
+ 了解空跑的TomcatQPS能达到多少 测试在Tomcat线程池，等待队列，最大连接数满了的情况下Tomcat的表现 通过压测暴露一些问题及对这些问题的解决 提升性能测试的姿势，算是一种锻炼吧    应该会分几个篇幅来分析，因为压测场景及数据比较多。
+  本篇主要是最基础的测试，后续会对压测中发现的问题做一些解决
+  压测 场景           Tomcat配置 maxThreads=&amp;quot;300&amp;quot;minSpareThreads=&amp;quot;100&amp;quot;connectionTimeout=&amp;quot;8000&amp;quot;enableLookups=&amp;quot;false&amp;quot;acceptCount=&amp;quot;100&amp;quot;acceptorThreadCount=&amp;quot;1&amp;rdquo;    环境 Docker容器内    服务描述 当收到一个请求后，将处理该请求的线程sleep20ms,然后返回response。因为该服务本身几乎不占用任何系统资源，所以在CPU，Mem，IO上是不会产生瓶颈的（实际压测证实），且因为该场景下控制了每个请求的耗时，QPS不高，所以在网络IO上也不会产生瓶颈。因此会影响QPS的只有Tomcat线程池的参数和Tomcat的性能    服务耗时 20ms     数据(整理后)    序号 API TotalTime Requests per second Time per request Tomcat线程池线程数 描述     1 ab -c100 -n500000 -k http://172.</description>
     </item>
     
   </channel>

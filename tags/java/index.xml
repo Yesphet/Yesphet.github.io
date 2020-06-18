@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Java on Yesphet</title>
@@ -13,11 +13,13 @@
     
     <item>
       <title>Java·多线程·并发学习笔记</title>
-      <link>https://yesphet.github.io/posts/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <link>https://yesphet.github.io/posts/study-notes/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
       <pubDate>Fri, 06 Jan 2017 00:00:00 +0800</pubDate>
       
-      <guid>https://yesphet.github.io/posts/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
-      <description> 进程和线程  进程(Process)是指一次程序的运行。对于单核CPU来说，同一时间只能执行一个进程。单核CPU实现多任务的方式一般是每个进程轮流执行，任务1执行0.01秒，然后切换到任务2。。。多核CPU则可以真正意义上实现多个任务并发执行，但当任务数大于CPU核数时，也是采取轮流执行的方法。进程之间是相互独立的。 线程(Thread)则是存在于进程之内，一个进程内可以拥有多个线程，多个线程共享该进程的一切资源。 协程(Coroutine)，埋个坑。在较新的语言中，比如go，对协程应用较广。  非线程安全和线程安全  非线程安全指多个线程对同一个资源进行操作时，可能导致值不同步的情况。 线程安全指不会出现非线程安全问题。。。 - . -  Java中的Thread 一、 多线程的实现方法  继承Thread，重写run方法。  public class MyThread extends Thread{ @Override public void run() { } } 执行线程： new MyThread().start();   实现Runnable，传给Thread构造  public class MyRunnable implements Runnable{ public void run() { //执行内容 } } 调用方法： new Thread(new MyRunnable()).start(); 或者使用jdk1.8的lambda表达式: new Thread(()-&amp;gt;{ //执行内容 }).start();  二、线程的停止  线程停止的方法
+      <guid>https://yesphet.github.io/posts/study-notes/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>进程和线程  进程(Process)是指一次程序的运行。对于单核CPU来说，同一时间只能执行一个进程。单核CPU实现多任务的方式一般是每个进程轮流执行，任务1执行0.01秒，然后切换到任务2。。。多核CPU则可以真正意义上实现多个任务并发执行，但当任务数大于CPU核数时，也是采取轮流执行的方法。进程之间是相互独立的。 线程(Thread)则是存在于进程之内，一个进程内可以拥有多个线程，多个线程共享该进程的一切资源。 协程(Coroutine)，埋个坑。在较新的语言中，比如go，对协程应用较广。  非线程安全和线程安全  非线程安全指多个线程对同一个资源进行操作时，可能导致值不同步的情况。 线程安全指不会出现非线程安全问题。。。 - . -  Java中的Thread 一、 多线程的实现方法   继承Thread，重写run方法。
+public class MyThread extends Thread{ @Override public void run() { } } 执行线程： new MyThread().start();   实现Runnable，传给Thread构造
+public class MyRunnable implements Runnable{ public void run() { //执行内容  } } 调用方法： new Thread(new MyRunnable()).start(); 或者使用jdk1.8的lambda表达式: new Thread(()-&amp;gt;{ //执行内容  }).start();   二、线程的停止   线程停止的方法
    </description>
     </item>
     

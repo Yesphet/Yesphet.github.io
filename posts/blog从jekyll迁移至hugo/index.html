@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yesphet">
 <meta name="description" content="No seek, no find">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.67.1" />
 
 <title>Blog从Jekyll迁移至Hugo</title>
 
@@ -110,7 +110,7 @@
 
 
         <!-- HEADER -->
-<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/6.webp)">
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/9.webp)">
     <div class="header-content">
         <div class="header-content-inner">
             
@@ -161,138 +161,106 @@
                     <article class="post-body markdown-body">
 
                         
-                            <h2 id="一-背景">一、背景</h2>
-
+                            <h2 id="一背景">一、背景</h2>
 <p>很久没有更新博客了，年后打算重新收拾一下。之前使用的是Jekyll，但是依赖管理什么的实在是太麻烦了，因此打算更换一个框架。刚好了解到Hugo是用Golang写的，所以就准备将博客从Jekyll迁移到Hugo。
 现在迁移基本完成了，过程还是踩了蛮多坑的，所以顺便写一篇记录一下，防止以后要改改改的时候又重新踩坑。</p>
-
-<h2 id="二-方案">二、方案</h2>
-
+<h2 id="二方案">二、方案</h2>
 <p>这次使用的hugo版本是：</p>
-
 <pre><code>Hugo Static Site Generator v0.54.0/extended darwin/amd64 BuildDate: unknown
-</code></pre>
-
-<p>安装姿势随便搜一下就有了。</p>
-
-<h4 id="2-1-直接使用hugo-cli工具">2.1 直接使用hugo cli工具</h4>
-
-<pre><code class="language-shell">➜  hugo import --help
+</code></pre><p>安装姿势随便搜一下就有了。</p>
+<h4 id="21-直接使用hugo-cli工具">2.1 直接使用hugo cli工具</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">➜  hugo import --help
 Import your site from other web site generators like Jekyll.
 
-Import requires a subcommand, e.g. `hugo import jekyll jekyll_root_path target_path`.
+Import requires a subcommand, e.g. <span style="color:#e6db74">`</span>hugo import jekyll jekyll_root_path target_path<span style="color:#e6db74">`</span>.
 
 Usage:
-  hugo import [command]
+  hugo import <span style="color:#f92672">[</span>command<span style="color:#f92672">]</span>
 
 Available Commands:
   jekyll      hugo import from Jekyll
 
 Flags:
-  -h, --help   help for import
+  -h, --help   help <span style="color:#66d9ef">for</span> import
 
 Global Flags:
-      --config string      config file (default is path/config.yaml|json|toml)
-      --configDir string   config dir (default &quot;config&quot;)
+      --config string      config file <span style="color:#f92672">(</span>default is path/config.yaml|json|toml<span style="color:#f92672">)</span>
+      --configDir string   config dir <span style="color:#f92672">(</span>default <span style="color:#e6db74">&#34;config&#34;</span><span style="color:#f92672">)</span>
       --debug              debug output
       --log                enable Logging
-      --logFile string     log File path (if set, logging enabled automatically)
+      --logFile string     log File path <span style="color:#f92672">(</span><span style="color:#66d9ef">if</span> set, logging enabled automatically<span style="color:#f92672">)</span>
       --quiet              build in quiet mode
   -v, --verbose            verbose output
       --verboseLog         verbose logging
 
-Use &quot;hugo import [command] --help&quot; for more information about a command.
-</code></pre>
-
-<p>试了一下没有成功，没有深究，因为之前的样式也看的有点倦了，想重新换套样式，所以就保留了post部分，其他的则用Hugo重新构建了一套。</p>
-
-<h3 id="2-2-使用hugo生成静态网站">2.2 使用Hugo生成静态网站</h3>
-
+Use <span style="color:#e6db74">&#34;hugo import [command] --help&#34;</span> <span style="color:#66d9ef">for</span> more information about a command.
+</code></pre></div><p>试了一下没有成功，没有深究，因为之前的样式也看的有点倦了，想重新换套样式，所以就保留了post部分，其他的则用Hugo重新构建了一套。</p>
+<h3 id="22-使用hugo生成静态网站">2.2 使用Hugo生成静态网站</h3>
 <p>Hugo的官方文档已经写的非常的详细，如果想要自己DIY一些组件和样式的话，建议还是撸一遍文档，内容没有很多，我这种英语渣花半个下午可以简单浏览一遍，后面再边做边查，效果不错。</p>
-
 <p><a href="https://gohugo.io/getting-started/">Get Start Hugo ➜ </a></p>
-
-<h2 id="三-过程">三、过程</h2>
-
-<h3 id="3-1-选择一套主题">3.1 选择一套主题</h3>
-
-<p>自己从零开始做一套主题有点不靠谱，因此第一件事就是选择一个主题 <a href="https://themes.gohugo.io/">Themes ➜</a>。<br />
+<h2 id="三过程">三、过程</h2>
+<h3 id="31-选择一套主题">3.1 选择一套主题</h3>
+<p>自己从零开始做一套主题有点不靠谱，因此第一件事就是选择一个主题 <a href="https://themes.gohugo.io/">Themes ➜</a>。<br>
 在下选择的是 <a href="https://themes.gohugo.io/creative/">Creative</a>，是个公司主页模板，只有单页，但是设计风格我很喜欢，而且基本风格有了，自己加上其他页也比较简单。这是我fork后调整成个人主页的主题：<a href="https://github.com/Yesphet/hugo-creative-theme">hugo-creative-theme</a></p>
-
-<h3 id="3-2-编写一些自定义界面-修改一些样式">3.2 编写一些自定义界面，修改一些样式</h3>
-
+<h3 id="32-编写一些自定义界面修改一些样式">3.2 编写一些自定义界面，修改一些样式</h3>
 <p>改一改主页之后，然后就是增加自己需要的一些页面。主要包括：</p>
-
 <ul>
 <li>Post 页面，单篇文章页面。使用<a href="https://gohugo.io/templates/single-page-templates/">Single Page Template</a>实现。</li>
 <li>Post 列表页面，文章列表页面。使用<a href="https://gohugo.io/templates/lists/">List Page Template</a>实现。</li>
 <li>Category 及 Tag页面，文章分类页面。使用 <a href="https://gohugo.io/templates/taxonomy-templates/">Taxonomy Templates</a>实现。</li>
 </ul>
-
-<h3 id="3-3-增加category分类">3.3 增加category分类</h3>
-
+<h3 id="33-增加category分类">3.3 增加category分类</h3>
 <p>这边使用的是<a href="https://gohugo.io/templates/taxonomy-templates/">Taxonomy Template</a> 来实现的文章自动分类。只要在文章的Front Matter中添加<code>categories</code>和<code>tags</code>参数，就可以实现自动分类。</p>
-
 <p>但是过程中遇到一个大坑，就是我希望在taxonomy中增加自定义的一些meta信息，官方文档中的建议是： <a href="https://gohugo.io/content-management/taxonomies/#add-custom-metadata-to-a-taxonomy-term">Add custom metadata to a Taxonomy Term</a>，这种方式有很大的问题。根据官方文档中的例子，这样会导致 <code>/actors/bruce-willis</code>这个页面有两种解析方案，一种是taxonomy list template，另一种是single page template，问题出在于hugo会两种方式各解析一次，但是顺序是随机的，并且只有第一次解析生效。因此当先使用 single page template去解析的时候，就会获取不到 <code>.Pages</code> 等参数，这个时候页面的展示就会不符合预期。</p>
-
 <p>解决的方案是使用<a href="https://gohugo.io/templates/data-templates/">Data Template</a>来增加自定义meta，然后使用 <code>$.Site.Data</code>来获取参数。</p>
-
-<h3 id="3-4-增加自定义的markdown渲染">3.4 增加自定义的markdown渲染</h3>
-
-<p>这个比较简单，网上找一个markdown的渲染css文件，将其保存到<code>/static</code>目录下，然后用<code>&lt;link&gt;</code> 标签引入该css文件，然后在post中 <code>{{ .Content }}</code>的父元素中增加对应的class。我这边使用的是github的渲染风格：<a href="https://github.com/sindresorhus/github-markdown-css">https://github.com/sindresorhus/github-markdown-css</a></p>
-
-<h3 id="3-5-增加catelog侧边栏">3.5 增加catelog侧边栏</h3>
-
+<h3 id="34-增加自定义的markdown渲染">3.4 增加自定义的markdown渲染</h3>
+<p>这个比较简单，网上找一个markdown的渲染css文件，将其保存到<code>/static</code>目录下，然后用<code>&lt;link&gt;</code> 标签引入该css文件，然后在post中 <code>{{ .Content }}</code>的父元素中增加对应的class。我这边使用的是github的渲染风格：https://github.com/sindresorhus/github-markdown-css</p>
+<h3 id="35-增加catelog侧边栏">3.5 增加catelog侧边栏</h3>
 <p>TODO</p>
-
-<h3 id="3-6-增加数学公式的支持">3.6 增加数学公式的支持</h3>
-
+<h3 id="36-增加数学公式的支持">3.6 增加数学公式的支持</h3>
 <blockquote>
-<p>参考<br />
- <a href="https://discourse.gohugo.io/t/solved-mathjax-stopped-working/5946">[solved] MathJax stopped working</a><br />
+<p>参考<br>
+<a href="https://discourse.gohugo.io/t/solved-mathjax-stopped-working/5946">[solved] MathJax stopped working</a><br>
 <a href="https://divadnojnarg.github.io/blog/mathjax/">Setting MathJax with Hugo
 </a></p>
 </blockquote>
-
 <p>因为hugo本身是不支持markdown数学公式的渲染的，官方建议是通过JavaScript的MathJax来进行支持。建议直接参考官方文档 <a href="https://gohugo.io/content-management/formats/#mathjax-with-hugo">MathJax with Hugo</a>。不过直接使用官方文档中的方式似乎并不能生效，而是要将所有的scripts放在同一个 <code>&lt;script async&gt;&lt;/script&gt;</code> 下。 将以下内容保存到 <code>layouts/partials/add-mathjax-to-page.html</code>目录，再通过<code>{{ partial &quot;add-mathjax-to-page.html&quot; . }}</code> 在需要的地方引入。</p>
-
-<pre><code class="language-javascript">{{ &quot;&lt;!-- Add mathjax support --&gt;&quot; | safeHTML }}
-&lt;script type=&quot;text/javascript&quot;
-        async
-        src=&quot;https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;
-    MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [['$','$'], ['\\(','\\)']],
-        displayMath: [['$$','$$'], ['\[\[','\]\]']],
-        processEscapes: true,
-        processEnvironments: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-        TeX: { equationNumbers: { autoNumber: &quot;AMS&quot; },
-             extensions: [&quot;AMSmath.js&quot;, &quot;AMSsymbols.js&quot;] }
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">{{ <span style="color:#e6db74">&#34;&lt;!-- Add mathjax support --&gt;&#34;</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">safeHTML</span> }}
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/javascript&#34;</span>
+        <span style="color:#a6e22e">async</span>
+        <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#a6e22e">MathJax</span>.<span style="color:#a6e22e">Hub</span>.<span style="color:#a6e22e">Config</span>({
+      <span style="color:#a6e22e">tex2jax</span><span style="color:#f92672">:</span> {
+        <span style="color:#a6e22e">inlineMath</span><span style="color:#f92672">:</span> [[<span style="color:#e6db74">&#39;$&#39;</span>,<span style="color:#e6db74">&#39;$&#39;</span>], [<span style="color:#e6db74">&#39;\\(&#39;</span>,<span style="color:#e6db74">&#39;\\)&#39;</span>]],
+        <span style="color:#a6e22e">displayMath</span><span style="color:#f92672">:</span> [[<span style="color:#e6db74">&#39;$$&#39;</span>,<span style="color:#e6db74">&#39;$$&#39;</span>], [<span style="color:#e6db74">&#39;\[\[&#39;</span>,<span style="color:#e6db74">&#39;\]\]&#39;</span>]],
+        <span style="color:#a6e22e">processEscapes</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+        <span style="color:#a6e22e">processEnvironments</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+        <span style="color:#a6e22e">skipTags</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;script&#39;</span>, <span style="color:#e6db74">&#39;noscript&#39;</span>, <span style="color:#e6db74">&#39;style&#39;</span>, <span style="color:#e6db74">&#39;textarea&#39;</span>, <span style="color:#e6db74">&#39;pre&#39;</span>],
+        <span style="color:#a6e22e">TeX</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">equationNumbers</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">autoNumber</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;AMS&#34;</span> },
+             <span style="color:#a6e22e">extensions</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#34;AMSmath.js&#34;</span>, <span style="color:#e6db74">&#34;AMSsymbols.js&#34;</span>] }
       }
     });
 
-    MathJax.Hub.Queue(function() {
-        // Fix &lt;code&gt; tags after MathJax finishes running. This is a
-        // hack to overcome a shortcoming of Markdown. Discussion at
-        // https://github.com/mojombo/jekyll/issues/199
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i = 0; i &lt; all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
+    <span style="color:#a6e22e">MathJax</span>.<span style="color:#a6e22e">Hub</span>.<span style="color:#a6e22e">Queue</span>(<span style="color:#66d9ef">function</span>() {
+        <span style="color:#75715e">// Fix &lt;code&gt; tags after MathJax finishes running. This is a
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// hack to overcome a shortcoming of Markdown. Discussion at
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// https://github.com/mojombo/jekyll/issues/199
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">all</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">MathJax</span>.<span style="color:#a6e22e">Hub</span>.<span style="color:#a6e22e">getAllJax</span>(), <span style="color:#a6e22e">i</span>;
+        <span style="color:#66d9ef">for</span>(<span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">all</span>.<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>) {
+            <span style="color:#a6e22e">all</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">SourceElement</span>().<span style="color:#a6e22e">parentNode</span>.<span style="color:#a6e22e">className</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39; has-jax&#39;</span>;
         }
     });
-&lt;/script&gt;
-&lt;style&gt;
-    code.has-jax {
-        font: inherit;
-        font-size: 100%;
-        background: inherit;
-        border: inherit;
-        color: #24292e;
+<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;</span>
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">style</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#a6e22e">code</span>.<span style="color:#a6e22e">has</span><span style="color:#f92672">-</span><span style="color:#a6e22e">jax</span> {
+        <span style="color:#a6e22e">font</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">inherit</span>;
+        <span style="color:#a6e22e">font</span><span style="color:#f92672">-</span><span style="color:#a6e22e">size</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">100</span><span style="color:#f92672">%</span>;
+        <span style="color:#a6e22e">background</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">inherit</span>;
+        <span style="color:#a6e22e">border</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">inherit</span>;
+        <span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#ae81ff">24292</span><span style="color:#a6e22e">e</span>;
     }
-&lt;/style&gt;
-</code></pre>
-
+<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/style&gt;</span>
+</code></pre></div>
                         
 
                         <hr>

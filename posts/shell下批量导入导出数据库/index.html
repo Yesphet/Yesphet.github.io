@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yesphet">
 <meta name="description" content="No seek, no find">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.67.1" />
 
 <title>Shell下批量导入导出数据库</title>
 
@@ -110,7 +110,7 @@
 
 
         <!-- HEADER -->
-<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/8.webp)">
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/7.webp)">
     <div class="header-content">
         <div class="header-content-inner">
             
@@ -164,53 +164,43 @@
                             <blockquote>
 <p>带<code>mysql&gt;</code>前缀的命令为mysql命令</p>
 </blockquote>
-
 <ol>
-<li><p>导出所有库</p>
-
-<p><code>mysqldump -uusername -ppassword --all-databases &gt; all.sql</code></p></li>
-
-<li><p>导入所有库</p>
-
-<p><code>mysql&gt;source all.sql;</code></p></li>
-
-<li><p>导出某些库</p>
-
-<p><code>mysqldump -uusername -ppassword --databases db1 db2 &gt; db1db2.sql</code></p></li>
-
-<li><p>导入某些库</p>
-
-<p><code>mysql&gt;source db1db2.sql;</code></p></li>
-
-<li><p>导入某个库</p>
-
+<li>
+<p>导出所有库</p>
+<p><code>mysqldump -uusername -ppassword --all-databases &gt; all.sql</code></p>
+</li>
+<li>
+<p>导入所有库</p>
+<p><code>mysql&gt;source all.sql;</code></p>
+</li>
+<li>
+<p>导出某些库</p>
+<p><code>mysqldump -uusername -ppassword --databases db1 db2 &gt; db1db2.sql</code></p>
+</li>
+<li>
+<p>导入某些库</p>
+<p><code>mysql&gt;source db1db2.sql;</code></p>
+</li>
+<li>
+<p>导入某个库</p>
 <pre><code>mysql -uusername -ppassword db1 &lt; db1.sql;
-</code></pre>
-
-<p>或</p>
-
+</code></pre><p>或</p>
 <pre><code>mysql&gt;source db1.sql;
 </code></pre></li>
-
-<li><p>导出某些数据表</p>
-
+<li>
+<p>导出某些数据表</p>
 <pre><code>mysqldump -uusername -ppassword db1 table1 table2 &gt; tb1tb2.sql
 </code></pre></li>
-
-<li><p>导入某些数据表</p>
-
+<li>
+<p>导入某些数据表</p>
 <pre><code>mysql -uusername -ppassword db1 &lt; tb1tb2.sql
-</code></pre>
-
-<p>或</p>
-
+</code></pre><p>或</p>
 <pre><code>mysql&gt;
 use db1;
 source tb1tb2.sql;
 </code></pre></li>
-
-<li><p>只导表结构</p>
-
+<li>
+<p>只导表结构</p>
 <pre><code>mysqldump --opt -d -uusername -ppassword db1 table1 table2 &gt; tb1tb2.sql
 </code></pre></li>
 </ol>

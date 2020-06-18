@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tomcat on Yesphet</title>
@@ -27,15 +27,10 @@
       <pubDate>Wed, 08 Feb 2017 00:00:00 +0800</pubDate>
       
       <guid>https://yesphet.github.io/posts/tomcat7%E5%8E%8B%E6%B5%8B1/</guid>
-      <description>Tomcat7压测（一） 目的  目的主要有几点：
- 了解空跑的TomcatQPS能达到多少 测试在Tomcat线程池，等待队列，最大连接数满了的情况下Tomcat的表现 通过压测暴露一些问题及对这些问题的解决 提升性能测试的姿势，算是一种锻炼吧  应该会分几个篇幅来分析，因为压测场景及数据比较多。
- 本篇主要是最基础的测试，后续会对压测中发现的问题做一些解决
-  压测 场景           Tomcat配置 maxThreads=&amp;ldquo;300&amp;rdquo;
-minSpareThreads=&amp;ldquo;100&amp;rdquo;
-connectionTimeout=&amp;ldquo;8000&amp;rdquo;
-enableLookups=&amp;ldquo;false&amp;rdquo;
-acceptCount=&amp;ldquo;100&amp;rdquo;
-acceptorThreadCount=&amp;ldquo;1&amp;rdquo;    环境 Docker容器内    服务描述 当收到一个请求后，将处理该请求的线程sleep20ms,然后返回response。因为该服务本身几乎不占用任何系统资源，所以在CPU，Mem，IO上是不会产生瓶颈的（实际压测证实），且因为该场景下控制了每个请求的耗时，QPS不高，所以在网络IO上也不会产生瓶颈。因此会影响QPS的只有Tomcat线程池的参数和Tomcat的性能    服务耗时 20ms     数据(整理后)    序号 API TotalTime Requests per second Time per request Tomcat线程池线程数 描述     1 ab -c100 -n500000 -k http://172.</description>
+      <description>Tomcat7压测（一） 目的   目的主要有几点：
+ 了解空跑的TomcatQPS能达到多少 测试在Tomcat线程池，等待队列，最大连接数满了的情况下Tomcat的表现 通过压测暴露一些问题及对这些问题的解决 提升性能测试的姿势，算是一种锻炼吧    应该会分几个篇幅来分析，因为压测场景及数据比较多。
+  本篇主要是最基础的测试，后续会对压测中发现的问题做一些解决
+  压测 场景           Tomcat配置 maxThreads=&amp;quot;300&amp;quot;minSpareThreads=&amp;quot;100&amp;quot;connectionTimeout=&amp;quot;8000&amp;quot;enableLookups=&amp;quot;false&amp;quot;acceptCount=&amp;quot;100&amp;quot;acceptorThreadCount=&amp;quot;1&amp;rdquo;    环境 Docker容器内    服务描述 当收到一个请求后，将处理该请求的线程sleep20ms,然后返回response。因为该服务本身几乎不占用任何系统资源，所以在CPU，Mem，IO上是不会产生瓶颈的（实际压测证实），且因为该场景下控制了每个请求的耗时，QPS不高，所以在网络IO上也不会产生瓶颈。因此会影响QPS的只有Tomcat线程池的参数和Tomcat的性能    服务耗时 20ms     数据(整理后)    序号 API TotalTime Requests per second Time per request Tomcat线程池线程数 描述     1 ab -c100 -n500000 -k http://172.</description>
     </item>
     
   </channel>

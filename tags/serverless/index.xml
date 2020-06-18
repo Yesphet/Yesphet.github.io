@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Serverless on Yesphet</title>
@@ -17,7 +17,7 @@
       <pubDate>Thu, 21 Feb 2019 15:05:35 +0800</pubDate>
       
       <guid>https://yesphet.github.io/posts/faas-serverless/</guid>
-      <description> 一、Serverless/Faas 什么是Serverless？在云时代，简单的说就是服务器对开发者是透明的 。当然并不仅是这么简单，只是我认为在还不能完全做到服务器对开发者透明的时候，探讨Severless更多的含义是没有太大意义的。因为无论是什么技术的出现，其目的都是为了提高生产效率。在计算机领域，提高生产效率的方式有很多种，降低程序员的心智负担，降低开发门槛是其中非常重要的一种，毕竟现在还是以人为本的时代。而Severless很重要的一个能力便是极大极大地减轻开发人员的负担，更简单的说便是极大地减少每一个项目的代码量。
+      <description>一、Serverless/Faas 什么是Serverless？在云时代，简单的说就是服务器对开发者是透明的 。当然并不仅是这么简单，只是我认为在还不能完全做到服务器对开发者透明的时候，探讨Severless更多的含义是没有太大意义的。因为无论是什么技术的出现，其目的都是为了提高生产效率。在计算机领域，提高生产效率的方式有很多种，降低程序员的心智负担，降低开发门槛是其中非常重要的一种，毕竟现在还是以人为本的时代。而Severless很重要的一个能力便是极大极大地减轻开发人员的负担，更简单的说便是极大地减少每一个项目的代码量。
 作为一个菜鸡，我没有资格探讨什么计算机的前世今生。但就像汇编语言让机器语言变成透明，高级语言让汇编语言变成透明一样，Serverless可以让服务器逐渐变得透明。服务端开发人员不再必须明白操作系统、计算机网络等底层内容就能够很好地开发维护和使用一个服务，就像现在的程序员已经不再必须明白电路信号就能开始写代码一样。
 这是我认知的Serverless，但我一直还觉得Serverless远不只于此。
 那什么是Function as a Service（Faas）呢，我认同Faas是Serverless的一种实现。通过Faas，开发人员只需要专注于业务代码，不需要去关心服务器环境之类，自然服务器对开发者就是透明的。当然Serverless还有许多其他的实现，例如云存储（AWS的S3/阿里云的OSS）就是Serverless在存储系统上的一种实现。

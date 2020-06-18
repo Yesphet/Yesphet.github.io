@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yesphet">
 <meta name="description" content="No seek, no find">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.67.1" />
 
 <title>编译安装gcc5.3</title>
 
@@ -110,7 +110,7 @@
 
 
         <!-- HEADER -->
-<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/7.webp)">
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/2.webp)">
     <div class="header-content">
         <div class="header-content-inner">
             
@@ -156,49 +156,45 @@
 
                         
                             <h3 id="安装命令">安装命令</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">## 准备安装到的目录</span>
+export GCC5.3.0_BASE<span style="color:#f92672">=</span>/usr/local/gcc5.3.0
 
-<pre><code class="language-bash">## 准备安装到的目录
-export GCC5.3.0_BASE=/usr/local/gcc5.3.0
 
-
-## install gmp4.3.2
+<span style="color:#75715e">## install gmp4.3.2</span>
 wget ftp://gcc.gnu.org/pub/gcc/infrastructure/gmp-4.3.2.tar.bz2
 tar jxvf gmp-4.3.2.tar.bz2
 cd gmp-4.3.2
-./configure --prefix=$GCC5.3.0_BASE
-make &amp;&amp; make install
+./configure --prefix<span style="color:#f92672">=</span>$GCC5.3.0_BASE
+make <span style="color:#f92672">&amp;&amp;</span> make install
 
 
-## install mptr
+<span style="color:#75715e">## install mptr</span>
 wget ftp://gcc.gnu.org/pub/gcc/infrastructure/mpfr-2.4.2.tar.bz2
 tar jxvf mpfr-2.4.2.tar.bz2
 cd mpfr-2.4.2
-./configure --prefix=$GCC5.3.0_BASE --with-gmp=$GCC5.3.0_BASE
-make &amp;&amp; make install
+./configure --prefix<span style="color:#f92672">=</span>$GCC5.3.0_BASE --with-gmp<span style="color:#f92672">=</span>$GCC5.3.0_BASE
+make <span style="color:#f92672">&amp;&amp;</span> make install
 
 
-## install 
+<span style="color:#75715e">## install</span> 
 wget ftp://gcc.gnu.org/pub/gcc/infrastructure/mpc-0.8.1.tar.gz
 tar xvzf mpc-0.8.1.tar.gz
 cd mpc-0.8.1
-./configure  --prefix=$GCC5.3.0_BASE --with-gmp=$GCC5.3.0_BASE --with-mpfr=$GCC5.3.0_BASE
-make &amp;&amp; make install
+./configure  --prefix<span style="color:#f92672">=</span>$GCC5.3.0_BASE --with-gmp<span style="color:#f92672">=</span>$GCC5.3.0_BASE --with-mpfr<span style="color:#f92672">=</span>$GCC5.3.0_BASE
+make <span style="color:#f92672">&amp;&amp;</span> make install
 
 
-## install gcc5.3.0
+<span style="color:#75715e">## install gcc5.3.0</span>
 wget http://ftp.gnu.org/gnu/gcc/gcc-5.3.0/gcc-5.3.0.tar.gz
 tar xvzf gcc-5.3.0.tar.gz
 cd gcc-5.3.0
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$GCC5.3.0_BASE/lib
-./configure --prefix=$GCC5.3.0_BASE --with-gmp=$GCC5.3.0_BASE --with-mpfr=$GCC5.3.0_BASE --with-mpc=$GCC5.3.0_BASE -enable-threads=posix -disable-checking -disable-multilib -enable-languages=c,c++
-make &amp;&amp; make install
+export LD_LIBRARY_PATH<span style="color:#f92672">=</span>$LD_LIBRARY_PATH:$GCC5.3.0_BASE/lib
+./configure --prefix<span style="color:#f92672">=</span>$GCC5.3.0_BASE --with-gmp<span style="color:#f92672">=</span>$GCC5.3.0_BASE --with-mpfr<span style="color:#f92672">=</span>$GCC5.3.0_BASE --with-mpc<span style="color:#f92672">=</span>$GCC5.3.0_BASE -enable-threads<span style="color:#f92672">=</span>posix -disable-checking -disable-multilib -enable-languages<span style="color:#f92672">=</span>c,c++
+make <span style="color:#f92672">&amp;&amp;</span> make install
 
-</code></pre>
-
-<h3 id="一键安装脚本">一键安装脚本</h3>
-
-<pre><code class="language-bash">#!/usr/bin/env bash
-
+</code></pre></div><h3 id="一键安装脚本">一键安装脚本</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/usr/bin/env bash
+</span><span style="color:#75715e"></span>
 cd /tmp
 wget http://atlas-test.zone1.meitudata.com/gcc5.3.0.tar.gz
 tar xvzf gcc5.3.0.tar.gz
@@ -207,8 +203,7 @@ cd gcc5.3.0
 sh install.sh
 
 rm -rf /tmp/gcc5.3.0*
-</code></pre>
-
+</code></pre></div>
                         
 
                         <hr>

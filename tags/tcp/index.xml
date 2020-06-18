@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tcp on Yesphet</title>
+    <title>TCP on Yesphet</title>
     <link>https://yesphet.github.io/tags/tcp/</link>
-    <description>Recent content in Tcp on Yesphet</description>
+    <description>Recent content in TCP on Yesphet</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 19 Mar 2020 14:59:19 +0800</lastBuildDate>
@@ -22,9 +22,9 @@
 从以下客户端抓包可以看到，客户端没有收到 [2711665,2719857] 这个包，因此一直在对 2711665进行ack，而服务端确实有收到大量的Duplicate ACK ack 2711665，但问题是为什么没有触发服务端的快速重传呢？ 查看 /proc/sys/net/ipv4/tcp_reordering 的值为3，所以可以确认服务端是有开启快速重传的，在收到3次duplicate ACK后就应该进行快重传，但从抓包文件中并没有发现有触发快速重传。
 客户端抓包： 服务端抓包： 再通过 nstat 发现TcpExtTcpWqueueTooBig值较为异常
 通过google搜索TcpExtTcpWqueueTooBig这个关键字，发现 Adventures in the TCP stack: Uncovering performance regressions in the TCP SACKs vulnerability fixes 这篇博文描述的问题和我们所遇到的基本一致。查看服务端内核版本为 3.10.0-957.21.3.el7.x86_64，再通过查看内核Changelog发现该版本正是刚好打完CVE-2019-11477, CVE-2019-11478 &amp;amp; CVE-2019-11479 这三个补丁
-之后通过升级内核版本至 3.10.0-1062.1.1.el7.x86_64 后发现问题得到了解决。
+之后通过升级内核版本至  3.10.0-1062.1.1.el7.x86_64 后发现问题得到了解决。
 三、问题分析 TCP SACK PANIC - Kernel vulnerabilities - CVE-2019-11477, CVE-2019-11478 &amp;amp; CVE-2019-11479 这三个补丁是为了解决SACK的安全问题。 在函数 tcp_fragment 中新增了如下代码
-if (unlikely((sk-&amp;gt;sk_wmem_queued &amp;gt;&amp;gt; 1) &amp;gt; sk-&amp;gt;sk_sndbuf)) { NET_INC_STATS(sock_net(sk), LINUX_MIB_TCPWQUEUETOOBIG); return -ENOMEM; }  从重传代码中发现当socket buffer长度大于MSS（最大报文长度）时，会先执行函数tcp_fragment，当以上代码if模块为true时，则会导致重传被中断，表现也就是我们上面抓包看到的收到了3次Duplicate ACK，却没有进行Retransmission的情况。更加具体的分析可以查看这篇博文Adventures in the TCP stack: Uncovering performance regressions in the TCP SACKs vulnerability fixes</description>
+if (unlikely((sk-&amp;gt;sk_wmem_queued &amp;gt;&amp;gt; 1) &amp;gt; sk-&amp;gt;sk_sndbuf)) { NET_INC_STATS(sock_net(sk), LINUX_MIB_TCPWQUEUETOOBIG); return -ENOMEM; } 从重传代码中发现当socket buffer长度大于MSS（最大报文长度）时，会先执行函数tcp_fragment，当以上代码if模块为true时，则会导致重传被中断，表现也就是我们上面抓包看到的收到了3次Duplicate ACK，却没有进行Retransmission的情况。更加具体的分析可以查看这篇博文Adventures in the TCP stack: Uncovering performance regressions in the TCP SACKs vulnerability fixes</description>
     </item>
     
   </channel>

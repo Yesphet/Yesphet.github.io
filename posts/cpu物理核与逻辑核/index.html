@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yesphet">
 <meta name="description" content="No seek, no find">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.67.1" />
 
 <title>CPU：物理核与逻辑核</title>
 
@@ -110,7 +110,7 @@
 
 
         <!-- HEADER -->
-<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/5.webp)">
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/3.webp)">
     <div class="header-content">
         <div class="header-content-inner">
             
@@ -161,92 +161,83 @@
                     <article class="post-body markdown-body">
 
                         
-                            <h3 id="一-物理cpu">一、物理CPU</h3>
-
+                            <h3 id="一物理cpu">一、物理CPU</h3>
 <ul>
 <li>物理CPU数是指实际Server中插槽上的CPU个数</li>
 <li>物理核数是指一个CPU上的物理核心数。</li>
 <li>每个CPU上有一到多个物理核</li>
 <li>物理总核数=物理CPU个数 X 每个物理CPU的核数</li>
 </ul>
-
-<h3 id="二-逻辑cpu">二、逻辑CPU</h3>
-
+<h3 id="二逻辑cpu">二、逻辑CPU</h3>
 <ul>
 <li>逻辑CPU是指处理器单元，它可以在与其它逻辑CPU并行执行。</li>
 <li>一般所说的CPU核数是指逻辑CPU数。</li>
 <li>总逻辑CPU数 = 物理CPU个数 X 每颗物理CPU的核数 X 超线程数</li>
 <li>如果采用了Intel的超线程技术（HT)，则上面公式的超线程数=2。即总逻辑CPU数为物理总核数的两倍</li>
 </ul>
+<h3 id="三如何查看cpu信息">三、如何查看CPU信息</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#Linux</span>
 
-<h3 id="三-如何查看cpu信息">三、如何查看CPU信息</h3>
-
-<pre><code class="language-bash">#Linux
-
-#查看CPU信息
+<span style="color:#75715e">#查看CPU信息</span>
 cat /proc/cpuinfo
-#OUTPUT:
-#processor      : 0         逻辑核ID
-#vendor_id      : GenuineIntel
-#cpu family     : 6
-#model          : 45
-#model name     : Intel(R) Xeon(R) CPU E5-2660 0 @ 2.20GHz
-#stepping       : 
-#cpu MHz        : 2200.000
-#cache size     : 20480 KB
-#physical id    : 0         物理CPU的编号
-#siblings       : 2         所在物理CPU有几个逻辑核
-#core id        : 0         物理核编号
-#cpu cores      : 2         所在物理CPU有几个物理核
-#apicid         : 0
-#initial apicid : 0
-#fpu            : yes
-#fpu_exception  : yes
-#cpuid level    : 13
-#wp             : yes
-#flags          : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts xtopology tsc_reliable nonstop_tsc aperfmperf unfair_spinlock pni pclmulqdq ssse3 cx16 sse4_1 sse4_2 popcnt aes xsave avx hypervisor lahf_lm ida arat xsaveopt pln pts dts
-#bogomips       : 4400.00
-#clflush size   : 64
-#cache_alignment: 64    
-#address sizes  : 40 bits physical, 48 bits virtual
-#power management:
+<span style="color:#75715e">#OUTPUT:</span>
+<span style="color:#75715e">#processor      : 0         逻辑核ID</span>
+<span style="color:#75715e">#vendor_id      : GenuineIntel</span>
+<span style="color:#75715e">#cpu family     : 6</span>
+<span style="color:#75715e">#model          : 45</span>
+<span style="color:#75715e">#model name     : Intel(R) Xeon(R) CPU E5-2660 0 @ 2.20GHz</span>
+<span style="color:#75715e">#stepping       :</span> 
+<span style="color:#75715e">#cpu MHz        : 2200.000</span>
+<span style="color:#75715e">#cache size     : 20480 KB</span>
+<span style="color:#75715e">#physical id    : 0         物理CPU的编号</span>
+<span style="color:#75715e">#siblings       : 2         所在物理CPU有几个逻辑核</span>
+<span style="color:#75715e">#core id        : 0         物理核编号</span>
+<span style="color:#75715e">#cpu cores      : 2         所在物理CPU有几个物理核</span>
+<span style="color:#75715e">#apicid         : 0</span>
+<span style="color:#75715e">#initial apicid : 0</span>
+<span style="color:#75715e">#fpu            : yes</span>
+<span style="color:#75715e">#fpu_exception  : yes</span>
+<span style="color:#75715e">#cpuid level    : 13</span>
+<span style="color:#75715e">#wp             : yes</span>
+<span style="color:#75715e">#flags          : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts xtopology tsc_reliable nonstop_tsc aperfmperf unfair_spinlock pni pclmulqdq ssse3 cx16 sse4_1 sse4_2 popcnt aes xsave avx hypervisor lahf_lm ida arat xsaveopt pln pts dts</span>
+<span style="color:#75715e">#bogomips       : 4400.00</span>
+<span style="color:#75715e">#clflush size   : 64</span>
+<span style="color:#75715e">#cache_alignment: 64</span>    
+<span style="color:#75715e">#address sizes  : 40 bits physical, 48 bits virtual</span>
+<span style="color:#75715e">#power management:</span>
     
     
-#查看物理CPU个数
-cat /proc/cpuinfo| grep &quot;physical id&quot;| sort| uniq| wc -l
+<span style="color:#75715e">#查看物理CPU个数</span>
+cat /proc/cpuinfo| grep <span style="color:#e6db74">&#34;physical id&#34;</span>| sort| uniq| wc -l
     
-#查看物理CPU核数
-cat /proc/cpuinfo| grep &quot;cpu cores&quot;| uniq
+<span style="color:#75715e">#查看物理CPU核数</span>
+cat /proc/cpuinfo| grep <span style="color:#e6db74">&#34;cpu cores&#34;</span>| uniq
 
-#查看逻辑CPU数
-cat /proc/cpuinfo |grep &quot;processor&quot;|wc -l
+<span style="color:#75715e">#查看逻辑CPU数</span>
+cat /proc/cpuinfo |grep <span style="color:#e6db74">&#34;processor&#34;</span>|wc -l
 
-#其他查看cpu信息的指令
+<span style="color:#75715e">#其他查看cpu信息的指令</span>
 lscpu
 
-</code></pre>
+</code></pre></div><hr>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
+<span style="color:#75715e">#OS X</span>
 
-<hr />
-
-<pre><code class="language-bash">
-#OS X
-
-#查看CPU信息
+<span style="color:#75715e">#查看CPU信息</span>
 sysctl -n machdep.cpu
-#machdep.cpu.core_count cpu物理核数
+<span style="color:#75715e">#machdep.cpu.core_count cpu物理核数</span>
 
-#查看物理CPU核数
+<span style="color:#75715e">#查看物理CPU核数</span>
 sysctl hw.physicalcpu
 
-#查看逻辑CPU核数
+<span style="color:#75715e">#查看逻辑CPU核数</span>
 sysctl hw.logicalcpu
 
-#hw.physicalcpu: The number of physical processors available in the current power management mode.
-#hw.physicalcpu_max: The maximum number of physical processors that could be available this boot.
-#hw.logicalcpu: The number of logical processors available in the current power management mode.
-#hw.logicalcpu_max: The maximum number of logical processors that could be available this boot.
-</code></pre>
-
+<span style="color:#75715e">#hw.physicalcpu: The number of physical processors available in the current power management mode.</span>
+<span style="color:#75715e">#hw.physicalcpu_max: The maximum number of physical processors that could be available this boot.</span>
+<span style="color:#75715e">#hw.logicalcpu: The number of logical processors available in the current power management mode.</span>
+<span style="color:#75715e">#hw.logicalcpu_max: The maximum number of logical processors that could be available this boot.</span>
+</code></pre></div>
                         
 
                         <hr>

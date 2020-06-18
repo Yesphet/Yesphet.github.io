@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yesphet">
 <meta name="description" content="No seek, no find">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.67.1" />
 
 <title>监控系统状态的指令</title>
 
@@ -110,7 +110,7 @@
 
 
         <!-- HEADER -->
-<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/2.webp)">
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/8.webp)">
     <div class="header-content">
         <div class="header-content-inner">
             
@@ -162,43 +162,41 @@
 
                         
                             <p><em>有标系统名称的为该系统特有</em></p>
-
-<pre><code class="language-bash">#查看系统运行时间、用户数、负载
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#查看系统运行时间、用户数、负载</span>
 $ uptime
-16:20:43 up 50 days,  1:50,  1 user,  load average: 0.00, 0.00, 0.00
+16:20:43 up <span style="color:#ae81ff">50</span> days,  1:50,  <span style="color:#ae81ff">1</span> user,  load average: 0.00, 0.00, 0.00
     
-#监控当前进程及简单系统状态,包括cpu占用，内存占用，load,
+<span style="color:#75715e">#监控当前进程及简单系统状态,包括cpu占用，内存占用，load,</span>
 $ top
     
-#查看load及活动用户
+<span style="color:#75715e">#查看load及活动用户</span>
 $ w
 
-#查看硬盘使用情况
+<span style="color:#75715e">#查看硬盘使用情况</span>
 $ df -h
 
-#查看所有监听端口
+<span style="color:#75715e">#查看所有监听端口</span>
 $ netstat -lntp   
 
-#查看IO负载
+<span style="color:#75715e">#查看IO负载</span>
 $ iostat
     
         
-######Linux#####
+<span style="color:#75715e">######Linux#####</span>
 
-#查看内存状态，-m，-k, -b可以指定单位
+<span style="color:#75715e">#查看内存状态，-m，-k, -b可以指定单位</span>
 $ free
 
-#查看网卡信息，需要root权限
+<span style="color:#75715e">#查看网卡信息，需要root权限</span>
 $ ethtool DEVNAME
     
     
-######OS X######
-#其实OS X直接打开自带的活动监视器，一目了然。。。
+<span style="color:#75715e">######OS X######</span>
+<span style="color:#75715e">#其实OS X直接打开自带的活动监视器，一目了然。。。</span>
     
     
     
-</code></pre>
-
+</code></pre></div>
                         
 
                         <hr>

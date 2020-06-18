@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yesphet">
 <meta name="description" content="No seek, no find">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.67.1" />
 
 <title>ImageMagick安装</title>
 
@@ -162,27 +162,16 @@
 
                         
                             <p>由于工作需求，一直有需要使用ImageMagick和FFmpeg等多媒体处理软件做一些简单的需求。这两个项目的依赖较多，且针对不同的需求，可能需要开启不同的功能，安装较为麻烦。因此在此做下一些相关安装的记录，避免之后的重复学习。</p>
-
 <h3 id="centos">Centos</h3>
-
-<h4 id="1-直接安装">1、直接安装</h4>
-
-<pre><code>yum install imageMagick
-</code></pre>
-
-<p>很粗暴，但是由于yum源更新较慢，版本一般较低。所以不建议这种方式。</p>
-
-<h4 id="2-源码安装">2、源码安装</h4>
-
+<h4 id="1直接安装">1、直接安装</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum install imageMagick
+</code></pre></div><p>很粗暴，但是由于yum源更新较慢，版本一般较低。所以不建议这种方式。</p>
+<h4 id="2源码安装">2、源码安装</h4>
 <h5 id="安装delegates">安装delegates</h5>
-
-<pre><code>yum install libjpg libjpg-devel libpng libpng libwebp libwebp-devel libxml2 libxml2-devel fontconfig fontconfig-devel libtiff libtiff-devel freetype freetype-devel zlib zlib-devel jasper jasper-devel
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum install libjpg libjpg-devel libpng libpng libwebp libwebp-devel libxml2 libxml2-devel fontconfig fontconfig-devel libtiff libtiff-devel freetype freetype-devel zlib zlib-devel jasper jasper-devel
+</code></pre></div><blockquote>
 <p>参考 <a href="https://www.imagemagick.org/script/install-source.php">官网文档</a></p>
 </blockquote>
-
 <pre><code>wget https://www.imagemagick.org/download/ImageMagick.tar.gz
 tar xvzf ImageMagick.tar.gz
 cd ImageMagick-7.0.7-28/
@@ -191,23 +180,13 @@ make
 sudo make install
 sudo ldconfig /usr/local/lib
 convert -version
-</code></pre>
-
-<p>建议采用这种姿势，可以比较自用的配置安装项。</p>
-
+</code></pre><p>建议采用这种姿势，可以比较自用的配置安装项。</p>
 <h3 id="mac-os-x">Mac OS X</h3>
-
 <h4 id="1-brew安装">1、 brew安装</h4>
-
 <pre><code>brew install imagemagick
-</code></pre>
-
-<p>也是简单粗暴，但brew源更新的速度就很快，一般都可以安装到近期的ImageMagick的版本。因此建议采用这种方式，省心。</p>
-
+</code></pre><p>也是简单粗暴，但brew源更新的速度就很快，一般都可以安装到近期的ImageMagick的版本。因此建议采用这种方式，省心。</p>
 <pre><code>brew info imagemagick
-</code></pre>
-
-<p>也可以通过<code>info</code>查看安装选项，灰常方便。</p>
+</code></pre><p>也可以通过<code>info</code>查看安装选项，灰常方便。</p>
 
                         
 

@@ -10,7 +10,7 @@
 <meta name="description" content="No seek, no find">
 <meta name="generator" content="Hugo 0.67.1" />
 
-<title>Windows下的shell脚本传到Linux下无法执行</title>
+<title>FFmpeg学习笔记</title>
 
 <!-- Favicon -->
 <link rel="shortcut icon" href="https://yesphet.github.io/captain-america.png">
@@ -110,12 +110,12 @@
 
 
         <!-- HEADER -->
-<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/6.webp)">
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/4.webp)">
     <div class="header-content">
         <div class="header-content-inner">
             
                 
-                <h1>Windows下的shell脚本传到Linux下无法执行</h1>
+                <h1>FFmpeg学习笔记</h1>
             
             <hr>
 
@@ -125,7 +125,7 @@
                 <ul class="list-inline item-details">
                 
                     <li>
-                        <strong>Wednesday,  Aug 24,  2016</strong>
+                        <strong>Tuesday,  Sep 12,  2017</strong>
                     </li>
                 
                 
@@ -151,7 +151,7 @@
                         
                         <li>Tags:
                              
-                                <strong class="post-prop-value"><a href="#">OS</a></strong>
+                                <strong class="post-prop-value"><a href="#">FFmpeg</a></strong>
                             
                         </li>
                         
@@ -161,19 +161,38 @@
                     <article class="post-body markdown-body">
 
                         
-                            <p>原因：windos下的.sh文件格式为dos格式。而linux只能执行格式为unix格式的脚本
-解决办法：</p>
-<ul>
-<li>用vi或vim打开文件</li>
-<li>执行set ff指令查看文件的格式，应该为fileformat=dos</li>
-<li>修改format为unix。执行set ff=unix或 set fileformat=unix</li>
-<li>wq保存退出</li>
-</ul>
+                            <h3 id="查看视频信息">查看视频信息</h3>
+<p>使用ffprobe</p>
+<blockquote>
+<p>文档： <a href="https://ffmpeg.org/ffprobe.html">https://ffmpeg.org/ffprobe.html</a></p>
+</blockquote>
+<h3 id="插入关键帧">插入关键帧</h3>
+<p><code>-force_key_frames </code></p>
+<p>一般使用<code>expr:expr</code>方式来指定:</p>
+<blockquote>
+<p>If the argument is prefixed with expr:, the string expr is interpreted like an expression and is evaluated for each frame. A key frame is forced in case the evaluation is non-zero.</p>
+</blockquote>
+<blockquote>
+<p>文档： <a href="https://ffmpeg.org/ffmpeg.html">https://ffmpeg.org/ffmpeg.html</a><br>
+expr函数可以参考： <a href="https://ffmpeg.org/ffmpeg-all.html#Expression-Evaluation">https://ffmpeg.org/ffmpeg-all.html#Expression-Evaluation</a></p>
+</blockquote>
+<h3 id="视频分割">视频分割</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ffmpeg -i 4M.mp4 -codec:v h264 -codec:a copy <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> -force_key_frames <span style="color:#e6db74">&#39;expr:if(isnan(prev_forced_t),gte(t,0),gte(t,prev_forced_t+5))&#39;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> -f segment -segment_list test.ffcat -segment_times 5,10 -segment_time_delta <span style="color:#ae81ff">1</span> out%03d.ts
+</code></pre></div><blockquote>
+<p>文档： <a href="https://ffmpeg.org/ffmpeg-all.html#segment_002c-stream_005fsegment_002c-ssegment">https://ffmpeg.org/ffmpeg-all.html#segment_002c-stream_005fsegment_002c-ssegment</a></p>
+</blockquote>
+<h3 id="视频合并">视频合并</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ffmpeg -f concat -i test.ffcat -c copy 4Mconcated.mp4
+</code></pre></div><blockquote>
+<p>参考： <a href="http://blog.csdn.net/xiaojun111111/article/details/52438230">http://blog.csdn.net/xiaojun111111/article/details/52438230</a></p>
+</blockquote>
 
                         
 
                         <hr>
-                        <a href="https://yesphet.github.io/posts/windows%E4%B8%8B%E7%9A%84shell%E8%84%9A%E6%9C%AC%E4%BC%A0%E5%88%B0linux%E4%B8%8B%E6%97%A0%E6%B3%95%E6%89%A7%E8%A1%8C/"><i class="fa fa-fingerprint post-icon"></i>  本文地址</a>
+                        <a href="https://yesphet.github.io/posts/study-notes/ffmpeg%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa fa-fingerprint post-icon"></i>  本文地址</a>
 
                     </article>
                 </div>

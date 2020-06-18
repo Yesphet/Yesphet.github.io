@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yesphet">
 <meta name="description" content="No seek, no find">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.67.1" />
 
 <title>Time Series Database</title>
 
@@ -110,7 +110,7 @@
 
 
         <!-- HEADER -->
-<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/2.webp)">
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/4.webp)">
     <div class="header-content">
         <div class="header-content-inner">
             
@@ -149,33 +149,25 @@
                     <article class="post-body markdown-body">
 
                         
-                            <h2 id="一-feature-comparison">一、Feature Comparison</h2>
-
+                            <h2 id="一feature-comparison">一、Feature Comparison</h2>
 <blockquote>
 <p><a href="http://btw2017.informatik.uni-stuttgart.de/slidesandpapers/E4-14-109/paper_web.pdf">Survey and Comparison of
 Open Source Time Series Databases</a></p>
 </blockquote>
-
 <h3 id="tsdb-的分组">TSDB 的分组</h3>
-
 <ol>
 <li>依赖其他DBMS（如Cassandra，HBase，CouchDB，MySQL）来存储time series数据的。该分组不包括使用其他DBMS来存储meta信息的TSDB。</li>
 <li>不依赖其他DBMS来存储time series数据的。</li>
 <li>可以存储time series数据的RDBMS</li>
 <li>非开源的TSDB</li>
 </ol>
-
 <h3 id="tsdb-对比">TSDB 对比</h3>
-
 <p>从 <a href="http://btw2017.informatik.uni-stuttgart.de/slidesandpapers/E4-14-109/paper_web.pdf">Survey and Comparison of
 Open Source Time Series Databases</a> 中提取关于 InfluxDB、Prometheus、Druid、OpenTSDB的对比。这篇Paper主要是对各个TSDB进行定义和分类，以及对比比较流行的前12个TSDBs的特性。以下摘取其中比较值得注意的对比。更详细的请参考原文。</p>
-
-<p><strong>✓ means available</strong><br />
-<strong>(✓) means available with restrictions</strong><br />
+<p><strong>✓ means available</strong> <br>
+<strong>(✓) means available with restrictions</strong><br>
 <strong>✗ means not available</strong></p>
-
-<h4 id="1-criteria-group-1-distribution-clusterability">1、Criteria Group 1: Distribution/Clusterability.</h4>
-
+<h4 id="1criteria-group-1-distributionclusterability">1、Criteria Group 1: Distribution/Clusterability.</h4>
 <table>
 <thead>
 <tr>
@@ -186,7 +178,6 @@ Open Source Time Series Databases</a> 中提取关于 InfluxDB、Prometheus、Dr
 <th>remark</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>OpenTSDB</td>
@@ -195,7 +186,6 @@ Open Source Time Series Databases</a> 中提取关于 InfluxDB、Prometheus、Dr
 <td>(✓)</td>
 <td>部署多个HBase节点，通过DNS或者HaProxy等lb将query分布到不同的实例</td>
 </tr>
-
 <tr>
 <td>Druid</td>
 <td>✓</td>
@@ -203,7 +193,6 @@ Open Source Time Series Databases</a> 中提取关于 InfluxDB、Prometheus、Dr
 <td>✓</td>
 <td>Druid 使用RDBMS作为元数据存储，zookeeper作为协调，以及分布式存储（HDFS/S3/Azure）来保存数据，需要部署5个不同类型的节点。</td>
 </tr>
-
 <tr>
 <td>InfluxDB</td>
 <td>✓</td>
@@ -211,25 +200,19 @@ Open Source Time Series Databases</a> 中提取关于 InfluxDB、Prometheus、Dr
 <td>✓</td>
 <td>通过 influxDB-relay 来实现高可用和负载均衡</td>
 </tr>
-
 <tr>
 <td>Prometheus</td>
 <td>✗</td>
 <td>(✓)</td>
 <td>(✓)</td>
-<td><a href="https://prometheus.io/docs/introduction/faq/#can-prometheus-be-made-highly-available">Can Prometheus be made highly available?</a>  </br>  <a href="https://www.robustperception.io/scaling-and-federating-prometheus">Scaling and Federating Prometheus</a></td>
+<td><a href="https://prometheus.io/docs/introduction/faq/#can-prometheus-be-made-highly-available">Can Prometheus be made highly available?</a>  <!-- raw HTML omitted -->  <a href="https://www.robustperception.io/scaling-and-federating-prometheus">Scaling and Federating Prometheus</a></td>
 </tr>
 </tbody>
 </table>
-
-<h4 id="2-criteria-group-2-functions">2、Criteria Group 2: Functions</h4>
-
+<h4 id="2criteria-group-2-functions">2、Criteria Group 2: Functions</h4>
 <p>大部分TSDB基本都支持Aggregation，但大部分不支持 UPD 和 DEL（InfluxDB支持）。</p>
-
-<h4 id="3-criteria-group-3-tags-continuous-calculation-long-term-storage-and-matrix-time-series">3、Criteria Group 3: Tags, Continuous Calculation, Long-term Storage, and Matrix Time Series.</h4>
-
+<h4 id="3criteria-group-3-tags-continuous-calculation-long-term-storage-and-matrix-time-series">3、Criteria Group 3: Tags, Continuous Calculation, Long-term Storage, and Matrix Time Series.</h4>
 <p>Matrix Time Series : 一条数据有多个TimeStamp</p>
-
 <table>
 <thead>
 <tr>
@@ -241,7 +224,6 @@ Open Source Time Series Databases</a> 中提取关于 InfluxDB、Prometheus、Dr
 <th>remark</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>OpenTSDB</td>
@@ -251,7 +233,6 @@ Open Source Time Series Databases</a> 中提取关于 InfluxDB、Prometheus、Dr
 <td>✗</td>
 <td></td>
 </tr>
-
 <tr>
 <td>Druid</td>
 <td>✓</td>
@@ -260,7 +241,6 @@ Open Source Time Series Databases</a> 中提取关于 InfluxDB、Prometheus、Dr
 <td>✗</td>
 <td></td>
 </tr>
-
 <tr>
 <td>InfluxDB</td>
 <td>✓</td>
@@ -269,7 +249,6 @@ Open Source Time Series Databases</a> 中提取关于 InfluxDB、Prometheus、Dr
 <td>✗</td>
 <td>通过CQ 降采样和Retention policies来实现Continuous Calculation 和  Long-Term Storage</td>
 </tr>
-
 <tr>
 <td>Prometheus</td>
 <td>✓</td>
@@ -280,9 +259,7 @@ Open Source Time Series Databases</a> 中提取关于 InfluxDB、Prometheus、Dr
 </tr>
 </tbody>
 </table>
-
-<h4 id="4-criteria-group-4-granularity">4、Criteria Group 4: Granularity.</h4>
-
+<h4 id="4criteria-group-4-granularity">4、Criteria Group 4: Granularity.</h4>
 <table>
 <thead>
 <tr>
@@ -293,7 +270,6 @@ Open Source Time Series Databases</a> 中提取关于 InfluxDB、Prometheus、Dr
 <th>Smallest Guaranteed Granularity for Storage</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>OpenTSDB</td>
@@ -302,7 +278,6 @@ Open Source Time Series Databases</a> 中提取关于 InfluxDB、Prometheus、Dr
 <td>1 ms</td>
 <td>&gt; 1ms^41</td>
 </tr>
-
 <tr>
 <td>Druid</td>
 <td>✓</td>
@@ -310,7 +285,6 @@ Open Source Time Series Databases</a> 中提取关于 InfluxDB、Prometheus、Dr
 <td>1 ms</td>
 <td>1 ms</td>
 </tr>
-
 <tr>
 <td>InfluxDB</td>
 <td>✓</td>
@@ -318,7 +292,6 @@ Open Source Time Series Databases</a> 中提取关于 InfluxDB、Prometheus、Dr
 <td>1 ms</td>
 <td>1 ms</td>
 </tr>
-
 <tr>
 <td>Prometheus</td>
 <td>✓</td>
@@ -328,15 +301,11 @@ Open Source Time Series Databases</a> 中提取关于 InfluxDB、Prometheus、Dr
 </tr>
 </tbody>
 </table>
-
-<h2 id="二-influxdb-survey">二、InfluxDb Survey</h2>
-
+<h2 id="二influxdb-survey">二、InfluxDb Survey</h2>
 <blockquote>
 <p>InfluxDB 1.7</p>
 </blockquote>
-
-<h3 id="2-1-features">2.1 Features</h3>
-
+<h3 id="21-features">2.1 Features</h3>
 <ul>
 <li>高性能的TSDB，使用<a href="https://docs.influxdata.com/influxdb/v1.7/concepts/storage_engine/">TSM</a>存储引擎。</li>
 <li>使用Go语言编写。安装时不需要其他依赖。</li>
@@ -347,23 +316,18 @@ Open Source Time Series Databases</a> 中提取关于 InfluxDB、Prometheus、Dr
 <li>支持Retention polilcies，可以自动删除过期数据。</li>
 <li>Continuous queries(CQ)，自动聚合数据，降采样，以此提高查询性能。</li>
 </ul>
-
-<h3 id="2-2-encouraged-schema-design-https-docs-influxdata-com-influxdb-v1-7-concepts-schema-and-data-layout-encouraged-schema-design">2.2 <a href="https://docs.influxdata.com/influxdb/v1.7/concepts/schema_and_data_layout/#encouraged-schema-design">Encouraged Schema Design</a></h3>
-
+<h3 id="22-encouraged-schema-designhttpsdocsinfluxdatacominfluxdbv17conceptsschema_and_data_layoutencouraged-schema-design">2.2 <a href="https://docs.influxdata.com/influxdb/v1.7/concepts/schema_and_data_layout/#encouraged-schema-design">Encouraged Schema Design</a></h3>
 <ol>
 <li>Tags 有做索引，而fields没有做索引。根据tag做查询性能会好很多。</li>
 <li>避免使用和InfluxQL的保留字同样的字段名。</li>
 </ol>
-
-<h3 id="2-3-discouraged-schema-design-https-docs-influxdata-com-influxdb-v1-7-concepts-schema-and-data-layout-discouraged-schema-design">2.3 <a href="https://docs.influxdata.com/influxdb/v1.7/concepts/schema_and_data_layout/#discouraged-schema-design">Discouraged schema design</a></h3>
-
+<h3 id="23-discouraged-schema-designhttpsdocsinfluxdatacominfluxdbv17conceptsschema_and_data_layoutdiscouraged-schema-design">2.3 <a href="https://docs.influxdata.com/influxdb/v1.7/concepts/schema_and_data_layout/#discouraged-schema-design">Discouraged schema design</a></h3>
 <ol>
 <li>控制time series的数量，如果time series数量过多会导致内存占用过高。<a href="https://docs.influxdata.com/influxdb/v1.7/guides/hardware_sizing/#general-hardware-guidelines-for-a-single-node">不同数据量级的硬件建议</a></li>
 <li>不要使用表名来保存数据。通过tag的方式会更好。</li>
 <li>不要在一个tag中包含多个信息。</li>
 </ol>
-
-<h3 id="2-4-shard-group-duration-trade-offs-https-docs-influxdata-com-influxdb-v1-7-concepts-schema-and-data-layout-shard-group-duration-tradeoffs">2.4 <a href="https://docs.influxdata.com/influxdb/v1.7/concepts/schema_and_data_layout/#shard-group-duration-tradeoffs">Shard group duration tradeoffs</a></h3>
+<h3 id="24-shard-group-duration-tradeoffshttpsdocsinfluxdatacominfluxdbv17conceptsschema_and_data_layoutshard-group-duration-tradeoffs">2.4 <a href="https://docs.influxdata.com/influxdb/v1.7/concepts/schema_and_data_layout/#shard-group-duration-tradeoffs">Shard group duration tradeoffs</a></h3>
 
                         
 

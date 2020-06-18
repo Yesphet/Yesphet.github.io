@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yesphet">
 <meta name="description" content="No seek, no find">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.67.1" />
 
 <title>Tomcat7压测(1)</title>
 
@@ -110,7 +110,7 @@
 
 
         <!-- HEADER -->
-<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/2.webp)">
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/9.webp)">
     <div class="header-content">
         <div class="header-content-inner">
             
@@ -161,29 +161,27 @@
                     <article class="post-body markdown-body">
 
                         
-                            <h2 id="tomcat7压测-一">Tomcat7压测（一）</h2>
-
+                            <h2 id="tomcat7压测一">Tomcat7压测（一）</h2>
 <h2 id="目的">目的</h2>
-
 <ul>
-<li><p>目的主要有几点：</p>
-
+<li>
+<p>目的主要有几点：</p>
 <ul>
 <li>了解空跑的TomcatQPS能达到多少</li>
 <li>测试在Tomcat线程池，等待队列，最大连接数满了的情况下Tomcat的表现</li>
 <li>通过压测暴露一些问题及对这些问题的解决</li>
 <li>提升性能测试的姿势，算是一种锻炼吧</li>
-</ul></li>
-
-<li><p>应该会分几个篇幅来分析，因为压测场景及数据比较多。</p></li>
-
-<li><p>本篇主要是最基础的测试，后续会对压测中发现的问题做一些解决</p></li>
 </ul>
-
+</li>
+<li>
+<p>应该会分几个篇幅来分析，因为压测场景及数据比较多。</p>
+</li>
+<li>
+<p>本篇主要是最基础的测试，后续会对压测中发现的问题做一些解决</p>
+</li>
+</ul>
 <h2 id="压测">压测</h2>
-
 <h3 id="场景">场景</h3>
-
 <table>
 <thead>
 <tr>
@@ -192,26 +190,22 @@
 <th></th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>Tomcat配置</td>
-<td>maxThreads=&ldquo;300&rdquo;<br>minSpareThreads=&ldquo;100&rdquo;<br>connectionTimeout=&ldquo;8000&rdquo;<br>enableLookups=&ldquo;false&rdquo;<br>acceptCount=&ldquo;100&rdquo;<br>acceptorThreadCount=&ldquo;1&rdquo;</td>
+<td>maxThreads=&quot;300&quot;<!-- raw HTML omitted -->minSpareThreads=&quot;100&quot;<!-- raw HTML omitted -->connectionTimeout=&quot;8000&quot;<!-- raw HTML omitted -->enableLookups=&quot;false&quot;<!-- raw HTML omitted -->acceptCount=&quot;100&quot;<!-- raw HTML omitted -->acceptorThreadCount=&quot;1&rdquo;</td>
 <td></td>
 </tr>
-
 <tr>
 <td>环境</td>
 <td>Docker容器内</td>
 <td></td>
 </tr>
-
 <tr>
 <td>服务描述</td>
 <td>当收到一个请求后，将处理该请求的线程sleep20ms,然后返回response。因为该服务本身几乎不占用任何系统资源，所以在CPU，Mem，IO上是不会产生瓶颈的（实际压测证实），且因为该场景下控制了每个请求的耗时，QPS不高，所以在网络IO上也不会产生瓶颈。因此会影响QPS的只有Tomcat线程池的参数和Tomcat的性能</td>
 <td></td>
 </tr>
-
 <tr>
 <td>服务耗时</td>
 <td>20ms</td>
@@ -219,9 +213,7 @@
 </tr>
 </tbody>
 </table>
-
-<h3 id="数据-整理后">数据(整理后)</h3>
-
+<h3 id="数据整理后">数据(整理后)</h3>
 <table>
 <thead>
 <tr>
@@ -234,131 +226,118 @@
 <th>描述</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>1</td>
-<td>ab -c100 -n500000 -k <a href="http://172.16.200.18:8891/Jweb/1">http://172.16.200.18:8891/Jweb/1</a></td>
+<td>ab -c100 -n500000 -k http://172.16.200.18:8891/Jweb/1</td>
 <td>107.443s</td>
 <td>4653.62</td>
 <td>21.489ms</td>
 <td>201</td>
 <td></td>
 </tr>
-
 <tr>
 <td>2</td>
-<td>ab -c150 -n500000 -k <a href="http://172.16.200.18:8891/Jweb/1">http://172.16.200.18:8891/Jweb/1</a></td>
+<td>ab -c150 -n500000 -k http://172.16.200.18:8891/Jweb/1</td>
 <td>72.462s</td>
 <td>6900.21</td>
 <td>21.738ms</td>
 <td>293</td>
 <td></td>
 </tr>
-
 <tr>
 <td>3</td>
-<td>ab -c200 -n500000 -k <a href="http://172.16.200.18:8891/Jweb/1">http://172.16.200.18:8891/Jweb/1</a></td>
+<td>ab -c200 -n500000 -k http://172.16.200.18:8891/Jweb/1</td>
 <td>54.558s</td>
 <td>9164.51</td>
 <td>21.823ms</td>
 <td>273</td>
 <td></td>
 </tr>
-
 <tr>
 <td>4</td>
-<td>ab -c300 -n500000 -k <a href="http://172.16.200.18:8891/Jweb/1">http://172.16.200.18:8891/Jweb/1</a></td>
+<td>ab -c300 -n500000 -k http://172.16.200.18:8891/Jweb/1</td>
 <td>50.134s</td>
 <td>9973.28</td>
 <td>30.080ms</td>
 <td>300</td>
 <td></td>
 </tr>
-
 <tr>
 <td>5</td>
-<td>ab -c350 -n500000 -k <a href="http://172.16.200.18:8891/Jweb/1">http://172.16.200.18:8891/Jweb/1</a></td>
+<td>ab -c350 -n500000 -k http://172.16.200.18:8891/Jweb/1</td>
 <td>44.010 s</td>
 <td>11361.12</td>
 <td>30.807ms</td>
 <td>300</td>
 <td></td>
 </tr>
-
 <tr>
 <td>6</td>
-<td>ab -c400 -n500000 -k <a href="http://172.16.200.18:8891/Jweb/1">http://172.16.200.18:8891/Jweb/1</a></td>
+<td>ab -c400 -n500000 -k http://172.16.200.18:8891/Jweb/1</td>
 <td>41.897s</td>
 <td>11934.02</td>
 <td>33.518ms</td>
 <td>300</td>
 <td></td>
 </tr>
-
 <tr>
 <td>7</td>
-<td>ab -c500 -n500000 -k <a href="http://172.16.200.18:8891/Jweb/1">http://172.16.200.18:8891/Jweb/1</a></td>
+<td>ab -c500 -n500000 -k http://172.16.200.18:8891/Jweb/1</td>
 <td>40.968s</td>
 <td>12204.59</td>
 <td>40.968ms</td>
 <td>300</td>
 <td></td>
 </tr>
-
 <tr>
 <td>8</td>
-<td>ab -c100 -n500000 <a href="http://172.16.200.18:8891/Jweb/1">http://172.16.200.18:8891/Jweb/1</a></td>
+<td>ab -c100 -n500000 http://172.16.200.18:8891/Jweb/1</td>
 <td>116.331s</td>
 <td>4298.09</td>
 <td>23.266ms</td>
 <td>102</td>
 <td></td>
 </tr>
-
 <tr>
 <td>9</td>
-<td>ab -c200 -n500000 <a href="http://172.16.200.18:8891/Jweb/1">http://172.16.200.18:8891/Jweb/1</a></td>
+<td>ab -c200 -n500000 http://172.16.200.18:8891/Jweb/1</td>
 <td>59.024s</td>
 <td>8471.06</td>
 <td>23.610ms</td>
 <td>201</td>
 <td></td>
 </tr>
-
 <tr>
 <td>10</td>
-<td>ab -c250 -n500000 <a href="http://172.16.200.18:8891/Jweb/1">http://172.16.200.18:8891/Jweb/1</a></td>
+<td>ab -c250 -n500000 http://172.16.200.18:8891/Jweb/1</td>
 <td>47.943s</td>
 <td>10429.08</td>
 <td>23.971ms</td>
 <td>251</td>
 <td></td>
 </tr>
-
 <tr>
 <td>11</td>
-<td>ab -c300 -n500000 <a href="http://172.16.200.18:8891/Jweb/1">http://172.16.200.18:8891/Jweb/1</a></td>
+<td>ab -c300 -n500000 http://172.16.200.18:8891/Jweb/1</td>
 <td>45.464s</td>
 <td>10997.69</td>
 <td>27.278ms</td>
 <td>300</td>
 <td></td>
 </tr>
-
 <tr>
 <td>12</td>
-<td>ab -c400 -n500000 <a href="http://172.16.200.18:8891/Jweb/1">http://172.16.200.18:8891/Jweb/1</a></td>
+<td>ab -c400 -n500000 http://172.16.200.18:8891/Jweb/1</td>
 <td>45.206s</td>
 <td>11060.57</td>
 <td>36.164ms</td>
 <td>300</td>
 <td></td>
 </tr>
-
 <tr>
 <td>13</td>
-<td>ab -c500 -n500000 <a href="http://172.16.200.18:8891/Jweb/1">http://172.16.200.18:8891/Jweb/1</a></td>
+<td>ab -c500 -n500000 http://172.16.200.18:8891/Jweb/1</td>
 <td>42.562s</td>
 <td>11747.53</td>
 <td>42.562ms</td>
@@ -367,23 +346,27 @@
 </tr>
 </tbody>
 </table>
-
 <h3 id="总结">总结</h3>
-
 <ul>
-<li>压测工具使用的是ApacheBench,-c表示并发数，-n表示请求数（即该次压测发起的请求总数），-k表示使用keep-alive。</li>
-<li>观察前三组数据，可以发现当并发数小于Tomcat的maxThread时（Tomcat线程池没满时），QPS与并发数成正比（eg.第1、2组数据 <sup>6900</sup>&frasl;<sub>4653</sub> ≈ <sup>3</sup>&frasl;<sub>2</sub> = <sup>150</sup>&frasl;<sub>100</sub> ）。且每个请求的耗时约为21ms，其中20ms为服务sleep耗时，剩余的1ms为网络通讯和Tomcat处理耗时。客户端Ping服务端耗时约为0.3ms。所以Tomcat处理耗时应该$10^-1$ms级别。</li>
-<li>观察第四组数据，由于并发数等于线程池最大对象，当新的请求进来时，需要等待线程释放，导致请求的耗时增加。</li>
-
-<li><p>为什么前4组数据，Tomcat线程数都大于压测的并发数？</p>
-
+<li>
+<p>压测工具使用的是ApacheBench,-c表示并发数，-n表示请求数（即该次压测发起的请求总数），-k表示使用keep-alive。</p>
+</li>
+<li>
+<p>观察前三组数据，可以发现当并发数小于Tomcat的maxThread时（Tomcat线程池没满时），QPS与并发数成正比（eg.第1、2组数据 6900/4653 ≈ 3/2 = 150/100 ）。且每个请求的耗时约为21ms，其中20ms为服务sleep耗时，剩余的1ms为网络通讯和Tomcat处理耗时。客户端Ping服务端耗时约为0.3ms。所以Tomcat处理耗时应该$10^-1$ms级别。</p>
+</li>
+<li>
+<p>观察第四组数据，由于并发数等于线程池最大对象，当新的请求进来时，需要等待线程释放，导致请求的耗时增加。</p>
+</li>
+<li>
+<p>为什么前4组数据，Tomcat线程数都大于压测的并发数？</p>
 <blockquote>
 <p>参考<a href="http://hongjiang.info/how-tomcat-implements-keep-alive/">http://hongjiang.info/how-tomcat-implements-keep-alive/</a></p>
 </blockquote>
-
-<p>因为该压测场景下，Tomcat配置的是BIO模式。该模式下对于keep-alive的请求Tomcat线程会阻塞住并等待请求进来直到超时。通过观察多组数据下服务端TCP链接数，总结得出当带有keep-alive选项时，ApacheBench与服务端之间的建立的每个TCP链接只会处理100个请求(包括失败重试)(待验证是什么原因)，当处理完100个请求后，ApacheBench会新建一个TCP链接继续压测，但之前的TCP链接并没有马上关闭。因此这些没有用且没有关闭的TCP连接会继续占用Tomcat线程。</p></li>
-
-<li><p>观察不带keep-alive选项的数据，即8-13组数据。可以发现表现和1-8组数据差不多，但由于要建立更多的TCP连接，所以QPS会稍低一些。不过由于每个请求结束后会立即释放Tomcat线程，所以当并发数小于maxThread时，Tomcat线程数≈并发数。多出一两个线程是由于可能一个线程执行完后还没有释放，新的请求就进来了，所以会先创建一个新的线程来执行新的请求。</p></li>
+<p>因为该压测场景下，Tomcat配置的是BIO模式。该模式下对于keep-alive的请求Tomcat线程会阻塞住并等待请求进来直到超时。通过观察多组数据下服务端TCP链接数，总结得出当带有keep-alive选项时，ApacheBench与服务端之间的建立的每个TCP链接只会处理100个请求(包括失败重试)(待验证是什么原因)，当处理完100个请求后，ApacheBench会新建一个TCP链接继续压测，但之前的TCP链接并没有马上关闭。因此这些没有用且没有关闭的TCP连接会继续占用Tomcat线程。</p>
+</li>
+<li>
+<p>观察不带keep-alive选项的数据，即8-13组数据。可以发现表现和1-8组数据差不多，但由于要建立更多的TCP连接，所以QPS会稍低一些。不过由于每个请求结束后会立即释放Tomcat线程，所以当并发数小于maxThread时，Tomcat线程数≈并发数。多出一两个线程是由于可能一个线程执行完后还没有释放，新的请求就进来了，所以会先创建一个新的线程来执行新的请求。</p>
+</li>
 </ul>
 
                         

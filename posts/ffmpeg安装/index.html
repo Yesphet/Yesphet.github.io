@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yesphet">
 <meta name="description" content="No seek, no find">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.67.1" />
 
 <title>FFmpeg安装</title>
 
@@ -110,7 +110,7 @@
 
 
         <!-- HEADER -->
-<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/7.webp)">
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/4.webp)">
     <div class="header-content">
         <div class="header-content-inner">
             
@@ -162,17 +162,13 @@
 
                         
                             <h3 id="编译参数">编译参数</h3>
-
 <pre><code>export FF_BUILD=$HOME/ffmpeg3.4.1_build
 export FF_INCLUDE=$FF_BUILD/include
 export FF_LIB=$FF_BUILD/lib
 export FF_BIN=$FF_BUILD/bin
 export PATH=$FF_BIN:$PATH
 
-</code></pre>
-
-<h3 id="fdk-aac">fdk_aac</h3>
-
+</code></pre><h3 id="fdk_aac">fdk_aac</h3>
 <pre><code>cd /tmp/ffmpeg_source
 git clone --depth 1 git://git.code.sf.net/p/opencore-amr/fdk-aac
 
@@ -180,10 +176,7 @@ cd fdk-aac
 autoreconf -fiv
 ./configure --prefix=&quot;$FF_BUILD&quot; --disable-shared
 make &amp;&amp; make install &amp;&amp; make distclean
-</code></pre>
-
-<h3 id="libmp3lame">libmp3lame</h3>
-
+</code></pre><h3 id="libmp3lame">libmp3lame</h3>
 <pre><code>cd /tmp/ffmpeg_source
 wget http://iweb.dl.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz
 tar zxf lame-3.99.5.tar.gz
@@ -191,10 +184,7 @@ tar zxf lame-3.99.5.tar.gz
 cd lame-3.99.5
 ./configure --prefix=&quot;$FF_BUILD&quot; --bindir=&quot;$FF_BIN&quot; --enable-shared --enable-nasm
 make &amp;&amp; make install &amp;&amp; make distclean
-</code></pre>
-
-<h3 id="yasm">yasm</h3>
-
+</code></pre><h3 id="yasm">yasm</h3>
 <pre><code>cd /tmp/ffmpeg_source
 git clone --depth 1 git://github.com/yasm/yasm.git
 
@@ -202,10 +192,7 @@ cd yasm
 autoreconf -fiv
 ./configure --prefix=&quot;$FF_BUILD&quot; --bindir=&quot;$FF_BIN&quot;
 make &amp;&amp; make install &amp;&amp; make distclean
-</code></pre>
-
-<h3 id="nasm">nasm</h3>
-
+</code></pre><h3 id="nasm">nasm</h3>
 <pre><code>cd /tmp/ffmpeg_source
 wget http://www.nasm.us/pub/nasm/releasebuilds/2.13.01/nasm-2.13.01.tar.xz
 tar xvfJ nasm-2.13.01.tar.xz
@@ -213,49 +200,34 @@ tar xvfJ nasm-2.13.01.tar.xz
 cd nasm-2.13.01
 ./configure --prefix=&quot;$FF_BUILD&quot; --bindir=&quot;$FF_BIN&quot;
 make &amp;&amp; make install &amp;&amp; make distclean
-</code></pre>
-
-<h3 id="x264">x264</h3>
-
+</code></pre><h3 id="x264">x264</h3>
 <pre><code>cd /tmp/ffmpeg_source
 git clone --depth 1 git://git.videolan.org/x264
 
 cd x264
 ./configure --prefix=&quot;$FF_BUILD&quot; --bindir=&quot;$FF_BIN&quot; --enable-static
 make &amp;&amp; make install &amp;&amp; make distclean
-</code></pre>
-
-<h3 id="x265">x265</h3>
-
+</code></pre><h3 id="x265">x265</h3>
 <pre><code>cd /tmp/ffmpeg_source
 hg clone https://bitbucket.org/multicoreware/x265
 
 cd x265/build/linux
 cmake -G &quot;Unix Makefiles&quot; -DCMAKE_INSTALL_PREFIX=&quot;$FF_BUILD&quot; -DENABLE_SHARED:bool=off ../../source
 make &amp;&amp; make install 
-</code></pre>
-
-<h3 id="opus">opus</h3>
-
+</code></pre><h3 id="opus">opus</h3>
 <pre><code>cd /tmp/ffmpeg_source
 git clone git://git.opus-codec.org/opus.git
 cd opus
 autoreconf -fiv
 ./configure --prefix=&quot;$FF_BUILD&quot; --disable-shared
 make &amp;&amp; make install &amp;&amp; make distclean
-</code></pre>
-
-<h3 id="libogg">libogg</h3>
-
+</code></pre><h3 id="libogg">libogg</h3>
 <pre><code>cd /tmp/ffmpeg_source
 wget http://downloads.xiph.org/releases/ogg/libogg-1.3.2.tar.gz
 tar xvzf libogg-1.3.2
 ./configure --prefix=&quot;$FF_BUILD&quot; --disable-shared
 make &amp;&amp; make install &amp;&amp; make distclean
-</code></pre>
-
-<h3 id="libvorbis">libvorbis</h3>
-
+</code></pre><h3 id="libvorbis">libvorbis</h3>
 <pre><code>cd /tmp/ffmpeg_source
 wget http://downloads.xiph.org/releases/vorbis/libvorbis-1.3.4.tar.gz
 tar xzvf libvorbis-1.3.4.tar.gz
@@ -263,30 +235,21 @@ tar xzvf libvorbis-1.3.4.tar.gz
 cd libvorbis-1.3.4
 LDFLAGS=&quot;-L$FF_LIB&quot; CPPFLAGS=&quot;-I$FF_INCLUDE&quot; ./configure --prefix=&quot;$FF_BUILD&quot; --with-ogg=&quot;$FF_BUILD&quot; --disable-shared
 make &amp;&amp; make install &amp;&amp; make distclean
-</code></pre>
-
-<h3 id="libvpx">libvpx</h3>
-
+</code></pre><h3 id="libvpx">libvpx</h3>
 <pre><code>cd /tmp/ffmpeg_source
 git clone --depth 1 https://chromium.googlesource.com/webm/libvpx
 
 cd libvpx
 ./configure --prefix=&quot;$FF_BUILD&quot; --enable-examples --as=yasm
 make &amp;&amp; make install &amp;&amp; make clean
-</code></pre>
-
-<h3 id="fribidi">fribidi</h3>
-
+</code></pre><h3 id="fribidi">fribidi</h3>
 <pre><code>cd /tmp/ffmpeg_source
 wget https://github.com/fribidi/fribidi/releases/download/v1.0.4/fribidi-1.0.4.tar.bz2
 tar xvjf fribidi-1.0.4.tar.bz2
 cd fribidi-1.0.4
 ./configure --prefix=$FF_BUILD
 make &amp;&amp; make install
-</code></pre>
-
-<h3 id="libass">libass</h3>
-
+</code></pre><h3 id="libass">libass</h3>
 <pre><code>cd /tmp/ffmpeg_source
 wget https://github.com/libass/libass/releases/download/0.14.0/libass-0.14.0.tar.xz
 xz -d libass-0.14.0.tar.xz
@@ -295,22 +258,15 @@ cd libass-0.14.0
 PKG_CONFIG_PATH=$FF_LIB/pkgconfig ./configure --prefix=$FF_BUILD --disable-static
 make &amp;&amp; make install
 
-</code></pre>
-
-<h3 id="ffmpeg">ffmpeg</h3>
-
+</code></pre><h3 id="ffmpeg">ffmpeg</h3>
 <pre><code>cd /tmp/ffmpeg_source/ffmpeg
 PKG_CONFIG_PATH=$FF_LIB/pkgconfig ./configure --prefix=$FF_BUILD --extra-cflags=-I$FF_INCLUDE --extra-ldflags=-L$FF_LIB --bindir=$FF_BIN --extra-libs=-lpthread --pkg-config-flags=&quot;--static&quot; --enable-gpl --enable-nonfree --enable-libfdk-aac --enable-libfreetype --enable-libmp3lame --enable-libopus --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-pthreads --enable-libass
 
 make &amp;&amp; make install
-</code></pre>
-
-<h3 id="questions">Questions</h3>
-
+</code></pre><h3 id="questions">Questions</h3>
 <blockquote>
 <p>出现 <code>error while loading shared libraries: libfdk-aac.so.1: cannot open shared object file: No such file or directory</code></p>
 </blockquote>
-
 <p>解决办法 <code>export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$FF_LIB</code></p>
 
                         

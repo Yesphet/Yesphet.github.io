@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yesphet">
 <meta name="description" content="No seek, no find">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.67.1" />
 
 <title>TCP丢包不重传问题排查</title>
 
@@ -110,7 +110,7 @@
 
 
         <!-- HEADER -->
-<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/8.webp)">
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/5.webp)">
     <div class="header-content">
         <div class="header-content-inner">
             
@@ -157,53 +157,32 @@
                     <article class="post-body markdown-body">
 
                         
-                            <h2 id="一-背景">一、背景</h2>
-
+                            <h2 id="一背景">一、背景</h2>
 <p>前段时间，我们将私有云存储内容迁移到了某公有云存储，由于协议不兼容的原因，我们在业务及公有云存储中间搭建了一层代理服务做协议转换。在流量切换之后，发现约有0.05%的请求出现读内容超时的情况。大致表现就是对于一些下载请求，代理服务响应了Header 200，但在传输body的时候，出现了超时。</p>
-
-<h2 id="二-抓包分析">二、抓包分析</h2>
-
+<h2 id="二抓包分析">二、抓包分析</h2>
 <p>通过在代理服务（服务端）和负载均衡层Ingress（客户端）抓包发现，主要的问题是对于一些丢包，服务端没有进行重传（Retransmission）导致最后客户端一直没有收到完整的包直到超时。具体抓包如下：</p>
-
 <p>从以下客户端抓包可以看到，客户端没有收到 <code>[2711665,2719857]</code> 这个包，因此一直在对 <code>2711665</code>进行ack，而服务端确实有收到大量的Duplicate ACK <code>ack 2711665</code>，但问题是为什么没有触发服务端的快速重传呢？ 查看 <code>/proc/sys/net/ipv4/tcp_reordering</code> 的值为3，所以可以确认服务端是有开启快速重传的，在收到3次duplicate ACK后就应该进行快重传，但从抓包文件中并没有发现有触发快速重传。</p>
-
 <p>客户端抓包：
-<img src="./client-pcap.png" alt="客户端抓包" /></p>
-
+<img src="./client-pcap.png" alt="客户端抓包"></p>
 <p>服务端抓包：
-<img src="./server-pcap.png" alt="服务端抓包" /></p>
-
+<img src="./server-pcap.png" alt="服务端抓包"></p>
 <p>再通过 <code>nstat</code> 发现<code>TcpExtTcpWqueueTooBig</code>值较为异常</p>
-
-<p><img src="./nstat.png" alt="nstat" /></p>
-
+<p><img src="./nstat.png" alt="nstat"></p>
 <p>通过google搜索<code>TcpExtTcpWqueueTooBig</code>这个关键字，发现 <a href="https://databricks.com/blog/2019/09/16/adventures-in-the-tcp-stack-performance-regressions-vulnerability-fixes.html">Adventures in the TCP stack: Uncovering performance regressions in the TCP SACKs vulnerability fixes</a> 这篇博文描述的问题和我们所遇到的基本一致。查看服务端内核版本为 <code>3.10.0-957.21.3.el7.x86_64</code>，再通过查看内核Changelog发现该版本正是刚好打完CVE-2019-11477, CVE-2019-11478 &amp; CVE-2019-11479 这三个补丁</p>
-
-<p><img src="./kernel-changelog.png" alt="kernel-changelog" /></p>
-
-<p>之后通过升级内核版本至 <code>3.10.0-1062.1.1.el7.x86_64</code> 后发现问题得到了解决。</p>
-
-<h2 id="三-问题分析">三、问题分析</h2>
-
+<p><img src="./kernel-changelog.png" alt="kernel-changelog"></p>
+<p>之后通过升级内核版本至 <code> 3.10.0-1062.1.1.el7.x86_64</code> 后发现问题得到了解决。</p>
+<h2 id="三问题分析">三、问题分析</h2>
 <p><a href="https://access.redhat.com/security/vulnerabilities/tcpsack">TCP SACK PANIC - Kernel vulnerabilities - CVE-2019-11477, CVE-2019-11478 &amp; CVE-2019-11479</a>  这三个补丁是为了解决SACK的安全问题。 在函数 <code>tcp_fragment</code> 中新增了如下代码</p>
-
-<pre><code class="language-c">if (unlikely((sk-&gt;sk_wmem_queued &gt;&gt; 1) &gt; sk-&gt;sk_sndbuf)) {
-    NET_INC_STATS(sock_net(sk), LINUX_MIB_TCPWQUEUETOOBIG);
-    return -ENOMEM;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">if</span> (unlikely((sk<span style="color:#f92672">-&gt;</span>sk_wmem_queued <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">&gt;</span> sk<span style="color:#f92672">-&gt;</span>sk_sndbuf)) {
+	NET_INC_STATS(sock_net(sk), LINUX_MIB_TCPWQUEUETOOBIG);
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span>ENOMEM;
 }
-</code></pre>
-
-<p>从<a href="https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/xenial/tree/net/ipv4/tcp_output.c?id=9094a474de513f5f77e94e5e8b4bd12cee83d563#n2635">重传代码</a>中发现当socket buffer长度大于MSS（最大报文长度）时，会先执行函数<code>tcp_fragment</code>，当以上代码if模块为true时，则会导致重传被中断，表现也就是我们上面抓包看到的收到了3次Duplicate ACK，却没有进行Retransmission的情况。更加具体的分析可以查看这篇博文<a href="https://databricks.com/blog/2019/09/16/adventures-in-the-tcp-stack-performance-regressions-vulnerability-fixes.html">Adventures in the TCP stack: Uncovering performance regressions in the TCP SACKs vulnerability fixes</a></p>
-
-<h2 id="四-参考">四、参考</h2>
-
+</code></pre></div><p>从<a href="https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/xenial/tree/net/ipv4/tcp_output.c?id=9094a474de513f5f77e94e5e8b4bd12cee83d563#n2635">重传代码</a>中发现当socket buffer长度大于MSS（最大报文长度）时，会先执行函数<code>tcp_fragment</code>，当以上代码if模块为true时，则会导致重传被中断，表现也就是我们上面抓包看到的收到了3次Duplicate ACK，却没有进行Retransmission的情况。更加具体的分析可以查看这篇博文<a href="https://databricks.com/blog/2019/09/16/adventures-in-the-tcp-stack-performance-regressions-vulnerability-fixes.html">Adventures in the TCP stack: Uncovering performance regressions in the TCP SACKs vulnerability fixes</a></p>
+<h2 id="四参考">四、参考</h2>
 <blockquote>
 <p><a href="https://runsisi.com/2019-12-19/tcp-sack-hang">https://runsisi.com/2019-12-19/tcp-sack-hang</a></p>
-
 <p><a href="https://databricks.com/blog/2019/09/16/adventures-in-the-tcp-stack-performance-regressions-vulnerability-fixes.html">https://databricks.com/blog/2019/09/16/adventures-in-the-tcp-stack-performance-regressions-vulnerability-fixes.html</a></p>
-
 <p><a href="https://access.redhat.com/security/vulnerabilities/tcpsack">https://access.redhat.com/security/vulnerabilities/tcpsack</a></p>
-
 <p><a href="https://runsisi.com/2019-12-19/tcp-sack-hang">https://runsisi.com/2019-12-19/tcp-sack-hang</a></p>
 </blockquote>
 
