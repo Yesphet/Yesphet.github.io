@@ -27,6 +27,7 @@
       
       <guid>https://yesphet.github.io/posts/put%E5%92%8Cpost%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
       <description>  首先，两者都能实现更新资源的功能。
+  建议使用PUT执行更新操作，使用POST执行创建操作。
   区别：
   Post不是幂等（idempotent）的
 对于一个接口，每次提交相同的动作，其产生的结果是不一致的，则使用post。比如一个减少100余额的接口，调用一次减少100，调用两次减少200，则使用Post。

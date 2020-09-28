@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yesphet">
 <meta name="description" content="No seek, no find">
-<meta name="generator" content="Hugo 0.67.1" />
+<meta name="generator" content="Hugo 0.74.2" />
 
 <title>动态查找树</title>
 
@@ -110,7 +110,7 @@
 
 
         <!-- HEADER -->
-<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/10.webp)">
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/9.webp)">
     <div class="header-content">
         <div class="header-content-inner">
             
@@ -326,7 +326,7 @@ D(n) E1(n) E2(n) C(n)
 <h1 id="三b树b-树">三、B树（B-树）</h1>
 <h3 id="1-什么是b树">1 什么是B树</h3>
 <p>B树是一种自平衡的树，能够保持数据有序。这种数据结构能够让查找数据、顺序访问、插入数据及删除的动作，都在对数时间内完成。B树，概括来说是一个一般化的二叉查找树（binary search tree）一个节点可以拥有2个以上的子节点。与自平衡二叉查找树不同，B树适用于读写相对大的数据块的存储系统，例如磁盘。B树减少定位记录时所经历的中间过程，从而加快存取速度。B树这种数据结构可以用来描述外部存储。这种数据结构常被应用在数据库和文件系统的实现上。</p>
-<p>B树在算法时间复杂度上并不由于平衡二叉树，但对于文件系统索引的查找，因为无法将完整索引都加载到内存中再进行查找，因此每次查找都要对应一次磁盘IO，而一次磁盘IO的耗时是远高于内存比较的。所以引入B树减少了平衡搜索树的高度，减少了IO次数，也就提高了整体的性能。</p>
+<p>B树在算法时间复杂度上并不优于平衡二叉树，但对于文件系统索引的查找，因为无法将完整索引都加载到内存中再进行查找，因此每次查找都要对应一次磁盘IO，而一次磁盘IO的耗时是远高于内存比较的。所以引入B树减少了平衡搜索树的高度，减少了IO次数，也就提高了整体的性能。</p>
 <p>这个网站上可以模拟B树的插入删除操作，非常不错: <a href="https://www.cs.usfca.edu/~galles/visualization/BTree.html">https://www.cs.usfca.edu/~galles/visualization/BTree.html</a></p>
 <p>一棵M（M&gt;=2）阶的B树需要满足以下特点：</p>
 <ul>
@@ -446,7 +446,7 @@ D(n) E1(n) E2(n) C(n)
 <ul>
 <li>虽然哈希在知道Key的时候，查询效率可以认为是$O(1)$，但对于范围查询或排序性能非常差，只能进行全表扫描。</li>
 <li>B树和B+树查询效率在$O(log_dN)$，但由于树本身是有序的，所以范围查询和排序的性能可以达到$O(m)$</li>
-<li>而B+树由于在叶子节点保存了下个数据的指针，所以当范围查找时，只需要通过树查找到第一个值，再通过链表即可查到所有满足要求的值，时间复杂度为$O(log_dN+m)$。而B树则要多次通过树查询，时间复杂度为$O(log_dN*m)$。</li>
+<li>而B+树由于在叶子节点保存了下个数据的指针，所以当范围查找时，只需要通过树查找到第一个值，再通过链表即可查到所有满足要求的值，时间复杂度为$O(log_dN+m)$。而B树则要多次通过树查询，时间复杂度为更高，且由于需要回溯父节点可能导致需要再从磁盘加载数据，增加额外的随机I/O。</li>
 </ul>
 <h3 id="b树和b树的应用">B树和B+树的应用</h3>
 <ul>
