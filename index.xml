@@ -6,10 +6,38 @@
     <description>Recent content on Yesphet</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 19 Mar 2020 18:05:51 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 20 May 2021 15:15:41 +0800</lastBuildDate>
     
 	<atom:link href="https://yesphet.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>&lt;Borg, Omega and Kubernetes&gt;</title>
+      <link>https://yesphet.github.io/posts/borg-omega-and-kubernetes/</link>
+      <pubDate>Thu, 20 May 2021 15:15:41 +0800</pubDate>
+      
+      <guid>https://yesphet.github.io/posts/borg-omega-and-kubernetes/</guid>
+      <description>原文： &amp;lt;Borg, Omega and Kubernetes&amp;gt;
+概述 这篇论文主要介绍了Google从内部研发的三个容器管理系统Borg，Omega 和 Kubernetes中学习到的东西。
+Borg Borg主要设计于管理常驻型服务（long-running services）和批量任务（batch jobs），并在这两种应用中共享机器，以此提高机器的利用率。由于Linux内核支持了容器使得这种在面向用户且延时敏感的服务和重CPU的批量任务间共享机器的方式成为可能。
+随着在Borg上部署的应用越来越多，不同的团队基于各自的需求为Borg生态提供了许多工具和服务，例如配置和更新任务、预测资源需求、服务发现和负载均衡、自动扩缩容等等。这也导致了Borg的用户不得不使用多种配置语言来使用这些东西。
+Omega Omega的诞生则是为了提升Borg生态系统的工程性，它应用了很多在Borg中成功的范式。Omega使用基于Paxos算法的，面向事务的中心化存储来保存集群的状态。控制面的不同模块通过乐观锁来并发读写存储。通过这种方式可以将Master节点的不同功能模块解耦。
+Kubernetes K8S是作为开源项目设计的。其核心设计目标是使开发者可以更简单的发布和管理k8s上的集群。
+面向应用的架构 容器化技术的出现，使得数据中心从面向机器转变为面向应用。
+得益于容器技术对资源的隔离以及容器镜像中包含了应用程序的绝大部分依赖和环境，有效提升了应用程序的发布可靠性和效率，并且大大减少了操作系统的维护成本。
+构建面向容器的管理API相比于面向机器的API提供了许多好处：
+ 释放了程序开发者对特定的机器和操作系统版本的负担 使基础架构团队更容易去更新硬件和操作系统，并且减少对应用的影响 提供了直接面向应用程序的监控，包括CPU和内存使用率等  除了应用程序实例和容器1:1的情况，更多情况下我们需要一个应用程序由多个容器组成，例如一个web应用程序实例由一个提供web服务的容器和一个提供日志切割的容器组成。在Borg中，通过alloc(resource allocation)来对此进行封装，在K8S中则是通过pod。Borg允许容器直接运行在alloc之外，这也导致出现了许多不方便的地方，因此在K8S中，容器必须运行在Pod之内。
+对于容器管理系统来说，容器管理只是一个开始，Borg还构建提供了许多服务，例如：
+ 服务发现（Borg Name Service） 选主，Borg是使用Chubby 负载均衡 垂直/水平自动扩缩容 &amp;hellip;  这些服务解决了开发者们遇到的许多问题，但这些服务采用了不同的风格和API设计，也极大增加了在Borg中部署应用的复杂度。而K8S则尝试通过采用一致的API设计方法，例如定义统一的Object 基础字段（ObjectMetadata，Specification and Status），来解决这种复杂度的增加问题。这种统一的API格式提供了许多的便利。
+根据Borg和Omega的经验，K8S的构建是由一组允许用户自定义扩展的模块组合而成，允许用户动态的构建和扩展自己的API。例如Pod API可以被用户直接使用，也可以被k8s内部组件和外部自动化工具使用。
+对API的解耦设计使得K8S有更好的一致性。这意味着高级的类型可以共用相同的基础模块。一个很好的例子是Relication Controller(rc)和Horizontal auto-scaling system（现在应该叫做HPA(horizontal pod autoscaler)?）的拆分。rc用于确保有足够的pod副本数量，而autoscaler则专注于监听pod的使用率，然后修改rc中的副本数量，而不用关注如何创建删除pod。除此之外，解耦设计还可以让一些类似的Workload共用一些基础的对象。例如ReplicationController、DaemonSet、Job底层都是依赖Pod。
+一致性还由K8S不同组件使用通用的设计模式来保证。Reconciliation controller loop （协调一致控制循环？对比Spec和Status，并采取行动来使Status和Spec保持一致）的思路在Borg、Omega和K8S中都有被使用来提升系统的可用性。
+中心化的编排系统设计，在一开始的时候可能比较容易构建，但随着集群的发展会越来越脆弱和难扩展，尤其是在面对不可预判的错误和状态变更的时候。 而K8S采用了和中心化相反的设计，结合微服务和微控制循环的编排思想，即通过独立自主的实体协作来达到目标状态。
+Things To Avoid 别让容器系统来管理端口号。 在Borg中，所有的容器共享宿主机的IP，每个容器会得到随机分配的独立端口。但是这导致了很多不方便，客户端无法预先得知服务的端口，不得不引入一些基于名称的服务发现机制以及重写一些现有服务的客户端，以及一些特定的端口号（例如80 、443）也失去了作用。
+因此在K8S中，引入了Overlay网络（也就是CNI）来为每个Pod提供独立的IP，以此解决随机端口的问题。（但其实在这种模式下，端口固定了，但IP是会漂移的，依然需要依赖其他组件来做服务发现）
+除了给容器编号外，给容器增加标签（labels）来区分和管理它们 Borg提供了Job来管理一组tasks（容器），在Job中，task被从0开始有序编号，这提供了很多便利但却过于僵硬。例如，当其中一个task挂掉并在其他宿主机上重启后，job不得不在这个编号上同时指向新建的task和旧的task，防止需要进行debug。当job中间的task结束退出时，编号的连续性被破坏。这也导致job无法支持跨集群。并且在job滚动更新的时候，容易出现一些问题。例如一些使用者会依赖这个编号做sharding，当job滚动升级时，路由到当前升级的task的请求就会都失败。Borg也没有提供简单的方式来为job添加元数据，使用者不得不把这些信息写入到job名称中再通过正则表达式来匹配。
+相反的，在K8S中，则是通过标签（labels） 来标识一组容器，一个容器可以拥有多个标签，并且可以动态增删。 使用者可以通过 label selectors 来轻松的对各种资源进行分组。甚至在那些需要明确区分每个Pod的场景下，也可以通过给每个Pod添加不同的标签来实现。</description>
+    </item>
     
     <item>
       <title>Linux内核版本及发行版版本介绍</title>

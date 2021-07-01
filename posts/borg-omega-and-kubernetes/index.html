@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<!-- _default/single.html -->
+<html lang="en-us">
+
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Yesphet">
+<meta name="description" content="No seek, no find">
+<meta name="generator" content="Hugo 0.74.2" />
+
+<title>&lt;Borg, Omega and Kubernetes&gt;</title>
+
+<!-- Favicon -->
+<link rel="shortcut icon" href="https://yesphet.github.io/captain-america.png">
+<!-- Bootstrap Core CSS -->
+<link rel="stylesheet" href="https://yesphet.github.io/css/bootstrap.min.css" type="text/css">
+<!-- Custom Fonts -->
+<link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://yesphet.github.io/font-awesome-5/css/all.min.css" type="text/css">
+
+<!-- Plugin CSS -->
+<link rel="stylesheet" href="https://yesphet.github.io/css/animate.min.css" type="text/css">
+<!-- Custom CSS -->
+<link rel="stylesheet" href="https://yesphet.github.io/css/creative.css" type="text/css">
+<link rel="stylesheet" href="https://yesphet.github.io/css/modals.css" type="text/css">
+<link rel="stylesheet" href="https://yesphet.github.io/css/elements.css" type="text/css">
+
+<link rel="stylesheet" type="text/css" href="https://yesphet.github.io/css/github-markdown.css">
+
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+
+        <link rel="stylesheet" type="text/css" href="https://yesphet.github.io/css/catalog.css">
+        
+<!-- Add mathjax support -->
+<script type="text/javascript"
+        async
+        src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [['$$','$$'], ['\[\[','\]\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        TeX: { equationNumbers: { autoNumber: "AMS" },
+             extensions: ["AMSmath.js", "AMSsymbols.js"] }
+      }
+    });
+
+    MathJax.Hub.Queue(function() {
+        
+        
+        
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #24292e;
+    }
+</style>
+
+    </head>
+
+    <body>
+
+        <!-- NAVIGATION -->
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+                <a class="navbar-brand page-scroll" href="https://yesphet.github.io/#page-top">Yesphet</a>
+            
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+
+        <!-- HEADER -->
+<header class="semi-header" style="background-image:url(https://yesphet.github.io/background/1.webp)">
+    <div class="header-content">
+        <div class="header-content-inner">
+            
+                
+                <h1>&lt;Borg, Omega and Kubernetes&gt;</h1>
+            
+            <hr>
+
+            
+
+            <div class="text-center">
+                <ul class="list-inline item-details">
+                
+                    <li>
+                        <strong>Thursday,  May 20,  2021</strong>
+                    </li>
+                
+                
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+        <section class="container post-container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <ul class="text-center list-inline item-details post-prop"> 
+                        
+
+                        
+
+                       
+                    </ul>
+                    <article class="post-body markdown-body">
+
+                        
+                            <p>原文： <a href="https://dl.acm.org/doi/pdf/10.1145/2898442.2898444">&lt;Borg, Omega and Kubernetes&gt;</a></p>
+<h3 id="概述">概述</h3>
+<p>这篇论文主要介绍了Google从内部研发的三个容器管理系统Borg，Omega 和 Kubernetes中学习到的东西。</p>
+<h4 id="borg">Borg</h4>
+<p>Borg主要设计于管理常驻型服务（long-running services）和批量任务（batch jobs），并在这两种应用中共享机器，以此提高机器的利用率。由于Linux内核支持了容器使得这种在面向用户且延时敏感的服务和重CPU的批量任务间共享机器的方式成为可能。</p>
+<p>随着在Borg上部署的应用越来越多，不同的团队基于各自的需求为Borg生态提供了许多工具和服务，例如配置和更新任务、预测资源需求、服务发现和负载均衡、自动扩缩容等等。这也导致了Borg的用户不得不使用多种配置语言来使用这些东西。</p>
+<h4 id="omega">Omega</h4>
+<p>Omega的诞生则是为了提升Borg生态系统的工程性，它应用了很多在Borg中成功的范式。Omega使用基于Paxos算法的，面向事务的中心化存储来保存集群的状态。控制面的不同模块通过乐观锁来并发读写存储。通过这种方式可以将Master节点的不同功能模块解耦。</p>
+<h4 id="kubernetes">Kubernetes</h4>
+<p>K8S是作为开源项目设计的。其核心设计目标是使开发者可以更简单的发布和管理k8s上的集群。</p>
+<h4 id="面向应用的架构">面向应用的架构</h4>
+<p>容器化技术的出现，使得数据中心从面向机器转变为面向应用。</p>
+<p>得益于容器技术对资源的隔离以及容器镜像中包含了应用程序的绝大部分依赖和环境，有效提升了应用程序的发布可靠性和效率，并且大大减少了操作系统的维护成本。</p>
+<p>构建面向容器的管理API相比于面向机器的API提供了许多好处：</p>
+<ul>
+<li>释放了程序开发者对特定的机器和操作系统版本的负担</li>
+<li>使基础架构团队更容易去更新硬件和操作系统，并且减少对应用的影响</li>
+<li>提供了直接面向应用程序的监控，包括CPU和内存使用率等</li>
+</ul>
+<p>除了应用程序实例和容器1:1的情况，更多情况下我们需要一个应用程序由多个容器组成，例如一个web应用程序实例由一个提供web服务的容器和一个提供日志切割的容器组成。在Borg中，通过alloc(resource allocation)来对此进行封装，在K8S中则是通过pod。Borg允许容器直接运行在alloc之外，这也导致出现了许多不方便的地方，因此在K8S中，容器必须运行在Pod之内。</p>
+<p>对于容器管理系统来说，容器管理只是一个开始，Borg还构建提供了许多服务，例如：</p>
+<ul>
+<li>服务发现（Borg Name Service）</li>
+<li>选主，Borg是使用Chubby</li>
+<li>负载均衡</li>
+<li>垂直/水平自动扩缩容</li>
+<li>&hellip;</li>
+</ul>
+<p>这些服务解决了开发者们遇到的许多问题，但这些服务采用了不同的风格和API设计，也极大增加了在Borg中部署应用的复杂度。而K8S则尝试通过采用一致的API设计方法，例如定义统一的Object 基础字段（ObjectMetadata，Specification and Status），来解决这种复杂度的增加问题。这种统一的API格式提供了许多的便利。</p>
+<p>根据Borg和Omega的经验，K8S的构建是由一组允许用户自定义扩展的模块组合而成，允许用户动态的构建和扩展自己的API。例如Pod API可以被用户直接使用，也可以被k8s内部组件和外部自动化工具使用。</p>
+<p>对API的解耦设计使得K8S有更好的一致性。这意味着高级的类型可以共用相同的基础模块。一个很好的例子是Relication Controller(rc)和Horizontal auto-scaling system（现在应该叫做HPA(horizontal pod autoscaler)?）的拆分。rc用于确保有足够的pod副本数量，而autoscaler则专注于监听pod的使用率，然后修改rc中的副本数量，而不用关注如何创建删除pod。除此之外，解耦设计还可以让一些类似的Workload共用一些基础的对象。例如ReplicationController、DaemonSet、Job底层都是依赖Pod。</p>
+<p>一致性还由K8S不同组件使用通用的设计模式来保证。Reconciliation controller loop （协调一致控制循环？对比Spec和Status，并采取行动来使Status和Spec保持一致）的思路在Borg、Omega和K8S中都有被使用来提升系统的可用性。</p>
+<p>中心化的编排系统设计，在一开始的时候可能比较容易构建，但随着集群的发展会越来越脆弱和难扩展，尤其是在面对不可预判的错误和状态变更的时候。 而K8S采用了和中心化相反的设计，结合微服务和微控制循环的编排思想，即通过独立自主的实体协作来达到目标状态。</p>
+<h4 id="things-to-avoid">Things To Avoid</h4>
+<h5 id="别让容器系统来管理端口号">别让容器系统来管理端口号。</h5>
+<p>在Borg中，所有的容器共享宿主机的IP，每个容器会得到随机分配的独立端口。但是这导致了很多不方便，客户端无法预先得知服务的端口，不得不引入一些基于名称的服务发现机制以及重写一些现有服务的客户端，以及一些特定的端口号（例如80 、443）也失去了作用。</p>
+<p>因此在K8S中，引入了Overlay网络（也就是CNI）来为每个Pod提供独立的IP，以此解决随机端口的问题。（但其实在这种模式下，端口固定了，但IP是会漂移的，依然需要依赖其他组件来做服务发现）</p>
+<h5 id="除了给容器编号外给容器增加标签labels来区分和管理它们">除了给容器编号外，给容器增加标签（labels）来区分和管理它们</h5>
+<p>Borg提供了Job来管理一组tasks（容器），在Job中，task被从0开始有序编号，这提供了很多便利但却过于僵硬。例如，当其中一个task挂掉并在其他宿主机上重启后，job不得不在这个编号上同时指向新建的task和旧的task，防止需要进行debug。当job中间的task结束退出时，编号的连续性被破坏。这也导致job无法支持跨集群。并且在job滚动更新的时候，容易出现一些问题。例如一些使用者会依赖这个编号做sharding，当job滚动升级时，路由到当前升级的task的请求就会都失败。Borg也没有提供简单的方式来为job添加元数据，使用者不得不把这些信息写入到job名称中再通过正则表达式来匹配。</p>
+<p>相反的，在K8S中，则是通过标签（labels） 来标识一组容器，一个容器可以拥有多个标签，并且可以动态增删。 使用者可以通过 label selectors 来轻松的对各种资源进行分组。甚至在那些需要明确区分每个Pod的场景下，也可以通过给每个Pod添加不同的标签来实现。</p>
+<h5 id="注意所有权问题">注意所有权问题</h5>
+<p>在Borg中，tasks无法独立于job而存在，一个job创建的所有tasks永远属于这个job，删除这个job也会删除所有这些task。这很方便，但有一个很大的缺点便是：只有一个分组机制，但需要解决所有使用场景。</p>
+<p>在K8S中，高级组件通过label selectors来决定哪些Pod属于他们管理，所以可能出现多个高级组件同时认为自己对一个Pod具有所有权，需要通过一些合适的配置来避免这种情况。但标签提供的便利性远超这种不足。例如将Pod和Controller拆开，意味着可以orphan和adopt Pod。例如一个负载均衡服务中，有一个Pod出现了异常，可以通过删除Pod上对应的标签来隔离这个Pod，这个Pod将不再属于这个负载均衡服务，但仍然可以保留用于debug，而负载均衡服务也会自动创建一个Pod用于替代它。</p>
+<h5 id="不要暴露未加工的状态">不要暴露未加工的状态</h5>
+<p>Borg、Omega和K8S三者间最大不同就是他们的API架构。</p>
+<p>Borg中，Master节点是一个巨大无比的组件，它包含所有的API及其逻辑，例如job、tasks和machine的状态机。Borg通过一个Paxos-based 的存储系统来保存master的状态。</p>
+<p>相反的，Omega除了一个使用乐观并发控制及保存被动状态信息的存储外没有其他任何中心化组件。所有的组件使用相同代码的存储客户端，执行自己的逻辑和语义然后通过乐观锁并发更新到存储组件中。</p>
+<p>K8S则采用了一个折中的方法，其将所有对存储的读写收敛到了API Server中，屏蔽了存储的具体实现并且提供了校验、默认值和版本控制等能力。其他组件则通过API Server来读写存储。这样一来，所有的组件仍然可以像Omega那样各自演进甚至被替代，并且有了中心化的存储，可以更容易的实施强语义、不变性和策略。</p>
+<h4 id="一些开放问题">一些开放问题</h4>
+<h5 id="配置管理">配置管理</h5>
+<p>所有实现容器管理系统不提供的功能，都可能会用到应用配置。根据Borg的历史，包括以下几种：</p>
+<ul>
+<li>减少重复的样板文件。（例如service或batch jobs都会用到的默认的容器重启策略）</li>
+<li>调整及校验应用参数及命令行参数</li>
+<li>变通实现不存的API抽象，例如镜像管理</li>
+<li>应用的配置模板</li>
+<li>发布管理工具</li>
+<li>镜像版本说明</li>
+</ul>
+<p>为了解决以上问题，配置管理系统倾向于发明一种具备图灵完备性的，可以在配置数据上进行计算的DSL语言。但这违背了配置代码分离的原则，并且没有减少操作的复杂度，而只是将计算逻辑从编程语言转义到了DSL而已。在K8S中，通过对计算与数据进行分离，通过JSON或YAML来保存配置数据，通过编程语言来计算修改这些配置。</p>
+<h5 id="依赖管理">依赖管理</h5>
+<p>构建一个服务，往往意味要构建一系列其依赖的服务（例如监控、存储、CI/CD）。如果发布一个应用时，其相关的依赖会由集群管理系统自动发布，这样可以大大降低开发者的心智负担。但这么做的复杂度是极高的，因为目前几乎没有一个系统可以完美的管理、维护其依赖的信息。</p>
+<h4 id="总结">总结</h4>
+<p>K8S、容器系统的目的都是提高程序员的生产力，使一些手动的、自动的系统管理都变得更简单。</p>
+
+                        
+
+                        <hr>
+                        <a href="https://yesphet.github.io/posts/borg-omega-and-kubernetes/"><i class="fa fa-fingerprint post-icon"></i>  本文地址</a>
+
+                    </article>
+                </div>
+                
+                <div class="col-lg-2 col-lg-offset-0 visible-lg-block side-catalog-container">
+                    <div class="side-catalog">
+                        <ul class="catalog-body">
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        
+
+        <div class="text-center">
+    <button class="back-button btn btn-default" role="button" onclick="window.history.go(-1)"><i class="fas fa-angle-double-left"></i>go back</button>
+</div>
+
+        <footer class="footerbox">
+    <div class="row">
+        <div class="copyright col-lg-8 col-lg-offset-2 text-right">
+            <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+            |
+            <span>By <a href="#">Yesphet</a></span>
+        </div>
+    </div>
+</footer>
+
+
+        <!-- jQuery -->
+<script src="https://yesphet.github.io/js/jquery.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="https://yesphet.github.io/js/bootstrap.min.js"></script>
+<!-- Plugin JavaScript -->
+<script src="https://yesphet.github.io/js/jquery.easing.min.js"></script>
+<script src="https://yesphet.github.io/js/jquery.fittext.js"></script>
+<script src="https://yesphet.github.io/js/wow.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="https://yesphet.github.io/js/creative.js"></script>
+<script src="https://yesphet.github.io/js/addAnchor.js" type="text/javascript" ></script>
+        
+        
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-134542736-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+    </body>
+
+    
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<script >
+    jQuery(document).ready(function($) {
+        var MQL = 1170;
+        
+        if ($(window).width() > MQL) {
+            var headerHeight = $('.semi-header').outerHeight();
+            $(window).on('scroll', {
+                    previousTop: 0
+                },
+                function() {
+                    var currentTop = $(window).scrollTop(),
+                        $catalog = $('.side-catalog');
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    this.previousTop = currentTop;
+                    
+
+                    
+                    if (currentTop > (headerHeight+1)) {
+                        $catalog.addClass('fixed');
+                    } else {
+                        $catalog.removeClass('fixed');
+                    }
+                });
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('.post-body'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+    generateCatalog(".catalog-body");
+
+    
+    
+    
+    
+    
+
+    
+
+    async("https:\/\/yesphet.github.io\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: false,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: 0.2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</html>
